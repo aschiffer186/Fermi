@@ -6,4 +6,6 @@ macro(create_parser_test TARGET_NAME SOURCE_FILE)
     gtest_discover_tests(${TARGET_NAME})
 endmacro()
 
+create_parser_test(TestLexKeywords TestLexKeywords.cpp)
 create_parser_test(TestLexLiterals TestLexLiterals.cpp)
+create_parser_test(TestLexOperators TestLexOperators.cpp)

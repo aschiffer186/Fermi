@@ -27,14 +27,16 @@ identifier_start [a-zA-Z]
 identifier_cont [a-zA-Z0-9]
 
 integer_literal {digit}+
-real_literal {digit}*\.{digit}+([+-]?[eE]{digit}+)?
+float_literal {digit}*\.{digit}+([eE][+-]?{digit}+)?
 
 identifier {identifier_start}{identifier_cont}*
 
 %%
-
+%{
+    loc_.step();
+%}
 {integer_literal} {return Parser::make_INTEGER_LITERAL(yytext, loc_);}
-{real_literal} {return Parser::make_FLOAT_LITERAL(yytext, loc_);}
+{float_literal} {return Parser::make_FLOAT_LITERAL(yytext, loc_);}
 
 "+" {return Parser::make_PLUS(loc_);}
 "-" {return Parser::make_MINUS(loc_);}
