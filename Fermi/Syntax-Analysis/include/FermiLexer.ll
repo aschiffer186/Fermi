@@ -31,10 +31,14 @@ float_literal {digit}*\.{digit}+([eE][+-]?{digit}+)?
 
 identifier {identifier_start}{identifier_cont}*
 
+space [ \t\r]
 %%
 %{
     loc_.step();
 %}
+\n+ loc_.lines(yyleng); loc_.step();
+{space}+ loc_.step();
+
 {integer_literal} {return Parser::make_INTEGER_LITERAL(yytext, loc_);}
 {float_literal} {return Parser::make_FLOAT_LITERAL(yytext, loc_);}
 

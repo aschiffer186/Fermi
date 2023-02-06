@@ -1,6 +1,7 @@
 enable_testing()
 
 find_package(GTest REQUIRED)
+include(CTest)
 
 add_custom_target(build_tests)
 

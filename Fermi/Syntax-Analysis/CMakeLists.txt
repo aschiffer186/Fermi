@@ -20,6 +20,11 @@ BISON_TARGET(
 )
 ADD_FLEX_BISON_DEPENDENCY(FermiLexer FermiParser)
 
-add_library(FermiParser STATIC ${BISON_FermiParser_OUTPUTS} ${FLEX_FermiLexer_OUTPUTS})
+set(SYNTAX_TREE_DIR ${PARSER_SOURCE_DIR}/Syntax-Tree)
+set(SYNTAX_TREE_SOURCES 
+    ${SYNTAX_TREE_DIR}/ExpressionNode.cpp
+    )
+
+add_library(FermiParser STATIC ${BISON_FermiParser_OUTPUTS} ${FLEX_FermiLexer_OUTPUTS} ${SYNTAX_TREE_SOURCES})
 target_compile_features(FermiParser PRIVATE cxx_std_20)
-target_include_directories(FermiParser PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(FermiParser PUBLIC ${PARSER_INCLUDE_DIR} ${PARSER_INCLUDE_DIR}/Syntax-Tree)
