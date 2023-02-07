@@ -18,6 +18,9 @@
 %code requires {
     #include <string>
 
+    #include "ExpressionNode.hpp"
+    #include "StatementNode.hpp"
+
     namespace Fermi::SyntaxAnalysis { class FermiLexer; }
 }
 
@@ -47,52 +50,66 @@
 %left "+" "-"
 %left "*" "/" "//" "%"
 %right "^"
+
+%nterm <std::vector<std::unique_ptr<StatementNode>>> start
+%nterm <std::vector<std::unique_ptr<StatementNode>>> statements
+%nterm <std::unique_ptr<StatementNode>> statement 
+%nterm <std::unique_ptr<StatementNode>> variable-declaration
+%nterm <std::unique_ptr<StatementNode>> print_statement
+%nterm <std::unique_ptr<StatementNode>> assignment-statement
+%nterm <Type> type
+%nterm <std::vector<std::unique_ptr<ExpressionNode>>> expression-list
+%nterm <std::unique_ptr<ExpressionNode>> expression
+%nterm <std::unique_ptr<ExpressionNode>> creation_expression
+%nterm <std::unique_ptr<ExpressionNode>> identity_expression
+%nterm <std::unique_ptr<ExpressionNode>> literal
 %%
-start: statements
-statements: statements statement 
-    | %empty 
+start: statements {$$ = std::move($1);}
+statements: statements statement {$1.push_back(std::move($2)); $$ = std::move($1);}
+    | %empty {$$ = std::vector<std::unique_ptr<StatementNode>>{};}
     ;
 statement: 
-    variable-declaration
-    | print_statement
-    | assignment-statement
+    variable-declaration {$$ = std::move($1);}
+    | print_statement {$$ = std::move($1);}
+    | assignment-statement {$$ = std::move($1);}
     ;
 variable-declaration: 
-    "let" IDENTIFIER "=" expression ;
-    | "let" IDENTIFIER ":" type "=" expression ";"
+    "let" IDENTIFIER "=" expression {$$ = std::make_unique<VariableDeclarationNode>(Type::deduced, $2, std::move($4));}
+    | "let" IDENTIFIER ":" type "=" expression ";" {$$ = std::make_unique<VariableDeclarationNode>($4, $2, std::move($6));}
+    ;
 type:
-    "int8_t"
-    | "int16_t"
-    | "int32_t"
-    | "int64_t"
-    | "float32_t"
-    | "float64_t"
+    "int8_t" {$$ = Type::int8_t;}
+    | "int16_t" {$$ = Type::int16_t;}
+    | "int32_t" {$$ = Type::int32_t;}
+    | "int64_t" {$$ = Type::int64_t;}
+    | "float32_t" {$$ = Type::float32_t;}
+    | "float64_t" {$$ = Type::float64_t;}
     ;
-print_statement: "print" "(" expression-list ")" ";" ;
-expression-list: expression-list "," expression 
-    | expression 
+print_statement: "print" "(" expression-list ")" ";" {$$ = std::make_unique<PrintNode>(std::move($3));};
+expression-list: expression-list "," expression {$1.push_back(std::move($3)); $$ = std::move($1);}
+    | expression {std::vector<std::unique_ptr<ExpressionNode>> v; v.push_back(std::move($1)); $$ = std::move(v);}
     ;
-assignment-statement: IDENTIFIER "=" expression ";" ;
+assignment-statement: IDENTIFIER "=" expression ";" {$$ = std::make_unique<AssignmentStatementNode>($1, std::move($3));};
 expression:
-    identity_expression 
-    | creation_expression 
+    identity_expression {$$ = std::move($1);}
+    | creation_expression {$$ = std::move($1);}
     ;
 creation_expression:
-    expression "+" expression
-    | expression "-" expression 
-    | expression "*" expression 
-    | expression "/" expression 
-    | expression "//" expression 
-    | expression "^" expression 
-    | expression "%" expression 
+    expression "+" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Addition, std::move($3));}
+    | expression "-" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Subtraction, std::move($3));}
+    | expression "*" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Multiplication, std::move($3));}
+    | expression "/" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Division, std::move($3));}
+    | expression "//" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::IntegerDivision, std::move($3));}
+    | expression "^" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Exponentiation, std::move($3));}
+    | expression "%" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Modulo, std::move($3));}
     ;
 identity_expression:
-    literal
-    | IDENTIFIER
-    | "(" expression ")"
+    literal {$$ = std::move($1);}
+    | IDENTIFIER {$$ = std::make_unique<LiteralNode>($1, LiteralType::Identifier);}
+    | "(" expression ")" {$$ = std::move($2);}
     ;
 literal: 
-    INTEGER_LITERAL 
-    | FLOAT_LITERAL
+    INTEGER_LITERAL {$$ = std::make_unique<LiteralNode>($1, LiteralType::Integer);}
+    | FLOAT_LITERAL {$$ = std::make_unique<LiteralNode>($1, LiteralType::Float);}
     ;
 %%

@@ -81,40 +81,40 @@ Nonterminals, with rules where they appear
 
     $accept (27)
         on left: 0
-    start (28)
+    start <std::vector<std::unique_ptr<StatementNode>>> (28)
         on left: 1
         on right: 0
-    statements (29)
+    statements <std::vector<std::unique_ptr<StatementNode>>> (29)
         on left: 2 3
         on right: 1 2
-    statement (30)
+    statement <std::unique_ptr<StatementNode>> (30)
         on left: 4 5 6
         on right: 2
-    variable-declaration (31)
+    variable-declaration <std::unique_ptr<StatementNode>> (31)
         on left: 7 8
         on right: 4
-    type (32)
+    type <Type> (32)
         on left: 9 10 11 12 13 14
         on right: 8
-    print_statement (33)
+    print_statement <std::unique_ptr<StatementNode>> (33)
         on left: 15
         on right: 5
-    expression-list (34)
+    expression-list <std::vector<std::unique_ptr<ExpressionNode>>> (34)
         on left: 16 17
         on right: 15 16
-    assignment-statement (35)
+    assignment-statement <std::unique_ptr<StatementNode>> (35)
         on left: 18
         on right: 6
-    expression (36)
+    expression <std::unique_ptr<ExpressionNode>> (36)
         on left: 19 20
         on right: 7 8 16 17 18 21 22 23 24 25 26 27 30
-    creation_expression (37)
+    creation_expression <std::unique_ptr<ExpressionNode>> (37)
         on left: 21 22 23 24 25 26 27
         on right: 20
-    identity_expression (38)
+    identity_expression <std::unique_ptr<ExpressionNode>> (38)
         on left: 28 29 30
         on right: 19
-    literal (39)
+    literal <std::unique_ptr<ExpressionNode>> (39)
         on left: 31 32
         on right: 28
 

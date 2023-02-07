@@ -46,7 +46,8 @@ namespace Fermi::SyntaxAnalysis
     enum class LiteralType 
     {
         Integer, 
-        Float
+        Float, 
+        Identifier
     };
 
     class LiteralNode : public ExpressionNode

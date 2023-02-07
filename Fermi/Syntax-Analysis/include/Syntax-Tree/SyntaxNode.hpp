@@ -8,7 +8,10 @@ namespace Fermi::SyntaxAnalysis
     enum class SyntaxNodeType 
     {
         BinaryExpression,
-        Literal
+        Literal,
+        VariableDeclarationNode, 
+        PrintNode, 
+        AssignmentStatementNode
     };
 
     /**
@@ -21,7 +24,7 @@ namespace Fermi::SyntaxAnalysis
     class SyntaxNode 
     {
     public:
-    
+
         virtual SyntaxNodeType getNodeType() const = 0;
 
         virtual std::vector<const SyntaxNode*> getChildren() const = 0;

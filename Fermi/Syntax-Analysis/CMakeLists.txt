@@ -23,6 +23,7 @@ ADD_FLEX_BISON_DEPENDENCY(FermiLexer FermiParser)
 set(SYNTAX_TREE_DIR ${PARSER_SOURCE_DIR}/Syntax-Tree)
 set(SYNTAX_TREE_SOURCES 
     ${SYNTAX_TREE_DIR}/ExpressionNode.cpp
+    ${SYNTAX_TREE_DIR}/StatementNode.cpp
     )
 
 add_library(FermiParser STATIC ${BISON_FermiParser_OUTPUTS} ${FLEX_FermiLexer_OUTPUTS} ${SYNTAX_TREE_SOURCES})
