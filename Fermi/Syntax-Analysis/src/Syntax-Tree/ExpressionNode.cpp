@@ -1,3 +1,5 @@
+#include <typeinfo>
+
 #include "ExpressionNode.hpp"
 
 namespace Fermi::SyntaxAnalysis
@@ -25,6 +27,12 @@ namespace Fermi::SyntaxAnalysis
         return operator_;
     }
 
+    bool BinaryExpressionNode::equals(const SyntaxNode& other) const noexcept 
+    {
+        const auto& node = dynamic_cast<const BinaryExpressionNode&>(other);
+        return *lhs_ == *node.lhs_ && operator_ == node.operator_ && *lhs_ == *node.rhs_;
+    }
+
     LiteralNode::LiteralNode(std::string_view value, LiteralType type)
     : type_{type}, value_{value}
     {
@@ -49,5 +57,11 @@ namespace Fermi::SyntaxAnalysis
     LiteralType LiteralNode::getType() const 
     {
         return type_;
+    }
+
+    bool LiteralNode::equals(const SyntaxNode& other) const noexcept 
+    {
+        const auto& node = dynamic_cast<const LiteralNode&>(other);
+        return type_ == node.type_ && value_ == node.value_;
     }
 }

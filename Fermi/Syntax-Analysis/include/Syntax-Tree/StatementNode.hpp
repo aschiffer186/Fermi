@@ -40,6 +40,9 @@ namespace Fermi::SyntaxAnalysis
 
         const std::string& getIdentifier() const;
     private:
+        bool equals(const SyntaxNode& other) const noexcept override;
+        std::ostream& print(std::ostream& os) const override;
+    private:
         Type type_;
         std::string identifier_;
         std::unique_ptr<ExpressionNode> initializer_;
@@ -56,6 +59,9 @@ namespace Fermi::SyntaxAnalysis
 
         void addPrintingExpression(std::unique_ptr<ExpressionNode> expression);
     private:
+        bool equals(const SyntaxNode& other) const noexcept override;
+        std::ostream& print(std::ostream& os) const override;
+    private:
         std::vector<std::unique_ptr<ExpressionNode>> expressions_;
     };
 
@@ -69,6 +75,9 @@ namespace Fermi::SyntaxAnalysis
         std::vector<const SyntaxNode*> getChildren() const override; 
 
         const std::string& getAssignee() const; 
+    private:
+        bool equals(const SyntaxNode& other) const noexcept override;
+        std::ostream& print(std::ostream& os) const override;
     private:
         std::string lhs_;
         std::unique_ptr<ExpressionNode> rhs_;

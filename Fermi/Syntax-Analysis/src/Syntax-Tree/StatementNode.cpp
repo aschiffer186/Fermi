@@ -31,10 +31,22 @@ namespace Fermi::SyntaxAnalysis
         return identifier_;
     }
 
+    bool VariableDeclarationNode::equals(const SyntaxNode& other) const noexcept
+    {
+        const auto& node = dynamic_cast<const VariableDeclarationNode&>(other);
+        if(type_ != node.type_)
+            return false;
+        if (identifier_ != node.identifier_)
+            return false;
+        if (!initializer_)
+            return !node.initializer_;
+        return *initializer_ == *node.initializer_;
+    }
+
     PrintNode::PrintNode(std::vector<std::unique_ptr<ExpressionNode>>&& vec)
     : expressions_{std::move(vec)}
     {
-        
+
     }
     
     SyntaxNodeType PrintNode::getNodeType() const 
@@ -52,6 +64,14 @@ namespace Fermi::SyntaxAnalysis
     void PrintNode::addPrintingExpression(std::unique_ptr<ExpressionNode> expression)
     {
         expressions_.push_back(std::move(expression));
+    }
+
+    bool PrintNode::equals(const SyntaxNode& other) const noexcept
+    {
+        const auto& node = dynamic_cast<const PrintNode&>(other);
+        return std::equal(expressions_.begin(), expressions_.end(), node.expressions_.begin(), [](const auto& lhs, const auto& rhs){
+            return *lhs == *rhs;
+        });
     }
 
     AssignmentStatementNode::AssignmentStatementNode(std::string_view lhs, std::unique_ptr<ExpressionNode> rhs)
@@ -74,5 +94,11 @@ namespace Fermi::SyntaxAnalysis
     const std::string& AssignmentStatementNode::getAssignee() const 
     {
         return lhs_;
+    }
+
+    bool AssignmentStatementNode::equals(const SyntaxNode& other) const noexcept 
+    {
+        const auto& node = dynamic_cast<const AssignmentStatementNode&>(other);
+        return lhs_ == node.lhs_ && *rhs_ == *node.rhs_;
     }
 }
