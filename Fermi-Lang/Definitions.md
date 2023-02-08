@@ -25,3 +25,10 @@
     2. `T1` ane `T2` are both signed integral types and the size of `T2` is larger than the size of `T1`.
     3. `T1` and `T2` are both floating-point types and the size of `T2` is larger than the size of `T1`.
     4. `T1` is a signed integral type and `T2` is a floating-point type whose size is at least as large as the size of `T1`. 
+* A Fermi program that attempts to implicitly convert an arithmetic type to a type it is not implicitly convertible to is ill-formed.
+* Given a binary creation expression where the types of in the input entities are both fundamental arithmetic types, the type of the output entity will be determined as follows. Let `T1` be the type of the first input entity and `T2` be the type of the second input entity; the type `TO` of the output entity will be 
+    1. `T1` if `T1` and `T2` are exactly the same type. 
+    2. If `T1` and `T2` are both signed integer types, `TO` will be the the larger of the two types. 
+    3. If `T1` and `T2` are both floating-point types, `TO` will be the larger of thw two types. 
+    4. If one of `T1` and `T2` is a floating-point type and the other is a signed-integer type and the floating-point type is at least as big as the signed-integer type; `T0` will be the floating-point type.
+    5. Otherwise the program is ill-formed.
