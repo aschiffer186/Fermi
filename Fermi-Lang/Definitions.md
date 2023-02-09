@@ -4,7 +4,8 @@
         1. If the type of an entity is a fundamental type, the in memory representation of the associated object
 * Object: an object has an address, a size, and an in-memory representation
 * Variable: a variable is a strongly-typed identifier that has an associated entity
-* Type: A type has a name, a set of valid operations, and a size
+* Type: an type has a name, a set of valid operations, and a size
+* Expression: an expression takes as an input one or more entities and returns one entity. The type of expression is the type of the returned entity and the value of the expression is the value of the returned entity.
 # Basic Types
 ## Arithmetic Types
 ### Integer Types
@@ -32,3 +33,20 @@
     3. If `T1` and `T2` are both floating-point types, `TO` will be the larger of thw two types. 
     4. If one of `T1` and `T2` is a floating-point type and the other is a signed-integer type and the floating-point type is at least as big as the signed-integer type; `T0` will be the floating-point type.
     5. Otherwise the program is ill-formed.
+# Expression
+* An expression takes as an input one or more not necessarily distinct entities and returns an entity.
+* Each expression has a value and a type; the value of an expression is the value of the returned entity; the type of an expression is the type of the returned expression. 
+* There are two types of expressions: identity expressions and creational expressions.
+## Identity Expressions
+* An identity takes as an input an entity and returns that entity unchanged. 
+* There are two types of identity expressions: literals and identifiers (when used in the context of an expression).
+### Identifier
+* The input to an identifier expression is the entity associated with the variable named by the identifier and the same identity is returned. 
+### Literal
+* The input to a literal expression is the entity whose value is given by the value of the literal and whose type is the type of the literal; the same literal is returned.
+## Creational Expressions
+* A creational expression takes as an input one or more entities and returns an entity. 
+* A creational expression does not modify its input entity
+### Binary Expressions
+* Binary creational expressions take in two entities and return an entity
+#### Binary Addition

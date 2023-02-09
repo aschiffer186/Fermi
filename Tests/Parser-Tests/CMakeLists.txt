@@ -10,3 +10,5 @@ create_parser_test(TestLexKeywords TestLexKeywords.cpp)
 create_parser_test(TestLexLiterals TestLexLiterals.cpp)
 create_parser_test(TestLexOperators TestLexOperators.cpp)
 create_parser_test(TestLexMultiTokens TestLexMultiTokens.cpp)
+
+create_parser_test(TestParsePrintStatement TestParsePrintStatement.cpp)
