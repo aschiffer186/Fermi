@@ -52,7 +52,7 @@
     #include "ExpressionNode.hpp"
     #include "StatementNode.hpp"
 
-    namespace Fermi::SyntaxAnalysis { class FermiLexer; }
+    namespace Fermi::SyntaxAnalysis { class FermiSourceFile; }
 
 #line 58 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.hpp"
 
@@ -924,7 +924,7 @@ switch (yykind)
     };
 
     /// Build a parser object.
-    FermiParser (Fermi::SyntaxAnalysis::FermiLexer& lexer_yyarg);
+    FermiParser (Fermi::SyntaxAnalysis::FermiSourceFile& sourceFile_yyarg);
     virtual ~FermiParser ();
 
 #if 201103L <= YY_CPLUSPLUS
@@ -1725,7 +1725,7 @@ switch (yykind)
 
 
     // User arguments.
-    Fermi::SyntaxAnalysis::FermiLexer& lexer;
+    Fermi::SyntaxAnalysis::FermiSourceFile& sourceFile;
 
   };
 

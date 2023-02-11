@@ -21,15 +21,15 @@
     #include "ExpressionNode.hpp"
     #include "StatementNode.hpp"
 
-    namespace Fermi::SyntaxAnalysis { class FermiLexer; }
+    namespace Fermi::SyntaxAnalysis { class FermiSourceFile; }
 }
 
-%parse-param {Fermi::SyntaxAnalysis::FermiLexer& lexer}
+%parse-param {Fermi::SyntaxAnalysis::FermiSourceFile& sourceFile}
 
 %code {
-    #include "FermiLexer.hpp"
+    #include "FermiSourceFile.hpp"
 
-    #define yylex lexer.nextToken
+    #define yylex sourceFile.lexer.nextToken
 }
 
 // Literals
@@ -64,18 +64,18 @@
 %nterm <std::shared_ptr<ExpressionNode>> identity_expression
 %nterm <std::shared_ptr<ExpressionNode>> literal
 %%
-start: statements {$$ = std::move($1);}
-statements: statements statement {$1.push_back(std::move($2)); $$ = std::move($1);}
+start: statements {$$ = $1; sourceFile.syntaxTree = $$;}
+statements: statements statement {$1.push_back($2); $$ = $1;}
     | %empty {$$ = std::vector<std::shared_ptr<StatementNode>>{};}
     ;
 statement: 
-    variable-declaration {$$ = std::move($1);}
-    | print_statement {$$ = std::move($1);}
-    | assignment-statement {$$ = std::move($1);}
+    variable-declaration {$$ = $1;}
+    | print_statement {$$ = $1;}
+    | assignment-statement {$$ = $1;}
     ;
 variable-declaration: 
-    "let" IDENTIFIER "=" expression {$$ = std::make_shared<VariableDeclarationNode>(Type::deduced, $2, std::move($4));}
-    | "let" IDENTIFIER ":" type "=" expression ";" {$$ = std::make_shared<VariableDeclarationNode>($4, $2, std::move($6));}
+    "let" IDENTIFIER "=" expression {$$ = std::make_shared<VariableDeclarationNode>(Type::deduced, $2, $4);}
+    | "let" IDENTIFIER ":" type "=" expression ";" {$$ = std::make_shared<VariableDeclarationNode>($4, $2, $6);}
     ;
 type:
     "int8_t" {$$ = Type::int8_t;}
@@ -85,28 +85,28 @@ type:
     | "float32_t" {$$ = Type::float32_t;}
     | "float64_t" {$$ = Type::float64_t;}
     ;
-print_statement: "print" "(" expression-list ")" ";" {$$ = std::make_shared<PrintNode>(std::move($3));};
-expression-list: expression-list "," expression {$1.push_back(std::move($3)); $$ = std::move($1);}
-    | expression {std::vector<std::shared_ptr<ExpressionNode>> v; v.push_back(std::move($1)); $$ = std::move(v);}
+print_statement: "print" "(" expression-list ")" ";" {$$ = std::make_shared<PrintNode>($3);};
+expression-list: expression-list "," expression {$1.push_back($3); $$ = $1;}
+    | expression {std::vector<std::shared_ptr<ExpressionNode>> v; v.push_back($1); $$ = v;}
     ;
-assignment-statement: IDENTIFIER "=" expression ";" {$$ = std::make_shared<AssignmentStatementNode>($1, std::move($3));};
+assignment-statement: IDENTIFIER "=" expression ";" {$$ = std::make_shared<AssignmentStatementNode>($1, $3);};
 expression:
-    identity_expression {$$ = std::move($1);}
-    | creation_expression {$$ = std::move($1);}
+    identity_expression {$$ = $1;}
+    | creation_expression {$$ = $1;}
     ;
 creation_expression:
-    expression "+" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Addition, std::move($3));}
-    | expression "-" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Subtraction, std::move($3));}
-    | expression "*" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Multiplication, std::move($3));}
-    | expression "/" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Division, std::move($3));}
-    | expression "//" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::IntegerDivision, std::move($3));}
-    | expression "^" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Exponentiation, std::move($3));}
-    | expression "%" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Modulo, std::move($3));}
+    expression "+" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Addition, $3);}
+    | expression "-" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Subtraction, $3);}
+    | expression "*" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Multiplication, $3);}
+    | expression "/" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Division, $3);}
+    | expression "//" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::IntegerDivision, $3);}
+    | expression "^" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Exponentiation, $3);}
+    | expression "%" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Modulo, $3);}
     ;
 identity_expression:
-    literal {$$ = std::move($1);}
+    literal {$$ = $1;}
     | IDENTIFIER {$$ = std::make_shared<LiteralNode>($1, LiteralType::Identifier);}
-    | "(" expression ")" {$$ = std::move($2);}
+    | "(" expression ")" {$$ = $2;}
     ;
 literal: 
     INTEGER_LITERAL {$$ = std::make_shared<LiteralNode>($1, LiteralType::Integer);}

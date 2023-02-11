@@ -52,7 +52,7 @@ namespace Fermi::SyntaxAnalysis
     class PrintNode : public StatementNode 
     {
     public:
-        PrintNode(std::vector<std::shared_ptr<ExpressionNode>>&& vec);
+        PrintNode(const std::vector<std::shared_ptr<ExpressionNode>>& vec);
 
         SyntaxNodeType getNodeType() const override;
 

@@ -109,7 +109,22 @@ namespace Fermi::SyntaxAnalysis
         os << "Literal Node";
         indent += (isLast) ? " " : PIPE + " "s;
 
-        os << value_;
+        os << "\n"; 
+        os << indent << TEE << "Value: " << value_;
+        os << "\n";
+        os << indent << CORNER;
+        switch(type_)
+        {
+            case LiteralType::Identifier:
+                os << "Identifier";
+                break;
+            case LiteralType::Integer:
+                os << "Integer";
+                break; 
+            case LiteralType::Float:
+                os << "Float";
+                break;
+        }
         return os;
     }
 

@@ -93,8 +93,8 @@ namespace Fermi::SyntaxAnalysis
         return os;
     }
 
-    PrintNode::PrintNode(std::vector<std::shared_ptr<ExpressionNode>>&& vec)
-    : expressions_{std::move(vec)}
+    PrintNode::PrintNode(const std::vector<std::shared_ptr<ExpressionNode>>& vec)
+    : expressions_{vec}
     {
 
     }
@@ -134,12 +134,16 @@ namespace Fermi::SyntaxAnalysis
 
         os << "Print Node";
         indent += (isLast) ? " " : PIPE + " "s;
+        os << "\n";
         for(size_t i = 0; i < expressions_.size(); ++i)
         {
             if (i == expressions_.size() - 1)
                 expressions_[i]->print(os, indent, true);
             else
+            {
                 expressions_[i]->print(os, indent, false);
+                os << "\n";
+            }
         }
         return os;
     }
