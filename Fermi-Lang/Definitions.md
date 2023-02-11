@@ -27,7 +27,7 @@
     3. `T1` and `T2` are both floating-point types and the size of `T2` is larger than the size of `T1`.
     4. `T1` is a signed integral type and `T2` is a floating-point type whose size is at least as large as the size of `T1`. 
 * A Fermi program that attempts to implicitly convert an arithmetic type to a type it is not implicitly convertible to is ill-formed.
-* Given a binary creation expression where the types of in the input entities are both fundamental arithmetic types, the type of the output entity will be determined as follows. Let `T1` be the type of the first input entity and `T2` be the type of the second input entity; the type `TO` of the output entity will be 
+* Given the binary expressions "+", "-", "*", and "^", where the types of in the input entities are both fundamental arithmetic types, the type of the output entity will be determined as follows. Let `T1` be the type of the first input entity and `T2` be the type of the second input entity; the type `TO` of the output entity will be 
     1. `T1` if `T1` and `T2` are exactly the same type. 
     2. If `T1` and `T2` are both signed integer types, `TO` will be the the larger of the two types. 
     3. If `T1` and `T2` are both floating-point types, `TO` will be the larger of thw two types. 
@@ -50,3 +50,25 @@
 ### Binary Expressions
 * Binary creational expressions take in two entities and return an entity
 #### Binary Addition
+* The binary addition expression takes the canonical form `E1 + E2` where `E1` and `E2` are the input entities to the expression. 
+* If both inputs are signed integer types, the value of the created entity is the signed addition of the two input entities.
+* If either or both inputs are floating-point types, the value of the created entity is the floating-point addition of the two input entities.
+    * If one entity is a signed-integer type, it will be converted to a floating-point type prior to the addition.
+* The type of the created entity is the type defined by the arithmetic type promotion rules.
+#### Binary Subtraction
+* The binary subtraction expression takes the canonical form `E1 - E2` where `E1` and `E2` are the input entities to the expression. 
+* If both inputs are signed integer types, the value of the created entity is the signed subtraction of the two input entities.
+* If either or both inputs are floating-point types, the value of the created entity is the floating-point subtraction of the two input entities.
+    * If one entity is a signed-integer type, it will be converted to a floating-point type prior to the subtraction.
+* The type of the created entity is the type defined by the arithmetic type promotion rules.
+#### Binary Multiplication
+* The binary multiplication expression takes the canonical form `E1 + E2` where `E1` and `E2` are the input entities to the expression.
+* If both inputs are signed integer types, the value of the created entity is the signed multiplication of the two input entities. 
+* If either or both inputs are floating-point types, the value of the created entity is the floating-point addition of the two input entities
+    * If one entity is a signed-integer type, it will be converted to a floating-point type prior to the multiplication.
+* The type of the created entity is teh type defined by the arithmetic type promotion rules. 
+#### Binary Floating-Point Division
+* The binary floating-point division expression takes the canonical form `E1 / E2` where `E1` and `E2` are the input entities to the expression.
+* Regardless of the types of the input entities, floating-point division is performed. 
+* Any signed-integer type is converted to a floating-point type prior to the division
+* The type of the created entity is `float64_t`. 

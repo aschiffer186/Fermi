@@ -2,6 +2,8 @@
 
 #include "ExpressionNode.hpp"
 
+using namespace std::literals;
+
 namespace Fermi::SyntaxAnalysis
 {
     BinaryExpressionNode::BinaryExpressionNode(std::unique_ptr<ExpressionNode> lhs, 
@@ -31,6 +33,38 @@ namespace Fermi::SyntaxAnalysis
     {
         const auto& node = dynamic_cast<const BinaryExpressionNode&>(other);
         return *lhs_ == *node.lhs_ && operator_ == node.operator_ && *lhs_ == *node.rhs_;
+    }
+
+    namespace 
+    {
+        std::unordered_map<BinaryExpressionTypes, std::string> BinaryNodeToString = {
+            {BinaryExpressionTypes::Addition, "+"},
+            {BinaryExpressionTypes::Division, "/"},
+            {BinaryExpressionTypes::Exponentiation, "^"},
+            {BinaryExpressionTypes::IntegerDivision, "//"},
+            {BinaryExpressionTypes::Modulo, "%"},
+            {BinaryExpressionTypes::Multiplication, "*"},
+            {BinaryExpressionTypes::Subtraction, "-"}
+        };
+    }
+
+    std::ostream& BinaryExpressionNode::print(std::ostream& os, std::string indent, bool isLast) const
+    {
+        std::string tokenMarker = (isLast) ? CORNER : TEE;
+
+        os << indent; 
+        os << tokenMarker;
+
+        os << "Binary Expression";
+        indent += (isLast) ? " " : PIPE + " "s;
+
+        os << "\n";
+        lhs_->print(os, indent, false);
+        os << "\n";
+        os << indent << TEE << BinaryNodeToString[operator_];
+        os << "\n";
+        rhs_->print(os, indent, true);
+        return os;
     }
 
     LiteralNode::LiteralNode(std::string_view value, LiteralType type)
@@ -64,4 +98,19 @@ namespace Fermi::SyntaxAnalysis
         const auto& node = dynamic_cast<const LiteralNode&>(other);
         return type_ == node.type_ && value_ == node.value_;
     }
+
+    std::ostream& LiteralNode::print(std::ostream& os, std::string indent, bool isLast) const
+    {
+        std::string tokenMarker = (isLast) ? CORNER : TEE;
+
+        os << indent; 
+        os << tokenMarker;
+
+        os << "Literal Node";
+        indent += (isLast) ? " " : PIPE + " "s;
+
+        os << value_;
+        return os;
+    }
+
 }

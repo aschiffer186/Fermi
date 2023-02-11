@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 
 #include "SyntaxNode.hpp"
 
@@ -37,9 +38,9 @@ namespace Fermi::SyntaxAnalysis
 
         BinaryExpressionTypes getOperator() const;
 
+        std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
-        std::ostream& print(std::ostream& os) const override;
     private:
         std::unique_ptr<ExpressionNode> lhs_;
         BinaryExpressionTypes operator_;
@@ -65,9 +66,10 @@ namespace Fermi::SyntaxAnalysis
         const std::string& getValue() const;
 
         LiteralType getType() const;
+        
+        std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
-        std::ostream& print(std::ostream& os) const override;
     private:
         LiteralType type_;
         std::string value_;

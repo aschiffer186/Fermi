@@ -39,9 +39,10 @@ namespace Fermi::SyntaxAnalysis
         Type getType() const;
 
         const std::string& getIdentifier() const;
+        
+        std::ostream& print(std::ostream& os, std::string ident, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
-        std::ostream& print(std::ostream& os) const override;
     private:
         Type type_;
         std::string identifier_;
@@ -58,9 +59,10 @@ namespace Fermi::SyntaxAnalysis
         std::vector<const SyntaxNode*> getChildren() const override; 
 
         void addPrintingExpression(std::unique_ptr<ExpressionNode> expression);
+        
+        std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
-        std::ostream& print(std::ostream& os) const override;
     private:
         std::vector<std::unique_ptr<ExpressionNode>> expressions_;
     };
@@ -75,9 +77,10 @@ namespace Fermi::SyntaxAnalysis
         std::vector<const SyntaxNode*> getChildren() const override; 
 
         const std::string& getAssignee() const; 
+        
+        std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
-        std::ostream& print(std::ostream& os) const override;
     private:
         std::string lhs_;
         std::unique_ptr<ExpressionNode> rhs_;

@@ -3,6 +3,8 @@
 #include "ExpressionNode.hpp"
 #include "StatementNode.hpp"
 
+using namespace std::literals;
+
 namespace Fermi::SyntaxAnalysis
 {
     VariableDeclarationNode::VariableDeclarationNode(Type type, std::string_view identifier, std::unique_ptr<ExpressionNode> initializer)
@@ -43,6 +45,54 @@ namespace Fermi::SyntaxAnalysis
         return *initializer_ == *node.initializer_;
     }
 
+    std::ostream& VariableDeclarationNode::print(std::ostream& os, std::string indent, bool isLast) const
+    {
+        std::string tokenMarker = (isLast) ? CORNER : TEE;
+
+        os << indent; 
+        os << tokenMarker;
+
+        os << "Variable Declaration";
+        indent += (isLast) ? " " : PIPE + " "s;
+
+        os << "\n" << indent << TEE;
+        os << "Type: ";
+        switch(type_)
+        {
+        case Type::deduced:
+            os << "Deduced";
+            break;
+        case Type::float32_t:
+            os << "float32_t";
+            break;
+        case Type::float64_t:
+            os << "float64_t";
+            break;
+        case Type::int8_t:
+            os << "int8_t";
+            break;
+        case Type::int16_t:
+            os << "int16_t";
+            break;
+        case Type::int32_t:
+            os << "int32_t";
+            break;
+        case Type::int64_t:
+            os << "int64_t";
+            break;
+        }
+        os << "\n";
+        if (!initializer_)
+            os << indent << CORNER << "Identifier: " << identifier_;
+        else 
+        {
+            os << indent << PIPE << "Identifier: " << identifier_;
+            os << "\n";
+            initializer_->print(os, indent, true);
+        }
+        return os;
+    }
+
     PrintNode::PrintNode(std::vector<std::unique_ptr<ExpressionNode>>&& vec)
     : expressions_{std::move(vec)}
     {
@@ -74,6 +124,26 @@ namespace Fermi::SyntaxAnalysis
         });
     }
 
+    std::ostream& PrintNode::print(std::ostream& os, std::string indent, bool isLast) const 
+    {
+        
+        std::string tokenMarker = (isLast) ? CORNER : TEE;
+
+        os << indent; 
+        os << tokenMarker;
+
+        os << "Print Node";
+        indent += (isLast) ? " " : PIPE + " "s;
+        for(size_t i = 0; i < expressions_.size(); ++i)
+        {
+            if (i == expressions_.size() - 1)
+                expressions_[i]->print(os, indent, true);
+            else
+                expressions_[i]->print(os, indent, false);
+        }
+        return os;
+    }
+
     AssignmentStatementNode::AssignmentStatementNode(std::string_view lhs, std::unique_ptr<ExpressionNode> rhs)
     : lhs_{lhs}, rhs_{std::move(rhs)}
     {
@@ -100,5 +170,22 @@ namespace Fermi::SyntaxAnalysis
     {
         const auto& node = dynamic_cast<const AssignmentStatementNode&>(other);
         return lhs_ == node.lhs_ && *rhs_ == *node.rhs_;
+    }
+
+    std::ostream& AssignmentStatementNode::print(std::ostream& os, std::string indent, bool isLast) const 
+    {
+        
+        std::string tokenMarker = (isLast) ? CORNER : TEE;
+
+        os << indent; 
+        os << tokenMarker;
+
+        os << "PAssignmentStatement Node";
+        indent += (isLast) ? " " : PIPE + " "s;
+        os << indent << TEE << lhs_;
+        os << "\n";
+        os << indent <<  CORNER;
+        rhs_->print(os, indent, true);
+        return os;
     }
 }

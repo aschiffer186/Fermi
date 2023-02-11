@@ -7,6 +7,10 @@
 
 namespace Fermi::SyntaxAnalysis
 {
+    inline constexpr const char* TEE = "├──";
+    inline constexpr const char* CORNER = "└──";
+    inline constexpr const char* PIPE = "|";
+
     enum class SyntaxNodeType 
     {
         BinaryExpression,
@@ -50,10 +54,11 @@ namespace Fermi::SyntaxAnalysis
         virtual std::vector<const SyntaxNode*> getChildren() const = 0;
 
         virtual ~SyntaxNode() = default;
+        
+        virtual std::ostream& print(std::ostream& os, std::string indent, bool isLast) const = 0;
     private:
         // @pre typeid(other) == typeid(*this)
         virtual bool equals(const SyntaxNode& other) const noexcept = 0; 
-        virtual std::ostream& print(std::ostream& os) const = 0;
 
         friend bool operator==(const SyntaxNode& lhs, const SyntaxNode& rhs) noexcept;
         friend std::ostream& operator<<(std::ostream& os, const SyntaxNode& node);
@@ -66,7 +71,7 @@ namespace Fermi::SyntaxAnalysis
 
     inline std::ostream& operator<<(std::ostream& os, const SyntaxNode& node)
     {
-        node.print(os);
+        node.print(os, "", true);
         return os;
     }
 }
