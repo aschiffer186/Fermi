@@ -9,7 +9,7 @@ namespace Fermi::SyntaxAnalysis
     BinaryExpressionNode::BinaryExpressionNode(std::shared_ptr<ExpressionNode> lhs, 
                                                BinaryExpressionTypes operatorIn, 
                                                std::shared_ptr<ExpressionNode> rhs)
-        : lhs_{std::move(lhs)}, operator_{operatorIn}, rhs_{std::move(rhs)}
+        : lhs_{lhs}, operator_{operatorIn}, rhs_{rhs}
         {
 
         }

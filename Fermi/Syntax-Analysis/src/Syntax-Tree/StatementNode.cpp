@@ -113,7 +113,7 @@ namespace Fermi::SyntaxAnalysis
 
     void PrintNode::addPrintingExpression(std::shared_ptr<ExpressionNode> expression)
     {
-        expressions_.push_back(std::move(expression));
+        expressions_.push_back(expression);
     }
 
     bool PrintNode::equals(const SyntaxNode& other) const noexcept
@@ -145,7 +145,7 @@ namespace Fermi::SyntaxAnalysis
     }
 
     AssignmentStatementNode::AssignmentStatementNode(std::string_view lhs, std::shared_ptr<ExpressionNode> rhs)
-    : lhs_{lhs}, rhs_{std::move(rhs)}
+    : lhs_{lhs}, rhs_{rhs}
     {
 
     }
