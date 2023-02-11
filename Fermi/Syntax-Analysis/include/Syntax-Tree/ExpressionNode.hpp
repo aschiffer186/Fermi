@@ -30,7 +30,7 @@ namespace Fermi::SyntaxAnalysis
     class BinaryExpressionNode : public ExpressionNode
     {
     public:
-        BinaryExpressionNode(std::unique_ptr<ExpressionNode> lhs, BinaryExpressionTypes operandIn, std::unique_ptr<ExpressionNode> rhs);
+        BinaryExpressionNode(std::shared_ptr<ExpressionNode> lhs, BinaryExpressionTypes operandIn, std::shared_ptr<ExpressionNode> rhs);
 
         SyntaxNodeType getNodeType() const override; 
 
@@ -42,9 +42,9 @@ namespace Fermi::SyntaxAnalysis
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
     private:
-        std::unique_ptr<ExpressionNode> lhs_;
+        std::shared_ptr<ExpressionNode> lhs_;
         BinaryExpressionTypes operator_;
-        std::unique_ptr<ExpressionNode> rhs_;
+        std::shared_ptr<ExpressionNode> rhs_;
     };
 
     enum class LiteralType 

@@ -214,33 +214,33 @@ namespace Fermi { namespace SyntaxAnalysis {
         value.YY_MOVE_OR_COPY< Type > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
-      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
-      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
-        value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
-        break;
-
       case symbol_kind::S_expression: // expression
       case symbol_kind::S_creation_expression: // creation_expression
       case symbol_kind::S_identity_expression: // identity_expression
       case symbol_kind::S_literal: // literal
-        value.YY_MOVE_OR_COPY< std::unique_ptr<ExpressionNode> > (YY_MOVE (that.value));
+        value.YY_MOVE_OR_COPY< std::shared_ptr<ExpressionNode> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
       case symbol_kind::S_35_assignment_statement: // assignment-statement
-        value.YY_MOVE_OR_COPY< std::unique_ptr<StatementNode> > (YY_MOVE (that.value));
+        value.YY_MOVE_OR_COPY< std::shared_ptr<StatementNode> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_34_expression_list: // expression-list
-        value.YY_MOVE_OR_COPY< std::vector<std::unique_ptr<ExpressionNode>> > (YY_MOVE (that.value));
+        value.YY_MOVE_OR_COPY< std::vector<std::shared_ptr<ExpressionNode>> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
-        value.YY_MOVE_OR_COPY< std::vector<std::unique_ptr<StatementNode>> > (YY_MOVE (that.value));
+        value.YY_MOVE_OR_COPY< std::vector<std::shared_ptr<StatementNode>> > (YY_MOVE (that.value));
         break;
 
       default:
@@ -262,33 +262,33 @@ namespace Fermi { namespace SyntaxAnalysis {
         value.move< Type > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
-      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
-      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
-        value.move< std::string > (YY_MOVE (that.value));
-        break;
-
       case symbol_kind::S_expression: // expression
       case symbol_kind::S_creation_expression: // creation_expression
       case symbol_kind::S_identity_expression: // identity_expression
       case symbol_kind::S_literal: // literal
-        value.move< std::unique_ptr<ExpressionNode> > (YY_MOVE (that.value));
+        value.move< std::shared_ptr<ExpressionNode> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
       case symbol_kind::S_35_assignment_statement: // assignment-statement
-        value.move< std::unique_ptr<StatementNode> > (YY_MOVE (that.value));
+        value.move< std::shared_ptr<StatementNode> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.move< std::string > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_34_expression_list: // expression-list
-        value.move< std::vector<std::unique_ptr<ExpressionNode>> > (YY_MOVE (that.value));
+        value.move< std::vector<std::shared_ptr<ExpressionNode>> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
-        value.move< std::vector<std::unique_ptr<StatementNode>> > (YY_MOVE (that.value));
+        value.move< std::vector<std::shared_ptr<StatementNode>> > (YY_MOVE (that.value));
         break;
 
       default:
@@ -310,33 +310,33 @@ namespace Fermi { namespace SyntaxAnalysis {
         value.copy< Type > (that.value);
         break;
 
-      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
-      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
-      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
-        value.copy< std::string > (that.value);
-        break;
-
       case symbol_kind::S_expression: // expression
       case symbol_kind::S_creation_expression: // creation_expression
       case symbol_kind::S_identity_expression: // identity_expression
       case symbol_kind::S_literal: // literal
-        value.copy< std::unique_ptr<ExpressionNode> > (that.value);
+        value.copy< std::shared_ptr<ExpressionNode> > (that.value);
         break;
 
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
       case symbol_kind::S_35_assignment_statement: // assignment-statement
-        value.copy< std::unique_ptr<StatementNode> > (that.value);
+        value.copy< std::shared_ptr<StatementNode> > (that.value);
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.copy< std::string > (that.value);
         break;
 
       case symbol_kind::S_34_expression_list: // expression-list
-        value.copy< std::vector<std::unique_ptr<ExpressionNode>> > (that.value);
+        value.copy< std::vector<std::shared_ptr<ExpressionNode>> > (that.value);
         break;
 
       case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
-        value.copy< std::vector<std::unique_ptr<StatementNode>> > (that.value);
+        value.copy< std::vector<std::shared_ptr<StatementNode>> > (that.value);
         break;
 
       default:
@@ -357,33 +357,33 @@ namespace Fermi { namespace SyntaxAnalysis {
         value.move< Type > (that.value);
         break;
 
-      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
-      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
-      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
-        value.move< std::string > (that.value);
-        break;
-
       case symbol_kind::S_expression: // expression
       case symbol_kind::S_creation_expression: // creation_expression
       case symbol_kind::S_identity_expression: // identity_expression
       case symbol_kind::S_literal: // literal
-        value.move< std::unique_ptr<ExpressionNode> > (that.value);
+        value.move< std::shared_ptr<ExpressionNode> > (that.value);
         break;
 
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
       case symbol_kind::S_35_assignment_statement: // assignment-statement
-        value.move< std::unique_ptr<StatementNode> > (that.value);
+        value.move< std::shared_ptr<StatementNode> > (that.value);
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.move< std::string > (that.value);
         break;
 
       case symbol_kind::S_34_expression_list: // expression-list
-        value.move< std::vector<std::unique_ptr<ExpressionNode>> > (that.value);
+        value.move< std::vector<std::shared_ptr<ExpressionNode>> > (that.value);
         break;
 
       case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
-        value.move< std::vector<std::unique_ptr<StatementNode>> > (that.value);
+        value.move< std::vector<std::shared_ptr<StatementNode>> > (that.value);
         break;
 
       default:
@@ -659,33 +659,33 @@ namespace Fermi { namespace SyntaxAnalysis {
         yylhs.value.emplace< Type > ();
         break;
 
-      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
-      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
-      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
-        yylhs.value.emplace< std::string > ();
-        break;
-
       case symbol_kind::S_expression: // expression
       case symbol_kind::S_creation_expression: // creation_expression
       case symbol_kind::S_identity_expression: // identity_expression
       case symbol_kind::S_literal: // literal
-        yylhs.value.emplace< std::unique_ptr<ExpressionNode> > ();
+        yylhs.value.emplace< std::shared_ptr<ExpressionNode> > ();
         break;
 
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
       case symbol_kind::S_35_assignment_statement: // assignment-statement
-        yylhs.value.emplace< std::unique_ptr<StatementNode> > ();
+        yylhs.value.emplace< std::shared_ptr<StatementNode> > ();
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        yylhs.value.emplace< std::string > ();
         break;
 
       case symbol_kind::S_34_expression_list: // expression-list
-        yylhs.value.emplace< std::vector<std::unique_ptr<ExpressionNode>> > ();
+        yylhs.value.emplace< std::vector<std::shared_ptr<ExpressionNode>> > ();
         break;
 
       case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
-        yylhs.value.emplace< std::vector<std::unique_ptr<StatementNode>> > ();
+        yylhs.value.emplace< std::vector<std::shared_ptr<StatementNode>> > ();
         break;
 
       default:
@@ -710,49 +710,49 @@ namespace Fermi { namespace SyntaxAnalysis {
             {
   case 2: // start: statements
 #line 67 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                  {yylhs.value.as < std::vector<std::unique_ptr<StatementNode>> > () = std::move(yystack_[0].value.as < std::vector<std::unique_ptr<StatementNode>> > ());}
+                  {yylhs.value.as < std::vector<std::shared_ptr<StatementNode>> > () = std::move(yystack_[0].value.as < std::vector<std::shared_ptr<StatementNode>> > ());}
 #line 715 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 3: // statements: statements statement
 #line 68 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                 {yystack_[1].value.as < std::vector<std::unique_ptr<StatementNode>> > ().push_back(std::move(yystack_[0].value.as < std::unique_ptr<StatementNode> > ())); yylhs.value.as < std::vector<std::unique_ptr<StatementNode>> > () = std::move(yystack_[1].value.as < std::vector<std::unique_ptr<StatementNode>> > ());}
+                                 {yystack_[1].value.as < std::vector<std::shared_ptr<StatementNode>> > ().push_back(std::move(yystack_[0].value.as < std::shared_ptr<StatementNode> > ())); yylhs.value.as < std::vector<std::shared_ptr<StatementNode>> > () = std::move(yystack_[1].value.as < std::vector<std::shared_ptr<StatementNode>> > ());}
 #line 721 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 4: // statements: %empty
 #line 69 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-             {yylhs.value.as < std::vector<std::unique_ptr<StatementNode>> > () = std::vector<std::unique_ptr<StatementNode>>{};}
+             {yylhs.value.as < std::vector<std::shared_ptr<StatementNode>> > () = std::vector<std::shared_ptr<StatementNode>>{};}
 #line 727 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 5: // statement: variable-declaration
 #line 72 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                         {yylhs.value.as < std::unique_ptr<StatementNode> > () = std::move(yystack_[0].value.as < std::unique_ptr<StatementNode> > ());}
+                         {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::move(yystack_[0].value.as < std::shared_ptr<StatementNode> > ());}
 #line 733 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 6: // statement: print_statement
 #line 73 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                      {yylhs.value.as < std::unique_ptr<StatementNode> > () = std::move(yystack_[0].value.as < std::unique_ptr<StatementNode> > ());}
+                      {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::move(yystack_[0].value.as < std::shared_ptr<StatementNode> > ());}
 #line 739 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 7: // statement: assignment-statement
 #line 74 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                           {yylhs.value.as < std::unique_ptr<StatementNode> > () = std::move(yystack_[0].value.as < std::unique_ptr<StatementNode> > ());}
+                           {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::move(yystack_[0].value.as < std::shared_ptr<StatementNode> > ());}
 #line 745 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 8: // variable-declaration: "let" IDENTIFIER "=" expression
 #line 77 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                    {yylhs.value.as < std::unique_ptr<StatementNode> > () = std::make_unique<VariableDeclarationNode>(Type::deduced, yystack_[2].value.as < std::string > (), std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ()));}
+                                    {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<VariableDeclarationNode>(Type::deduced, yystack_[2].value.as < std::string > (), std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ()));}
 #line 751 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 9: // variable-declaration: "let" IDENTIFIER ":" type "=" expression ";"
 #line 78 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                                   {yylhs.value.as < std::unique_ptr<StatementNode> > () = std::make_unique<VariableDeclarationNode>(yystack_[3].value.as < Type > (), yystack_[5].value.as < std::string > (), std::move(yystack_[1].value.as < std::unique_ptr<ExpressionNode> > ()));}
+                                                   {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<VariableDeclarationNode>(yystack_[3].value.as < Type > (), yystack_[5].value.as < std::string > (), std::move(yystack_[1].value.as < std::shared_ptr<ExpressionNode> > ()));}
 #line 757 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
@@ -794,109 +794,109 @@ namespace Fermi { namespace SyntaxAnalysis {
 
   case 16: // print_statement: "print" "(" expression-list ")" ";"
 #line 88 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                                     {yylhs.value.as < std::unique_ptr<StatementNode> > () = std::make_unique<PrintNode>(std::move(yystack_[2].value.as < std::vector<std::unique_ptr<ExpressionNode>> > ()));}
+                                                     {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<PrintNode>(std::move(yystack_[2].value.as < std::vector<std::shared_ptr<ExpressionNode>> > ()));}
 #line 799 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 17: // expression-list: expression-list "," expression
 #line 89 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                                {yystack_[2].value.as < std::vector<std::unique_ptr<ExpressionNode>> > ().push_back(std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ())); yylhs.value.as < std::vector<std::unique_ptr<ExpressionNode>> > () = std::move(yystack_[2].value.as < std::vector<std::unique_ptr<ExpressionNode>> > ());}
+                                                {yystack_[2].value.as < std::vector<std::shared_ptr<ExpressionNode>> > ().push_back(std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ())); yylhs.value.as < std::vector<std::shared_ptr<ExpressionNode>> > () = std::move(yystack_[2].value.as < std::vector<std::shared_ptr<ExpressionNode>> > ());}
 #line 805 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 18: // expression-list: expression
 #line 90 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                 {std::vector<std::unique_ptr<ExpressionNode>> v; v.push_back(std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ())); yylhs.value.as < std::vector<std::unique_ptr<ExpressionNode>> > () = std::move(v);}
+                 {std::vector<std::shared_ptr<ExpressionNode>> v; v.push_back(std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ())); yylhs.value.as < std::vector<std::shared_ptr<ExpressionNode>> > () = std::move(v);}
 #line 811 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 19: // assignment-statement: IDENTIFIER "=" expression ";"
 #line 92 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                                    {yylhs.value.as < std::unique_ptr<StatementNode> > () = std::make_unique<AssignmentStatementNode>(yystack_[3].value.as < std::string > (), std::move(yystack_[1].value.as < std::unique_ptr<ExpressionNode> > ()));}
+                                                    {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<AssignmentStatementNode>(yystack_[3].value.as < std::string > (), std::move(yystack_[1].value.as < std::shared_ptr<ExpressionNode> > ()));}
 #line 817 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 20: // expression: identity_expression
 #line 94 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                        {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ());}
+                        {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
 #line 823 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 21: // expression: creation_expression
 #line 95 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                          {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ());}
+                          {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
 #line 829 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 22: // creation_expression: expression "+" expression
 #line 98 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                              {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::make_unique<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::unique_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Addition, std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ()));}
+                              {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Addition, std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ()));}
 #line 835 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 23: // creation_expression: expression "-" expression
 #line 99 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::make_unique<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::unique_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Subtraction, std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ()));}
+                                {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Subtraction, std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ()));}
 #line 841 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 24: // creation_expression: expression "*" expression
 #line 100 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::make_unique<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::unique_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Multiplication, std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ()));}
+                                {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Multiplication, std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ()));}
 #line 847 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 25: // creation_expression: expression "/" expression
 #line 101 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::make_unique<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::unique_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Division, std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ()));}
+                                {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Division, std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ()));}
 #line 853 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 26: // creation_expression: expression "//" expression
 #line 102 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                 {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::make_unique<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::unique_ptr<ExpressionNode> > ()), BinaryExpressionTypes::IntegerDivision, std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ()));}
+                                 {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > ()), BinaryExpressionTypes::IntegerDivision, std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ()));}
 #line 859 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 27: // creation_expression: expression "^" expression
 #line 103 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::make_unique<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::unique_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Exponentiation, std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ()));}
+                                {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Exponentiation, std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ()));}
 #line 865 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 28: // creation_expression: expression "%" expression
 #line 104 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::make_unique<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::unique_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Modulo, std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ()));}
+                                {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(std::move(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > ()), BinaryExpressionTypes::Modulo, std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ()));}
 #line 871 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 29: // identity_expression: literal
 #line 107 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-            {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::move(yystack_[0].value.as < std::unique_ptr<ExpressionNode> > ());}
+            {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::move(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
 #line 877 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 30: // identity_expression: IDENTIFIER
 #line 108 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                 {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::make_unique<LiteralNode>(yystack_[0].value.as < std::string > (), LiteralType::Identifier);}
+                 {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<LiteralNode>(yystack_[0].value.as < std::string > (), LiteralType::Identifier);}
 #line 883 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 31: // identity_expression: "(" expression ")"
 #line 109 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                         {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::move(yystack_[1].value.as < std::unique_ptr<ExpressionNode> > ());}
+                         {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::move(yystack_[1].value.as < std::shared_ptr<ExpressionNode> > ());}
 #line 889 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 32: // literal: INTEGER_LITERAL
 #line 112 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                    {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::make_unique<LiteralNode>(yystack_[0].value.as < std::string > (), LiteralType::Integer);}
+                    {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<LiteralNode>(yystack_[0].value.as < std::string > (), LiteralType::Integer);}
 #line 895 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 33: // literal: FLOAT_LITERAL
 #line 113 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                    {yylhs.value.as < std::unique_ptr<ExpressionNode> > () = std::make_unique<LiteralNode>(yystack_[0].value.as < std::string > (), LiteralType::Float);}
+                    {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<LiteralNode>(yystack_[0].value.as < std::string > (), LiteralType::Float);}
 #line 901 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
@@ -1501,3 +1501,11 @@ namespace Fermi { namespace SyntaxAnalysis {
 #line 1502 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
 
 #line 115 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+
+namespace Fermi::SyntaxAnalysis
+{
+    void FermiParser::error(const location&, const std::string&)
+    {
+        
+    }
+}

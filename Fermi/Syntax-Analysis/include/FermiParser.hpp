@@ -417,29 +417,29 @@ namespace Fermi { namespace SyntaxAnalysis {
       // type
       char dummy1[sizeof (Type)];
 
-      // INTEGER_LITERAL
-      // FLOAT_LITERAL
-      // IDENTIFIER
-      char dummy2[sizeof (std::string)];
-
       // expression
       // creation_expression
       // identity_expression
       // literal
-      char dummy3[sizeof (std::unique_ptr<ExpressionNode>)];
+      char dummy2[sizeof (std::shared_ptr<ExpressionNode>)];
 
       // statement
       // variable-declaration
       // print_statement
       // assignment-statement
-      char dummy4[sizeof (std::unique_ptr<StatementNode>)];
+      char dummy3[sizeof (std::shared_ptr<StatementNode>)];
+
+      // INTEGER_LITERAL
+      // FLOAT_LITERAL
+      // IDENTIFIER
+      char dummy4[sizeof (std::string)];
 
       // expression-list
-      char dummy5[sizeof (std::vector<std::unique_ptr<ExpressionNode>>)];
+      char dummy5[sizeof (std::vector<std::shared_ptr<ExpressionNode>>)];
 
       // start
       // statements
-      char dummy6[sizeof (std::vector<std::unique_ptr<StatementNode>>)];
+      char dummy6[sizeof (std::vector<std::shared_ptr<StatementNode>>)];
     };
 
     /// The size of the largest semantic type.
@@ -614,33 +614,33 @@ namespace Fermi { namespace SyntaxAnalysis {
         value.move< Type > (std::move (that.value));
         break;
 
-      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
-      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
-      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
-        value.move< std::string > (std::move (that.value));
-        break;
-
       case symbol_kind::S_expression: // expression
       case symbol_kind::S_creation_expression: // creation_expression
       case symbol_kind::S_identity_expression: // identity_expression
       case symbol_kind::S_literal: // literal
-        value.move< std::unique_ptr<ExpressionNode> > (std::move (that.value));
+        value.move< std::shared_ptr<ExpressionNode> > (std::move (that.value));
         break;
 
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
       case symbol_kind::S_35_assignment_statement: // assignment-statement
-        value.move< std::unique_ptr<StatementNode> > (std::move (that.value));
+        value.move< std::shared_ptr<StatementNode> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.move< std::string > (std::move (that.value));
         break;
 
       case symbol_kind::S_34_expression_list: // expression-list
-        value.move< std::vector<std::unique_ptr<ExpressionNode>> > (std::move (that.value));
+        value.move< std::vector<std::shared_ptr<ExpressionNode>> > (std::move (that.value));
         break;
 
       case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
-        value.move< std::vector<std::unique_ptr<StatementNode>> > (std::move (that.value));
+        value.move< std::vector<std::shared_ptr<StatementNode>> > (std::move (that.value));
         break;
 
       default:
@@ -681,6 +681,34 @@ namespace Fermi { namespace SyntaxAnalysis {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::shared_ptr<ExpressionNode>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::shared_ptr<ExpressionNode>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::shared_ptr<StatementNode>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::shared_ptr<StatementNode>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, std::string&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -695,13 +723,13 @@ namespace Fermi { namespace SyntaxAnalysis {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::unique_ptr<ExpressionNode>&& v, location_type&& l)
+      basic_symbol (typename Base::kind_type t, std::vector<std::shared_ptr<ExpressionNode>>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
         , location (std::move (l))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const std::unique_ptr<ExpressionNode>& v, const location_type& l)
+      basic_symbol (typename Base::kind_type t, const std::vector<std::shared_ptr<ExpressionNode>>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -709,41 +737,13 @@ namespace Fermi { namespace SyntaxAnalysis {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::unique_ptr<StatementNode>&& v, location_type&& l)
+      basic_symbol (typename Base::kind_type t, std::vector<std::shared_ptr<StatementNode>>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
         , location (std::move (l))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const std::unique_ptr<StatementNode>& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::vector<std::unique_ptr<ExpressionNode>>&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const std::vector<std::unique_ptr<ExpressionNode>>& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-
-#if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::vector<std::unique_ptr<StatementNode>>&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const std::vector<std::unique_ptr<StatementNode>>& v, const location_type& l)
+      basic_symbol (typename Base::kind_type t, const std::vector<std::shared_ptr<StatementNode>>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -778,33 +778,33 @@ switch (yykind)
         value.template destroy< Type > ();
         break;
 
-      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
-      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
-      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
-        value.template destroy< std::string > ();
-        break;
-
       case symbol_kind::S_expression: // expression
       case symbol_kind::S_creation_expression: // creation_expression
       case symbol_kind::S_identity_expression: // identity_expression
       case symbol_kind::S_literal: // literal
-        value.template destroy< std::unique_ptr<ExpressionNode> > ();
+        value.template destroy< std::shared_ptr<ExpressionNode> > ();
         break;
 
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
       case symbol_kind::S_35_assignment_statement: // assignment-statement
-        value.template destroy< std::unique_ptr<StatementNode> > ();
+        value.template destroy< std::shared_ptr<StatementNode> > ();
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.template destroy< std::string > ();
         break;
 
       case symbol_kind::S_34_expression_list: // expression-list
-        value.template destroy< std::vector<std::unique_ptr<ExpressionNode>> > ();
+        value.template destroy< std::vector<std::shared_ptr<ExpressionNode>> > ();
         break;
 
       case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
-        value.template destroy< std::vector<std::unique_ptr<StatementNode>> > ();
+        value.template destroy< std::vector<std::shared_ptr<StatementNode>> > ();
         break;
 
       default:
@@ -1749,33 +1749,33 @@ switch (yykind)
         value.copy< Type > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
-      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
-      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
-        value.copy< std::string > (YY_MOVE (that.value));
-        break;
-
       case symbol_kind::S_expression: // expression
       case symbol_kind::S_creation_expression: // creation_expression
       case symbol_kind::S_identity_expression: // identity_expression
       case symbol_kind::S_literal: // literal
-        value.copy< std::unique_ptr<ExpressionNode> > (YY_MOVE (that.value));
+        value.copy< std::shared_ptr<ExpressionNode> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
       case symbol_kind::S_35_assignment_statement: // assignment-statement
-        value.copy< std::unique_ptr<StatementNode> > (YY_MOVE (that.value));
+        value.copy< std::shared_ptr<StatementNode> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.copy< std::string > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_34_expression_list: // expression-list
-        value.copy< std::vector<std::unique_ptr<ExpressionNode>> > (YY_MOVE (that.value));
+        value.copy< std::vector<std::shared_ptr<ExpressionNode>> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
-        value.copy< std::vector<std::unique_ptr<StatementNode>> > (YY_MOVE (that.value));
+        value.copy< std::vector<std::shared_ptr<StatementNode>> > (YY_MOVE (that.value));
         break;
 
       default:
@@ -1813,33 +1813,33 @@ switch (yykind)
         value.move< Type > (YY_MOVE (s.value));
         break;
 
-      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
-      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
-      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
-        value.move< std::string > (YY_MOVE (s.value));
-        break;
-
       case symbol_kind::S_expression: // expression
       case symbol_kind::S_creation_expression: // creation_expression
       case symbol_kind::S_identity_expression: // identity_expression
       case symbol_kind::S_literal: // literal
-        value.move< std::unique_ptr<ExpressionNode> > (YY_MOVE (s.value));
+        value.move< std::shared_ptr<ExpressionNode> > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
       case symbol_kind::S_35_assignment_statement: // assignment-statement
-        value.move< std::unique_ptr<StatementNode> > (YY_MOVE (s.value));
+        value.move< std::shared_ptr<StatementNode> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.move< std::string > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_34_expression_list: // expression-list
-        value.move< std::vector<std::unique_ptr<ExpressionNode>> > (YY_MOVE (s.value));
+        value.move< std::vector<std::shared_ptr<ExpressionNode>> > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
-        value.move< std::vector<std::unique_ptr<StatementNode>> > (YY_MOVE (s.value));
+        value.move< std::vector<std::shared_ptr<StatementNode>> > (YY_MOVE (s.value));
         break;
 
       default:

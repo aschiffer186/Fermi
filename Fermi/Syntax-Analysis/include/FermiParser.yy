@@ -51,22 +51,22 @@
 %left "*" "/" "//" "%"
 %right "^"
 
-%nterm <std::vector<std::unique_ptr<StatementNode>>> start
-%nterm <std::vector<std::unique_ptr<StatementNode>>> statements
-%nterm <std::unique_ptr<StatementNode>> statement 
-%nterm <std::unique_ptr<StatementNode>> variable-declaration
-%nterm <std::unique_ptr<StatementNode>> print_statement
-%nterm <std::unique_ptr<StatementNode>> assignment-statement
+%nterm <std::vector<std::shared_ptr<StatementNode>>> start
+%nterm <std::vector<std::shared_ptr<StatementNode>>> statements
+%nterm <std::shared_ptr<StatementNode>> statement 
+%nterm <std::shared_ptr<StatementNode>> variable-declaration
+%nterm <std::shared_ptr<StatementNode>> print_statement
+%nterm <std::shared_ptr<StatementNode>> assignment-statement
 %nterm <Type> type
-%nterm <std::vector<std::unique_ptr<ExpressionNode>>> expression-list
-%nterm <std::unique_ptr<ExpressionNode>> expression
-%nterm <std::unique_ptr<ExpressionNode>> creation_expression
-%nterm <std::unique_ptr<ExpressionNode>> identity_expression
-%nterm <std::unique_ptr<ExpressionNode>> literal
+%nterm <std::vector<std::shared_ptr<ExpressionNode>>> expression-list
+%nterm <std::shared_ptr<ExpressionNode>> expression
+%nterm <std::shared_ptr<ExpressionNode>> creation_expression
+%nterm <std::shared_ptr<ExpressionNode>> identity_expression
+%nterm <std::shared_ptr<ExpressionNode>> literal
 %%
 start: statements {$$ = std::move($1);}
 statements: statements statement {$1.push_back(std::move($2)); $$ = std::move($1);}
-    | %empty {$$ = std::vector<std::unique_ptr<StatementNode>>{};}
+    | %empty {$$ = std::vector<std::shared_ptr<StatementNode>>{};}
     ;
 statement: 
     variable-declaration {$$ = std::move($1);}
@@ -74,8 +74,8 @@ statement:
     | assignment-statement {$$ = std::move($1);}
     ;
 variable-declaration: 
-    "let" IDENTIFIER "=" expression {$$ = std::make_unique<VariableDeclarationNode>(Type::deduced, $2, std::move($4));}
-    | "let" IDENTIFIER ":" type "=" expression ";" {$$ = std::make_unique<VariableDeclarationNode>($4, $2, std::move($6));}
+    "let" IDENTIFIER "=" expression {$$ = std::make_shared<VariableDeclarationNode>(Type::deduced, $2, std::move($4));}
+    | "let" IDENTIFIER ":" type "=" expression ";" {$$ = std::make_shared<VariableDeclarationNode>($4, $2, std::move($6));}
     ;
 type:
     "int8_t" {$$ = Type::int8_t;}
@@ -85,31 +85,38 @@ type:
     | "float32_t" {$$ = Type::float32_t;}
     | "float64_t" {$$ = Type::float64_t;}
     ;
-print_statement: "print" "(" expression-list ")" ";" {$$ = std::make_unique<PrintNode>(std::move($3));};
+print_statement: "print" "(" expression-list ")" ";" {$$ = std::make_shared<PrintNode>(std::move($3));};
 expression-list: expression-list "," expression {$1.push_back(std::move($3)); $$ = std::move($1);}
-    | expression {std::vector<std::unique_ptr<ExpressionNode>> v; v.push_back(std::move($1)); $$ = std::move(v);}
+    | expression {std::vector<std::shared_ptr<ExpressionNode>> v; v.push_back(std::move($1)); $$ = std::move(v);}
     ;
-assignment-statement: IDENTIFIER "=" expression ";" {$$ = std::make_unique<AssignmentStatementNode>($1, std::move($3));};
+assignment-statement: IDENTIFIER "=" expression ";" {$$ = std::make_shared<AssignmentStatementNode>($1, std::move($3));};
 expression:
     identity_expression {$$ = std::move($1);}
     | creation_expression {$$ = std::move($1);}
     ;
 creation_expression:
-    expression "+" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Addition, std::move($3));}
-    | expression "-" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Subtraction, std::move($3));}
-    | expression "*" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Multiplication, std::move($3));}
-    | expression "/" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Division, std::move($3));}
-    | expression "//" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::IntegerDivision, std::move($3));}
-    | expression "^" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Exponentiation, std::move($3));}
-    | expression "%" expression {$$ = std::make_unique<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Modulo, std::move($3));}
+    expression "+" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Addition, std::move($3));}
+    | expression "-" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Subtraction, std::move($3));}
+    | expression "*" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Multiplication, std::move($3));}
+    | expression "/" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Division, std::move($3));}
+    | expression "//" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::IntegerDivision, std::move($3));}
+    | expression "^" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Exponentiation, std::move($3));}
+    | expression "%" expression {$$ = std::make_shared<BinaryExpressionNode>(std::move($1), BinaryExpressionTypes::Modulo, std::move($3));}
     ;
 identity_expression:
     literal {$$ = std::move($1);}
-    | IDENTIFIER {$$ = std::make_unique<LiteralNode>($1, LiteralType::Identifier);}
+    | IDENTIFIER {$$ = std::make_shared<LiteralNode>($1, LiteralType::Identifier);}
     | "(" expression ")" {$$ = std::move($2);}
     ;
 literal: 
-    INTEGER_LITERAL {$$ = std::make_unique<LiteralNode>($1, LiteralType::Integer);}
-    | FLOAT_LITERAL {$$ = std::make_unique<LiteralNode>($1, LiteralType::Float);}
+    INTEGER_LITERAL {$$ = std::make_shared<LiteralNode>($1, LiteralType::Integer);}
+    | FLOAT_LITERAL {$$ = std::make_shared<LiteralNode>($1, LiteralType::Float);}
     ;
 %%
+namespace Fermi::SyntaxAnalysis
+{
+    void FermiParser::error(const location&, const std::string&)
+    {
+        
+    }
+}

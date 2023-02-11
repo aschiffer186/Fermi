@@ -6,9 +6,9 @@ using namespace std::literals;
 
 namespace Fermi::SyntaxAnalysis
 {
-    BinaryExpressionNode::BinaryExpressionNode(std::unique_ptr<ExpressionNode> lhs, 
+    BinaryExpressionNode::BinaryExpressionNode(std::shared_ptr<ExpressionNode> lhs, 
                                                BinaryExpressionTypes operatorIn, 
-                                               std::unique_ptr<ExpressionNode> rhs)
+                                               std::shared_ptr<ExpressionNode> rhs)
         : lhs_{std::move(lhs)}, operator_{operatorIn}, rhs_{std::move(rhs)}
         {
 

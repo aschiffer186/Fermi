@@ -30,7 +30,7 @@ namespace Fermi::SyntaxAnalysis
     class VariableDeclarationNode : public StatementNode 
     {
     public:
-        VariableDeclarationNode(Type type, std::string_view identifier, std::unique_ptr<ExpressionNode> initializer = nullptr);
+        VariableDeclarationNode(Type type, std::string_view identifier, std::shared_ptr<ExpressionNode> initializer = nullptr);
 
         SyntaxNodeType getNodeType() const override;
 
@@ -46,31 +46,31 @@ namespace Fermi::SyntaxAnalysis
     private:
         Type type_;
         std::string identifier_;
-        std::unique_ptr<ExpressionNode> initializer_;
+        std::shared_ptr<ExpressionNode> initializer_;
     };
 
     class PrintNode : public StatementNode 
     {
     public:
-        PrintNode(std::vector<std::unique_ptr<ExpressionNode>>&& vec);
+        PrintNode(std::vector<std::shared_ptr<ExpressionNode>>&& vec);
 
         SyntaxNodeType getNodeType() const override;
 
         std::vector<const SyntaxNode*> getChildren() const override; 
 
-        void addPrintingExpression(std::unique_ptr<ExpressionNode> expression);
+        void addPrintingExpression(std::shared_ptr<ExpressionNode> expression);
         
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
     private:
-        std::vector<std::unique_ptr<ExpressionNode>> expressions_;
+        std::vector<std::shared_ptr<ExpressionNode>> expressions_;
     };
 
     class AssignmentStatementNode : public StatementNode 
     {
     public:
-        AssignmentStatementNode(std::string_view lhs, std::unique_ptr<ExpressionNode> rhs);
+        AssignmentStatementNode(std::string_view lhs, std::shared_ptr<ExpressionNode> rhs);
 
         SyntaxNodeType getNodeType() const override;
 
@@ -83,7 +83,7 @@ namespace Fermi::SyntaxAnalysis
         bool equals(const SyntaxNode& other) const noexcept override;
     private:
         std::string lhs_;
-        std::unique_ptr<ExpressionNode> rhs_;
+        std::shared_ptr<ExpressionNode> rhs_;
     };
 } // namespace JOLT
 

@@ -7,7 +7,7 @@ using namespace std::literals;
 
 namespace Fermi::SyntaxAnalysis
 {
-    VariableDeclarationNode::VariableDeclarationNode(Type type, std::string_view identifier, std::unique_ptr<ExpressionNode> initializer)
+    VariableDeclarationNode::VariableDeclarationNode(Type type, std::string_view identifier, std::shared_ptr<ExpressionNode> initializer)
     : type_{type}, identifier_{identifier}, initializer_{std::move(initializer)}
     {
 
@@ -93,7 +93,7 @@ namespace Fermi::SyntaxAnalysis
         return os;
     }
 
-    PrintNode::PrintNode(std::vector<std::unique_ptr<ExpressionNode>>&& vec)
+    PrintNode::PrintNode(std::vector<std::shared_ptr<ExpressionNode>>&& vec)
     : expressions_{std::move(vec)}
     {
 
@@ -111,7 +111,7 @@ namespace Fermi::SyntaxAnalysis
         return children;
     }
 
-    void PrintNode::addPrintingExpression(std::unique_ptr<ExpressionNode> expression)
+    void PrintNode::addPrintingExpression(std::shared_ptr<ExpressionNode> expression)
     {
         expressions_.push_back(std::move(expression));
     }
@@ -144,7 +144,7 @@ namespace Fermi::SyntaxAnalysis
         return os;
     }
 
-    AssignmentStatementNode::AssignmentStatementNode(std::string_view lhs, std::unique_ptr<ExpressionNode> rhs)
+    AssignmentStatementNode::AssignmentStatementNode(std::string_view lhs, std::shared_ptr<ExpressionNode> rhs)
     : lhs_{lhs}, rhs_{std::move(rhs)}
     {
 
