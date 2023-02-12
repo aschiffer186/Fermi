@@ -31,7 +31,9 @@ TEST(TestParser, TestPrintIntegerLiterals)
     std::vector<std::shared_ptr<StatementNode>> statements;
     statements.push_back(std::make_shared<PrintNode>(expressions));
 
-    EXPECT_EQ(*srcFile.syntaxTree.front(), *statements.front());
+    FermiNode node{statements};
+
+    EXPECT_EQ(*srcFile.syntaxTree, node);
 }
 
 TEST(TestParser, TestPrintFloatLiterals)
@@ -54,7 +56,9 @@ TEST(TestParser, TestPrintFloatLiterals)
     std::vector<std::shared_ptr<StatementNode>> statements;
     statements.push_back(std::make_shared<PrintNode>(expressions));
 
-    EXPECT_EQ(*srcFile.syntaxTree.front(), *statements.front());
+    FermiNode node{statements};
+
+    EXPECT_EQ(*srcFile.syntaxTree, node);
 }
 
 TEST(TestParser, TestPrintMixedLiterals)
@@ -78,5 +82,7 @@ TEST(TestParser, TestPrintMixedLiterals)
     std::vector<std::shared_ptr<StatementNode>> statements;
     statements.push_back(std::make_shared<PrintNode>(expressions));
 
-    EXPECT_EQ(*srcFile.syntaxTree.front(), *statements.front());
+    FermiNode node{statements};
+
+    EXPECT_EQ(*srcFile.syntaxTree, node);
 }

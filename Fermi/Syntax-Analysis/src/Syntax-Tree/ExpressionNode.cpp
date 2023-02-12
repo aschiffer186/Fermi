@@ -56,8 +56,7 @@ namespace Fermi::SyntaxAnalysis
         os << tokenMarker;
 
         os << "Binary Expression";
-        indent += (isLast) ? " " : PIPE + " "s;
-
+        indent += (isLast) ? SPACE : PIPE + SPACE;
         os << "\n";
         lhs_->print(os, indent, false);
         os << "\n";
@@ -107,7 +106,7 @@ namespace Fermi::SyntaxAnalysis
         os << tokenMarker;
 
         os << "Literal Node";
-        indent += (isLast) ? " " : PIPE + " "s;
+        indent += (isLast) ? SPACE : PIPE + SPACE;
 
         os << "\n"; 
         os << indent << TEE << "Value: " << value_;

@@ -10,11 +10,13 @@ namespace Fermi::SyntaxAnalysis
     inline constexpr const char* TEE = "├──";
     inline constexpr const char* CORNER = "└──";
     inline constexpr const char* PIPE = "|";
+    inline const std::string SPACE = "   ";
 
     enum class SyntaxNodeType 
     {
         BinaryExpression,
         Literal,
+        FermiNode,
         VariableDeclarationNode, 
         PrintNode, 
         AssignmentStatementNode
@@ -53,9 +55,20 @@ namespace Fermi::SyntaxAnalysis
          */
         virtual std::vector<const SyntaxNode*> getChildren() const = 0;
 
+        /**
+         * @brief Prints a syntax node
+         * 
+         * Prints a syntax node 
+         * 
+         * @param os 
+         * @param indent 
+         * @param isLast 
+         * @return std::ostream& 
+         */
+        virtual std::ostream& print(std::ostream& os, std::string indent, bool isLast) const = 0;
+        
         virtual ~SyntaxNode() = default;
         
-        virtual std::ostream& print(std::ostream& os, std::string indent, bool isLast) const = 0;
     private:
         // @pre typeid(other) == typeid(*this)
         virtual bool equals(const SyntaxNode& other) const noexcept = 0; 

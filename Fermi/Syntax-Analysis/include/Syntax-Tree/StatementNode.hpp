@@ -14,6 +14,22 @@ namespace Fermi::SyntaxAnalysis
         virtual ~StatementNode() = default;
     };
 
+    class FermiNode : public SyntaxNode 
+    {
+    public:
+        explicit FermiNode(const std::vector<std::shared_ptr<StatementNode>>& statements);
+
+        SyntaxNodeType getNodeType() const override;
+
+        std::vector<const SyntaxNode*> getChildren() const override; 
+
+        std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
+    private:
+        bool equals(const SyntaxNode& other) const noexcept override;
+    private:
+        std::vector<std::shared_ptr<StatementNode>> statements_;
+    };
+
     enum class Type 
     {
         int8_t, 

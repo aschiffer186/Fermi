@@ -72,3 +72,10 @@
 * Regardless of the types of the input entities, floating-point division is performed. 
 * Any signed-integer type is converted to a floating-point type prior to the division
 * The type of the created entity is `float64_t`. 
+#### Binary Integer Division 
+* The binary integer division expression takes the canonical form `E1 // E2` where `E1` and `E2` are the input entities to the expression 
+* Regardless of the type of the input entities, integer division is performed. 
+    * Integer division produces a result equivalent to the following procedure:
+        1. The operands are divided using floating-point division
+        2. Any decimal part in the division is discarded
+* The type of the created entity is a signed-integer type that is the same size as the larger type of the two inputs. 

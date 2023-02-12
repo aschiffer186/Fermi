@@ -7,6 +7,57 @@ using namespace std::literals;
 
 namespace Fermi::SyntaxAnalysis
 {
+    FermiNode::FermiNode(const std::vector<std::shared_ptr<StatementNode>>& statements)
+    : statements_{statements}
+    {
+
+    }
+
+    SyntaxNodeType FermiNode::getNodeType() const 
+    {
+        return SyntaxNodeType::FermiNode;
+    }
+
+    std::vector<const SyntaxNode*> FermiNode::getChildren() const 
+    {
+        std::vector<const SyntaxNode*> children;
+        std::transform(statements_.begin(), statements_.end(), std::back_inserter(children), [](const auto& node) {
+            return node.get();
+        });
+        return children;
+    }
+
+    bool FermiNode::equals(const SyntaxNode& other) const noexcept 
+    {
+        const auto& node = dynamic_cast<const FermiNode&>(other);
+        return std::equal(statements_.begin(), statements_.end(), node.statements_.begin(),  [](const auto& lhs, const auto& rhs){
+            return *lhs == *rhs;
+        });
+    }
+
+    std::ostream& FermiNode::print(std::ostream& os, std::string indent, bool isLast) const 
+    {
+        std::string tokenMarker = (isLast) ? CORNER : TEE;
+
+        os << indent; 
+        os << tokenMarker;
+
+        os << "Fermi Node";
+        indent += (isLast) ? SPACE : PIPE + SPACE;
+        os << "\n";
+        for(size_t i = 0; i < statements_.size(); ++i)
+        {
+            if (i == statements_.size() - 1)
+                statements_[i]->print(os, indent, true);
+            else
+            {
+                statements_[i]->print(os, indent, false);
+                os << "\n";
+            }
+        }
+        return os;
+    }
+
     VariableDeclarationNode::VariableDeclarationNode(Type type, std::string_view identifier, std::shared_ptr<ExpressionNode> initializer)
     : type_{type}, identifier_{identifier}, initializer_{std::move(initializer)}
     {
@@ -184,11 +235,11 @@ namespace Fermi::SyntaxAnalysis
         os << indent; 
         os << tokenMarker;
 
-        os << "PAssignmentStatement Node";
-        indent += (isLast) ? " " : PIPE + " "s;
+        os << "AssignmentStatement Node";
+        indent += (isLast) ? SPACE : PIPE + SPACE;
+        os << "\n";
         os << indent << TEE << lhs_;
         os << "\n";
-        os << indent <<  CORNER;
         rhs_->print(os, indent, true);
         return os;
     }

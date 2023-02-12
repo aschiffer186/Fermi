@@ -18,7 +18,7 @@ namespace Fermi::SyntaxAnalysis
     public:
         std::string name;
         FermiLexer lexer;
-        std::vector<std::shared_ptr<StatementNode>> syntaxTree;
+        std::shared_ptr<FermiNode> syntaxTree;
 
         FermiSourceFile(std::string_view nameIn, std::istream& istreamIn)
         : name{nameIn}, lexer{istreamIn}, syntaxTree{nullptr}

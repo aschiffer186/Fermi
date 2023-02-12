@@ -51,7 +51,7 @@
 %left "*" "/" "//" "%"
 %right "^"
 
-%nterm <std::vector<std::shared_ptr<StatementNode>>> start
+%nterm <std::shared_ptr<FermiNode>> start
 %nterm <std::vector<std::shared_ptr<StatementNode>>> statements
 %nterm <std::shared_ptr<StatementNode>> statement 
 %nterm <std::shared_ptr<StatementNode>> variable-declaration
@@ -64,7 +64,7 @@
 %nterm <std::shared_ptr<ExpressionNode>> identity_expression
 %nterm <std::shared_ptr<ExpressionNode>> literal
 %%
-start: statements {$$ = $1; sourceFile.syntaxTree = $$;}
+start: statements {sourceFile.syntaxTree = std::make_shared<FermiNode>($1);}
 statements: statements statement {$1.push_back($2); $$ = $1;}
     | %empty {$$ = std::vector<std::shared_ptr<StatementNode>>{};}
     ;

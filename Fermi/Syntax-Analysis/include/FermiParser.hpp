@@ -423,23 +423,25 @@ namespace Fermi { namespace SyntaxAnalysis {
       // literal
       char dummy2[sizeof (std::shared_ptr<ExpressionNode>)];
 
+      // start
+      char dummy3[sizeof (std::shared_ptr<FermiNode>)];
+
       // statement
       // variable-declaration
       // print_statement
       // assignment-statement
-      char dummy3[sizeof (std::shared_ptr<StatementNode>)];
+      char dummy4[sizeof (std::shared_ptr<StatementNode>)];
 
       // INTEGER_LITERAL
       // FLOAT_LITERAL
       // IDENTIFIER
-      char dummy4[sizeof (std::string)];
+      char dummy5[sizeof (std::string)];
 
       // expression-list
-      char dummy5[sizeof (std::vector<std::shared_ptr<ExpressionNode>>)];
+      char dummy6[sizeof (std::vector<std::shared_ptr<ExpressionNode>>)];
 
-      // start
       // statements
-      char dummy6[sizeof (std::vector<std::shared_ptr<StatementNode>>)];
+      char dummy7[sizeof (std::vector<std::shared_ptr<StatementNode>>)];
     };
 
     /// The size of the largest semantic type.
@@ -621,6 +623,10 @@ namespace Fermi { namespace SyntaxAnalysis {
         value.move< std::shared_ptr<ExpressionNode> > (std::move (that.value));
         break;
 
+      case symbol_kind::S_start: // start
+        value.move< std::shared_ptr<FermiNode> > (std::move (that.value));
+        break;
+
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
@@ -638,7 +644,6 @@ namespace Fermi { namespace SyntaxAnalysis {
         value.move< std::vector<std::shared_ptr<ExpressionNode>> > (std::move (that.value));
         break;
 
-      case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
         value.move< std::vector<std::shared_ptr<StatementNode>> > (std::move (that.value));
         break;
@@ -688,6 +693,20 @@ namespace Fermi { namespace SyntaxAnalysis {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const std::shared_ptr<ExpressionNode>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::shared_ptr<FermiNode>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::shared_ptr<FermiNode>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -785,6 +804,10 @@ switch (yykind)
         value.template destroy< std::shared_ptr<ExpressionNode> > ();
         break;
 
+      case symbol_kind::S_start: // start
+        value.template destroy< std::shared_ptr<FermiNode> > ();
+        break;
+
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
@@ -802,7 +825,6 @@ switch (yykind)
         value.template destroy< std::vector<std::shared_ptr<ExpressionNode>> > ();
         break;
 
-      case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
         value.template destroy< std::vector<std::shared_ptr<StatementNode>> > ();
         break;
@@ -1756,6 +1778,10 @@ switch (yykind)
         value.copy< std::shared_ptr<ExpressionNode> > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_start: // start
+        value.copy< std::shared_ptr<FermiNode> > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
@@ -1773,7 +1799,6 @@ switch (yykind)
         value.copy< std::vector<std::shared_ptr<ExpressionNode>> > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
         value.copy< std::vector<std::shared_ptr<StatementNode>> > (YY_MOVE (that.value));
         break;
@@ -1820,6 +1845,10 @@ switch (yykind)
         value.move< std::shared_ptr<ExpressionNode> > (YY_MOVE (s.value));
         break;
 
+      case symbol_kind::S_start: // start
+        value.move< std::shared_ptr<FermiNode> > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_31_variable_declaration: // variable-declaration
       case symbol_kind::S_print_statement: // print_statement
@@ -1837,7 +1866,6 @@ switch (yykind)
         value.move< std::vector<std::shared_ptr<ExpressionNode>> > (YY_MOVE (s.value));
         break;
 
-      case symbol_kind::S_start: // start
       case symbol_kind::S_statements: // statements
         value.move< std::vector<std::shared_ptr<StatementNode>> > (YY_MOVE (s.value));
         break;
@@ -1909,7 +1937,7 @@ switch (yykind)
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 1913 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.hpp"
+#line 1941 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.hpp"
 
 
 
