@@ -1,18 +1,21 @@
 #include <fstream>
 #include <string_view>
 
+#include "FermiCommandArguments.hpp"
 #include "FermiSourceFile.hpp"
 #include "FermiParser.hpp"
 
-int main(int argc, char** argv)
+int main(int argc, const char** argv)
 {
     if (argc < 2)
         return 1;
     
-    std::string filename = argv[1];
-    std::ifstream fin{filename};
+    Fermi::Setup::CommandLineArguments args = Fermi::Setup::getOpts(argc, argv);
 
-    Fermi::SyntaxAnalysis::FermiSourceFile srcFile{filename, fin};
+    std::string fileName = args.sourceFiles[0];
+    std::ifstream fin{fileName};
+
+    Fermi::SyntaxAnalysis::FermiSourceFile srcFile{fileName, fin};
     Fermi::SyntaxAnalysis::FermiParser parser{srcFile};
     parser.parse();
     std::cout << *srcFile.syntaxTree << "\n";

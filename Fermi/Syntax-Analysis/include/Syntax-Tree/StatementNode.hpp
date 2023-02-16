@@ -43,6 +43,22 @@ namespace Fermi::SyntaxAnalysis
 
     class ExpressionNode;
 
+    class ExpressionStatementNode : public StatementNode 
+    {
+    public: 
+        explicit ExpressionStatementNode(std::shared_ptr<ExpressionNode> expression);
+    
+        SyntaxNodeType getNodeType() const override;
+
+        std::vector<const SyntaxNode*> getChildren() const override; 
+        
+        std::ostream& print(std::ostream& os, std::string ident, bool isLast) const override;
+    private:
+        bool equals(const SyntaxNode& other) const noexcept override;
+    private:
+        std::shared_ptr<ExpressionNode> expression_;
+    };
+
     class VariableDeclarationNode : public StatementNode 
     {
     public:

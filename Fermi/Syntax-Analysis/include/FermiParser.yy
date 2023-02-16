@@ -54,6 +54,7 @@
 %nterm <std::shared_ptr<FermiNode>> start
 %nterm <std::vector<std::shared_ptr<StatementNode>>> statements
 %nterm <std::shared_ptr<StatementNode>> statement 
+%nterm <std::shared_ptr<ExpressionStatementNode>> expression-statement
 %nterm <std::shared_ptr<StatementNode>> variable-declaration
 %nterm <std::shared_ptr<StatementNode>> print_statement
 %nterm <std::shared_ptr<StatementNode>> assignment-statement
@@ -69,10 +70,12 @@ statements: statements statement {$1.push_back($2); $$ = $1;}
     | %empty {$$ = std::vector<std::shared_ptr<StatementNode>>{};}
     ;
 statement: 
-    variable-declaration {$$ = $1;}
+    expression-statement {$$ = $1;}
+    | variable-declaration {$$ = $1;}
     | print_statement {$$ = $1;}
     | assignment-statement {$$ = $1;}
     ;
+expression-statement: expression ";" {$$ = std::make_shared<ExpressionStatementNode>($1);}
 variable-declaration: 
     "let" IDENTIFIER "=" expression {$$ = std::make_shared<VariableDeclarationNode>(Type::deduced, $2, $4);}
     | "let" IDENTIFIER ":" type "=" expression ";" {$$ = std::make_shared<VariableDeclarationNode>($4, $2, $6);}

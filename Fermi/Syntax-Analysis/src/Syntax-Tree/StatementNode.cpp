@@ -48,7 +48,9 @@ namespace Fermi::SyntaxAnalysis
         for(size_t i = 0; i < statements_.size(); ++i)
         {
             if (i == statements_.size() - 1)
+            {
                 statements_[i]->print(os, indent, true);
+            }
             else
             {
                 statements_[i]->print(os, indent, false);
@@ -56,6 +58,42 @@ namespace Fermi::SyntaxAnalysis
             }
         }
         return os;
+    }
+
+    ExpressionStatementNode::ExpressionStatementNode(std::shared_ptr<ExpressionNode> expression)
+    : expression_{expression}
+    {
+
+    }
+
+    SyntaxNodeType ExpressionStatementNode::getNodeType() const 
+    {
+        return SyntaxNodeType::ExpressionStatementNode;
+    }
+
+    std::vector<const SyntaxNode*> ExpressionStatementNode::getChildren() const 
+    {
+        return {expression_.get()};
+    }
+
+    std::ostream& ExpressionStatementNode::print(std::ostream& os, std::string indent, bool isLast) const
+    {
+        std::string tokenMarker = (isLast) ? CORNER : TEE;
+
+        os << indent; 
+        os << tokenMarker;
+
+        os << "Variable Declaration";
+        indent += (isLast) ? SPACE : PIPE + SPACE;
+        os << "\n";
+        expression_->print(os, indent, true);
+        return os;
+    }
+
+    bool ExpressionStatementNode::equals(const SyntaxNode& other) const noexcept 
+    {
+        const auto& node = dynamic_cast<const ExpressionStatementNode&>(other);
+        return *expression_ == *node.expression_;
     }
 
     VariableDeclarationNode::VariableDeclarationNode(Type type, std::string_view identifier, std::shared_ptr<ExpressionNode> initializer)
@@ -104,7 +142,7 @@ namespace Fermi::SyntaxAnalysis
         os << tokenMarker;
 
         os << "Variable Declaration";
-        indent += (isLast) ? " " : PIPE + " "s;
+        indent += (isLast) ? SPACE : PIPE + SPACE;
 
         os << "\n" << indent << TEE;
         os << "Type: ";
@@ -184,7 +222,7 @@ namespace Fermi::SyntaxAnalysis
         os << tokenMarker;
 
         os << "Print Node";
-        indent += (isLast) ? " " : PIPE + " "s;
+        indent += (isLast) ? SPACE : PIPE + SPACE;
         os << "\n";
         for(size_t i = 0; i < expressions_.size(); ++i)
         {

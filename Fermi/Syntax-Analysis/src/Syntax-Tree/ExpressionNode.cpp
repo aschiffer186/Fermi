@@ -32,7 +32,7 @@ namespace Fermi::SyntaxAnalysis
     bool BinaryExpressionNode::equals(const SyntaxNode& other) const noexcept 
     {
         const auto& node = dynamic_cast<const BinaryExpressionNode&>(other);
-        return *lhs_ == *node.lhs_ && operator_ == node.operator_ && *lhs_ == *node.rhs_;
+        return *lhs_ == *node.lhs_ && operator_ == node.operator_ && *rhs_ == *node.rhs_;
     }
 
     namespace 

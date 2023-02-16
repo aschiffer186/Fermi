@@ -52,12 +52,14 @@
 #### Binary Addition
 * The binary addition expression takes the canonical form `E1 + E2` where `E1` and `E2` are the input entities to the expression. 
 * If both inputs are signed integer types, the value of the created entity is the signed addition of the two input entities.
+    * If one type is larger than the other, the smaller type will be promoted to the larger type prior to the addition.
 * If either or both inputs are floating-point types, the value of the created entity is the floating-point addition of the two input entities.
     * If one entity is a signed-integer type, it will be converted to a floating-point type prior to the addition.
 * The type of the created entity is the type defined by the arithmetic type promotion rules.
 #### Binary Subtraction
 * The binary subtraction expression takes the canonical form `E1 - E2` where `E1` and `E2` are the input entities to the expression. 
 * If both inputs are signed integer types, the value of the created entity is the signed subtraction of the two input entities.
+    * If one type is larger than the other, the smaller type will be promoted to the larger type prior to the addition.
 * If either or both inputs are floating-point types, the value of the created entity is the floating-point subtraction of the two input entities.
     * If one entity is a signed-integer type, it will be converted to a floating-point type prior to the subtraction.
 * The type of the created entity is the type defined by the arithmetic type promotion rules.
@@ -78,4 +80,8 @@
     * Integer division produces a result equivalent to the following procedure:
         1. The operands are divided using floating-point division
         2. Any decimal part in the division is discarded
-* The type of the created entity is a signed-integer type that is the same size as the larger type of the two inputs. 
+* The type of the created entity is a signed-integer type that is the same size as the larger type of the two inputs.
+#### Binary Exponentiation
+* The binary exponentiation expressions takes the canonical form `E1 ^ E2` where `E1` and `E2` are the input entities to the expression
+* If the type of both input entities are signed-integer types then exponentiation is performed as if by the following:
+    * If the type of one input entity is smaller than the other

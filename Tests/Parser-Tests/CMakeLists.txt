@@ -13,3 +13,4 @@ create_parser_test(TestLexMultiTokens TestLexMultiTokens.cpp)
 
 create_parser_test(TestParseAssignmentStatement TestParseAssignmentStatement.cpp)
 create_parser_test(TestParsePrintStatement TestParsePrintStatement.cpp)
+create_parser_test(TestParseExpressionStatement TestParseExpressionStatement.cpp)

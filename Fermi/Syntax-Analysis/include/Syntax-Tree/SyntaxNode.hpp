@@ -17,6 +17,7 @@ namespace Fermi::SyntaxAnalysis
         BinaryExpression,
         Literal,
         FermiNode,
+        ExpressionStatementNode,
         VariableDeclarationNode, 
         PrintNode, 
         AssignmentStatementNode
@@ -58,12 +59,13 @@ namespace Fermi::SyntaxAnalysis
         /**
          * @brief Prints a syntax node
          * 
-         * Prints a syntax node 
+         * Prints a syntax node and its children in a tree format to the specified 
+         * output stream.
          * 
-         * @param os 
+         * @param os The output stream to print to
          * @param indent 
-         * @param isLast 
-         * @return std::ostream& 
+         * @param isLast true if this is the last child of its parent
+         * @return the modified output stream
          */
         virtual std::ostream& print(std::ostream& os, std::string indent, bool isLast) const = 0;
         
