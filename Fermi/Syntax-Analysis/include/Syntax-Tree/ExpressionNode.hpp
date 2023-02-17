@@ -10,32 +10,72 @@
 
 namespace Fermi::SyntaxAnalysis
 {
+    /**
+     * @brief Base class for all expression nodes
+     * 
+     */
     class ExpressionNode : public SyntaxNode 
     {
     public:
         virtual ~ExpressionNode() = default;
     };
 
+    /**
+     * @brief Enum representing types of binary expressions
+     * 
+     * This enum contains values representing all possible operators
+     * in a binary expression.
+     */
     enum class BinaryExpressionTypes
     {
+        /// @brief Binary addition operator
         Addition,
+        /// @brief Binary subtraction operator
         Subtraction,
+        /// @brief Binary multiplication operator
         Multiplication,
+        /// @brief Binary division operator
         Division,
+        /// @brief Binary integer division operator
         IntegerDivision,
+        /// @brief Binary exponentiation operator
         Exponentiation,
+        /// @brief Binary modulo operator
         Modulo
     };
 
+    /**
+     * @brief Binary expression node.
+     * 
+     * This class represents a binary expression in Fermi source code. 
+     * Each binary expression has an expression child node that is the left hand side operand, 
+     * an expression node child node that is the right hand side operand and an operator. 
+     */
     class BinaryExpressionNode : public ExpressionNode
     {
     public:
-        BinaryExpressionNode(std::shared_ptr<ExpressionNode> lhs, BinaryExpressionTypes operandIn, std::shared_ptr<ExpressionNode> rhs);
+        /**
+         * @brief Constructor
+         * 
+         * Creates a new binary expression node with the specified operator and operands.
+         * 
+         * @param lhs the left hand side operand
+         * @param operatorIn the binary operator
+         * @param rhs the right hand side operand
+         */
+        BinaryExpressionNode(std::shared_ptr<ExpressionNode> lhs, BinaryExpressionTypes operatorIn, std::shared_ptr<ExpressionNode> rhs);
 
         SyntaxNodeType getNodeType() const override; 
 
         std::vector<const SyntaxNode*> getChildren() const override; 
 
+        /**
+         * @brief Returns the binary operator
+         * 
+         * Return's the binary expression node's binary operator
+         * 
+         * @return the binary expression node's binary operator
+         */
         BinaryExpressionTypes getOperator() const;
 
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
@@ -47,6 +87,10 @@ namespace Fermi::SyntaxAnalysis
         std::shared_ptr<ExpressionNode> rhs_;
     };
 
+    /**
+     * @brief 
+     * 
+     */
     enum class LiteralType 
     {
         Integer, 

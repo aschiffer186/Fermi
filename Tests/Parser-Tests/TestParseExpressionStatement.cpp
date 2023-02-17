@@ -64,4 +64,94 @@ TEST(TestParser, TestParseBinaryExpressions)
     FermiNode node1{{stmt}};
 
     EXPECT_EQ(*srcFile1.syntaxTree, node1);
+
+    std::string binarySubtraction = "x - y;";
+    std::istringstream ss2{binarySubtraction};
+    FermiSourceFile srcFile2{"Binary Subtraction Test", ss2};
+    FermiParser parser2{srcFile2};
+
+    ASSERT_EQ(parser2.parse(), 0);
+
+    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Subtraction, rhs);
+    stmt = std::make_shared<ExpressionStatementNode>(exp);
+    FermiNode node2{{stmt}};
+
+    EXPECT_EQ(*srcFile2.syntaxTree, node2);
+
+    std::string binaryMultiplication = "x * y;";
+    std::istringstream ss3{binaryMultiplication};
+    FermiSourceFile srcFile3{"Binary Multiplication Test", ss3};
+    FermiParser parser3{srcFile3};
+
+    ASSERT_EQ(parser3.parse(), 0);
+
+    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Multiplication, rhs);
+    stmt = std::make_shared<ExpressionStatementNode>(exp);
+    FermiNode node3{{stmt}};
+
+    EXPECT_EQ(*srcFile3.syntaxTree, node3);
+
+    std::string binaryDivision = "x / y;";
+    std::istringstream ss4{binaryDivision};
+    FermiSourceFile srcFile4{"Binary Division Test", ss4};
+    FermiParser parser4{srcFile4};
+
+    ASSERT_EQ(parser4.parse(), 0);
+
+    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Division, rhs);
+    stmt = std::make_shared<ExpressionStatementNode>(exp);
+    FermiNode node4{{stmt}};
+
+    EXPECT_EQ(*srcFile4.syntaxTree, node4);
+
+    std::string binaryIntegerDivision = "x // y;";
+    std::istringstream ss5{binaryIntegerDivision};
+    FermiSourceFile srcFile5{"Binary Integer Division Test", ss5};
+    FermiParser parser5{srcFile5};
+
+    ASSERT_EQ(parser5.parse(), 0);
+
+    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::IntegerDivision, rhs);
+    stmt = std::make_shared<ExpressionStatementNode>(exp);
+    FermiNode node5{{stmt}};
+
+    EXPECT_EQ(*srcFile5.syntaxTree, node5);
+
+    std::string binaryExponentiation = "x ^ y;";
+    std::istringstream ss6{binaryExponentiation};
+    FermiSourceFile srcFile6{"Binary Exponentiation Test", ss6};
+    FermiParser parser6{srcFile6};
+
+    ASSERT_EQ(parser6.parse(), 0);
+
+    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Exponentiation, rhs);
+    stmt = std::make_shared<ExpressionStatementNode>(exp);
+    FermiNode node6{{stmt}};
+
+    EXPECT_EQ(*srcFile6.syntaxTree, node6);
+
+    std::string binaryModulo = "x % y;";
+    std::istringstream ss7{binaryModulo};
+    FermiSourceFile srcFile7{"Binary Modulo Test", ss7};
+    FermiParser parser7{srcFile7};
+
+    ASSERT_EQ(parser7.parse(), 0);
+
+    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Modulo, rhs);
+    stmt = std::make_shared<ExpressionStatementNode>(exp);
+    FermiNode node7{{stmt}};
+
+    EXPECT_EQ(*srcFile7.syntaxTree, node7);
 }
