@@ -27,5 +27,4 @@ set(SYNTAX_TREE_SOURCES
     )
 
 add_library(FermiParser STATIC ${BISON_FermiParser_OUTPUTS} ${FLEX_FermiLexer_OUTPUTS} ${SYNTAX_TREE_SOURCES})
-target_compile_features(FermiParser PRIVATE cxx_std_20)
 target_include_directories(FermiParser PUBLIC ${PARSER_INCLUDE_DIR} ${PARSER_INCLUDE_DIR}/Syntax-Tree)

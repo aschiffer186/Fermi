@@ -4,7 +4,6 @@
 
 namespace Fermi::Setup
 {
-    using CLT = std::underlying_type_t<CommandLineOptions>;
     CommandLineOptions& operator&=(CommandLineOptions& lhs, CommandLineOptions rhs)
     {
         lhs = static_cast<CommandLineOptions>(static_cast<CLT>(lhs) & static_cast<CLT>(rhs));
@@ -75,6 +74,7 @@ namespace Fermi::Setup
         {
             return CommandLineOptions::ShowSyntaxTree;
         }
+        throw 1;
     }
 
     CommandLineArguments getOpts(int argc, const char** argv)

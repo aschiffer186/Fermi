@@ -3,7 +3,7 @@
     * The value of an entity is either
         1. If the type of an entity is a fundamental type, the in memory representation of the associated object
 * Object: an object has an address, a size, and an in-memory representation
-* Variable: a variable is a strongly-typed identifier that has an associated entity
+* Variable: a variable is a strongly-typed identifier that has an associated entity.
 * Type: type is a named set of values of a certain size and the operations that can be performed on the values
 * Expression: an expression takes as an input one or more entities and returns one entity. The type of expression is the type of the returned entity and the value of the expression is the value of the returned entity.
 # Basic Types
@@ -33,6 +33,16 @@
     3. If `T1` and `T2` are both floating-point types, `TO` will be the larger of thw two types. 
     4. If one of `T1` and `T2` is a floating-point type and the other is a signed-integer type and the floating-point type is at least as big as the signed-integer type; `T0` will be the floating-point type.
     5. Otherwise the program is ill-formed.
+# Variable Declaration
+* A variable declaration takes the form:
+    * `IDENTIFIER [":" type-opt] ["=" expression]
+* A variable introduction creates a new variable with the specified identifier and associates an entity with that variable.
+* If a type is provided, the type of the associated entity is the type provided.
+* If no type is provided and an initializer is provided, the type of the variable's associated entity is the same as the entity created by the expression. 
+* If no type is provided and no initializer is provided; the program is ill-formed
+* If an initializer is provided, the associated entity is given the same value as the entity returned by the expression in the initializer. 
+    * When the entity is initialized, an associated object is allocated for the entity and the lifetime of the entity begins.
+
 # Expression
 * An expression takes as an input one or more not necessarily distinct entities and returns an entity.
 * Each expression has a value and a type; the value of an expression is the value of the returned entity; the type of an expression is the type of the returned expression. 
