@@ -791,9 +791,9 @@ namespace Fermi { namespace SyntaxAnalysis {
 #line 792 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
-  case 10: // variable-declaration: "let" IDENTIFIER "=" expression
+  case 10: // variable-declaration: "let" IDENTIFIER "=" expression ";"
 #line 80 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                                    {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<VariableDeclarationNode>(Type::deduced, yystack_[2].value.as < std::string > (), yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
+                                        {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<VariableDeclarationNode>(Type::deduced, yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::shared_ptr<ExpressionNode> > ());}
 #line 798 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
@@ -1416,11 +1416,11 @@ namespace Fermi { namespace SyntaxAnalysis {
   {
       -9,    24,    10,    -9,    -9,    -9,    -3,    28,    21,    13,
       -9,    -9,    -9,    -9,    -9,    30,    -9,    -9,    -9,    28,
-      -9,    -5,    68,    28,    28,    28,    28,    28,    28,    28,
-      28,    -9,    44,    -9,    28,    54,    -8,    62,    79,    79,
-      23,    23,    23,    23,    23,    -9,    62,    -9,    -9,    -9,
-      -9,    -9,    -9,    22,    31,    28,    28,    -9,    62,    53,
-      -9
+      -9,    -5,    78,    28,    28,    28,    28,    28,    28,    28,
+      28,    -9,    45,    -9,    28,    64,    -8,    72,    89,    89,
+      23,    23,    23,    23,    23,    -9,    54,    -9,    -9,    -9,
+      -9,    -9,    -9,    22,    31,    28,    -9,    28,    -9,    72,
+      63,    -9
   };
 
   const signed char
@@ -1430,9 +1430,9 @@ namespace Fermi { namespace SyntaxAnalysis {
        3,     5,     6,     7,     8,     0,    23,    22,    31,     0,
       32,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     9,     0,    33,     0,     0,     0,    20,    24,    25,
-      26,    27,    28,    29,    30,    21,    10,    12,    13,    14,
-      15,    16,    17,     0,     0,     0,     0,    18,    19,     0,
-      11
+      26,    27,    28,    29,    30,    21,     0,    12,    13,    14,
+      15,    16,    17,     0,     0,     0,    10,     0,    18,    19,
+       0,    11
   };
 
   const signed char
@@ -1455,10 +1455,11 @@ namespace Fermi { namespace SyntaxAnalysis {
       21,    24,    25,    26,    27,    28,    29,    30,    54,    55,
       19,    33,    32,     4,     5,     6,    37,    38,    39,    40,
       41,    42,    43,    44,     3,     7,    22,    46,    23,     8,
-       9,     4,     5,    20,    29,    56,    24,    25,    26,    27,
-      28,    29,    30,     7,    31,    57,     0,     0,    58,    59,
-      24,    25,    26,    27,    28,    29,    30,     0,    45,    24,
-      25,    26,    27,    28,    29,    30,     0,    60,    24,    25,
+       9,     4,     5,    20,    29,    57,    24,    25,    26,    27,
+      28,    29,    30,     7,    31,    58,     0,     0,    59,     0,
+      60,    24,    25,    26,    27,    28,    29,    30,     0,    45,
+      24,    25,    26,    27,    28,    29,    30,     0,    56,    24,
+      25,    26,    27,    28,    29,    30,     0,    61,    24,    25,
       26,    27,    28,    29,    30,    47,    48,    49,    50,    51,
       52,    34,     0,     0,     0,     0,    35,    26,    27,    28,
       29,    30
@@ -1471,7 +1472,8 @@ namespace Fermi { namespace SyntaxAnalysis {
       13,    16,    19,     3,     4,     5,    23,    24,    25,    26,
       27,    28,    29,    30,     0,    15,     5,    34,    15,    19,
       20,     3,     4,     5,    11,    13,     6,     7,     8,     9,
-      10,    11,    12,    15,    14,    14,    -1,    -1,    55,    56,
+      10,    11,    12,    15,    14,    14,    -1,    -1,    55,    -1,
+      57,     6,     7,     8,     9,    10,    11,    12,    -1,    14,
        6,     7,     8,     9,    10,    11,    12,    -1,    14,     6,
        7,     8,     9,    10,    11,    12,    -1,    14,     6,     7,
        8,     9,    10,    11,    12,    21,    22,    23,    24,    25,
@@ -1487,8 +1489,8 @@ namespace Fermi { namespace SyntaxAnalysis {
        5,    37,     5,    15,     6,     7,     8,     9,    10,    11,
       12,    14,    37,    16,    13,    18,    35,    37,    37,    37,
       37,    37,    37,    37,    37,    14,    37,    21,    22,    23,
-      24,    25,    26,    33,    16,    17,    13,    14,    37,    37,
-      14
+      24,    25,    26,    33,    16,    17,    14,    13,    14,    37,
+      37,    14
   };
 
   const signed char
@@ -1504,7 +1506,7 @@ namespace Fermi { namespace SyntaxAnalysis {
   FermiParser::yyr2_[] =
   {
        0,     2,     1,     2,     0,     1,     1,     1,     1,     2,
-       4,     7,     1,     1,     1,     1,     1,     1,     5,     3,
+       5,     7,     1,     1,     1,     1,     1,     1,     5,     3,
        1,     4,     1,     1,     3,     3,     3,     3,     3,     3,
        3,     1,     1,     3,     1,     1
   };
@@ -1552,7 +1554,7 @@ namespace Fermi { namespace SyntaxAnalysis {
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 1556 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 1558 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
 
 #line 118 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 

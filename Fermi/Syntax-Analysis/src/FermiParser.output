@@ -14,7 +14,7 @@ Grammar
 
     8 expression-statement: expression ";"
 
-    9 variable-declaration: "let" IDENTIFIER "=" expression
+    9 variable-declaration: "let" IDENTIFIER "=" expression ";"
    10                     | "let" IDENTIFIER ":" type "=" expression ";"
 
    11 type: "int8_t"
@@ -65,7 +65,7 @@ Terminals, with rules where they appear
     "^" (266) 28
     "%" (267) 29
     "=" (268) 9 10 20
-    ";" (269) 8 10 17 20
+    ";" (269) 8 9 10 17 20
     "(" (270) 17 32
     ")" (271) 17 32
     "," (272) 18
@@ -215,7 +215,7 @@ State 7
 
 State 8
 
-    9 variable-declaration: "let" • IDENTIFIER "=" expression
+    9 variable-declaration: "let" • IDENTIFIER "=" expression ";"
    10                     | "let" • IDENTIFIER ":" type "=" expression ";"
 
     IDENTIFIER  shift, and go to state 22
@@ -350,7 +350,7 @@ State 21
 
 State 22
 
-    9 variable-declaration: "let" IDENTIFIER • "=" expression
+    9 variable-declaration: "let" IDENTIFIER • "=" expression ";"
    10                     | "let" IDENTIFIER • ":" type "=" expression ";"
 
     "="  shift, and go to state 34
@@ -515,7 +515,7 @@ State 33
 
 State 34
 
-    9 variable-declaration: "let" IDENTIFIER "=" • expression
+    9 variable-declaration: "let" IDENTIFIER "=" • expression ";"
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -702,7 +702,7 @@ State 45
 
 State 46
 
-    9 variable-declaration: "let" IDENTIFIER "=" expression •
+    9 variable-declaration: "let" IDENTIFIER "=" expression • ";"
    23 creation_expression: expression • "+" expression
    24                    | expression • "-" expression
    25                    | expression • "*" expression
@@ -718,8 +718,7 @@ State 46
     "//"  shift, and go to state 28
     "^"   shift, and go to state 29
     "%"   shift, and go to state 30
-
-    $default  reduce using rule 9 (variable-declaration)
+    ";"   shift, and go to state 56
 
 
 State 47
@@ -768,34 +767,19 @@ State 53
 
    10 variable-declaration: "let" IDENTIFIER ":" type • "=" expression ";"
 
-    "="  shift, and go to state 56
+    "="  shift, and go to state 57
 
 
 State 54
 
    17 print_statement: "print" "(" expression-list ")" • ";"
 
-    ";"  shift, and go to state 57
+    ";"  shift, and go to state 58
 
 
 State 55
 
    18 expression-list: expression-list "," • expression
-
-    INTEGER_LITERAL  shift, and go to state 4
-    FLOAT_LITERAL    shift, and go to state 5
-    IDENTIFIER       shift, and go to state 20
-    "("              shift, and go to state 7
-
-    expression           go to state 58
-    creation_expression  go to state 16
-    identity_expression  go to state 17
-    literal              go to state 18
-
-
-State 56
-
-   10 variable-declaration: "let" IDENTIFIER ":" type "=" • expression ";"
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -808,14 +792,36 @@ State 56
     literal              go to state 18
 
 
+State 56
+
+    9 variable-declaration: "let" IDENTIFIER "=" expression ";" •
+
+    $default  reduce using rule 9 (variable-declaration)
+
+
 State 57
+
+   10 variable-declaration: "let" IDENTIFIER ":" type "=" • expression ";"
+
+    INTEGER_LITERAL  shift, and go to state 4
+    FLOAT_LITERAL    shift, and go to state 5
+    IDENTIFIER       shift, and go to state 20
+    "("              shift, and go to state 7
+
+    expression           go to state 60
+    creation_expression  go to state 16
+    identity_expression  go to state 17
+    literal              go to state 18
+
+
+State 58
 
    17 print_statement: "print" "(" expression-list ")" ";" •
 
     $default  reduce using rule 17 (print_statement)
 
 
-State 58
+State 59
 
    18 expression-list: expression-list "," expression •
    23 creation_expression: expression • "+" expression
@@ -837,7 +843,7 @@ State 58
     $default  reduce using rule 18 (expression-list)
 
 
-State 59
+State 60
 
    10 variable-declaration: "let" IDENTIFIER ":" type "=" expression • ";"
    23 creation_expression: expression • "+" expression
@@ -855,10 +861,10 @@ State 59
     "//"  shift, and go to state 28
     "^"   shift, and go to state 29
     "%"   shift, and go to state 30
-    ";"   shift, and go to state 60
+    ";"   shift, and go to state 61
 
 
-State 60
+State 61
 
    10 variable-declaration: "let" IDENTIFIER ":" type "=" expression ";" •
 

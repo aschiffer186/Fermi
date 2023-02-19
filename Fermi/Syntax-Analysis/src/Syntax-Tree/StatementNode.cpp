@@ -175,7 +175,7 @@ namespace Fermi::SyntaxAnalysis
             os << indent << CORNER << "Identifier: " << identifier_;
         else 
         {
-            os << indent << PIPE << "Identifier: " << identifier_;
+            os << indent << TEE << "Identifier: " << identifier_;
             os << "\n";
             initializer_->print(os, indent, true);
         }

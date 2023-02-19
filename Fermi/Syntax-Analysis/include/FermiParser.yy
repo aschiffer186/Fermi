@@ -77,7 +77,7 @@ statement:
     ;
 expression-statement: expression ";" {$$ = std::make_shared<ExpressionStatementNode>($1);}
 variable-declaration: 
-    "let" IDENTIFIER "=" expression {$$ = std::make_shared<VariableDeclarationNode>(Type::deduced, $2, $4);}
+    "let" IDENTIFIER "=" expression ";" {$$ = std::make_shared<VariableDeclarationNode>(Type::deduced, $2, $4);}
     | "let" IDENTIFIER ":" type "=" expression ";" {$$ = std::make_shared<VariableDeclarationNode>($4, $2, $6);}
     ;
 type:

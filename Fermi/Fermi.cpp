@@ -31,7 +31,7 @@ int main(int argc, const char** argv)
     if (static_cast<Fermi::Setup::CLT>(args.options & Fermi::Setup::CommandLineOptions::ShowVersion))
     {
         std::cout << "Fermi Compiler Version " << FERMI_MAJOR_VERSION << "." << FERMI_MINOR_VERSION << ".";
-        std::cout << FERMI_PATCH_VERSION ;
+        std::cout << FERMI_PATCH_VERSION << "\n";
         return 0;
     }
 

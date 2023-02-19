@@ -60,7 +60,7 @@ namespace Fermi::SyntaxAnalysis
         os << "\n";
         lhs_->print(os, indent, false);
         os << "\n";
-        os << indent << TEE << BinaryNodeToString[operator_];
+        os << indent << TEE << "Operator: " << BinaryNodeToString[operator_];
         os << "\n";
         rhs_->print(os, indent, true);
         return os;
