@@ -19,9 +19,10 @@ namespace Fermi::SyntaxAnalysis
         std::string name;
         FermiLexer lexer;
         std::shared_ptr<FermiNode> syntaxTree;
+        std::vector<std::string> errors;
 
         FermiSourceFile(std::string_view nameIn, std::istream& istreamIn)
-        : name{nameIn}, lexer{istreamIn}, syntaxTree{nullptr}
+        : name{nameIn}, lexer{istreamIn}, syntaxTree{nullptr}, errors{}
         {
 
         }

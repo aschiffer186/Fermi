@@ -40,7 +40,14 @@ int main(int argc, const char** argv)
 
     Fermi::SyntaxAnalysis::FermiSourceFile srcFile{fileName, fin};
     Fermi::SyntaxAnalysis::FermiParser parser{srcFile};
-    parser.parse();
+    int res = parser.parse();
+    if (res != 0)
+    {
+        for(std::string_view msg : srcFile.errors)
+            std::cerr << msg << "\n";
+        std::cerr << "Compilation failed\n";
+        return 0;
+    }
 
     if (static_cast<Fermi::Setup::CLT>(args.options & Fermi::Setup::CommandLineOptions::ShowSyntaxTree))
         std::cout << *srcFile.syntaxTree << "\n";

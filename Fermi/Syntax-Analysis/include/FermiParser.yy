@@ -118,8 +118,11 @@ literal:
 %%
 namespace Fermi::SyntaxAnalysis
 {
-    void FermiParser::error(const location&, const std::string&)
+    void FermiParser::error(const location& loc, const std::string& msg)
     {
-        
+        std::string errorMsg = "Error: " + msg; 
+        errorMsg.append(" on line: ").append(std::to_string(loc.begin.line));
+        errorMsg.append(", col: ").append(std::to_string(loc.end.line));
+        sourceFile.errors.push_back(errorMsg);
     }
 }

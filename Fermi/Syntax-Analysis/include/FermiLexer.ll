@@ -69,7 +69,12 @@ space [ \t\r]
 {identifier} {return Parser::make_IDENTIFIER(yytext, loc_);}
 
 <<EOF>> {return Parser::make_YYEOF(loc_);}
-. {return Parser::make_YYerror(loc_);}
+. {
+    std::cerr << "Unexpected token \"" << yytext;
+    std::cerr << "\" on line: " << loc_.begin.line; 
+    std::cerr << ", col: " << loc_.begin.column << "\n";
+    return Parser::make_YYerror(loc_);
+}
 
 %%
 namespace Fermi::SyntaxAnalysis

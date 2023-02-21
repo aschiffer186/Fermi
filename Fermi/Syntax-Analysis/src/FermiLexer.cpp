@@ -965,14 +965,19 @@ case YY_STATE_EOF(INITIAL):
 case 27:
 YY_RULE_SETUP
 #line 73 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
-{return Parser::make_YYerror(loc_);}
+{
+    std::cerr << "Unexpected token \"" << yytext;
+    std::cerr << "\" on line: " << loc_.begin.line; 
+    std::cerr << ", col: " << loc_.begin.column << "\n";
+    return Parser::make_YYerror(loc_);
+}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 75 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
+#line 80 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 975 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiLexer.cpp"
+#line 980 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiLexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2088,7 +2093,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 75 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
+#line 80 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 
 namespace Fermi::SyntaxAnalysis
 {
