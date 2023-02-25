@@ -74,7 +74,7 @@
     * If one entity is a signed-integer type, it will be converted to a floating-point type prior to the subtraction.
 * The type of the created entity is the type defined by the arithmetic type promotion rules.
 #### Binary Multiplication
-* The binary multiplication expression takes the canonical form `E1 + E2` where `E1` and `E2` are the input entities to the expression.
+* The binary multiplication expression takes the canonical form `E1 * E2` where `E1` and `E2` are the input entities to the expression.
 * If both inputs are signed integer types, the value of the created entity is the signed multiplication of the two input entities. 
 * If either or both inputs are floating-point types, the value of the created entity is the floating-point addition of the two input entities
     * If one entity is a signed-integer type, it will be converted to a floating-point type prior to the multiplication.
@@ -82,7 +82,8 @@
 #### Binary Floating-Point Division
 * The binary floating-point division expression takes the canonical form `E1 / E2` where `E1` and `E2` are the input entities to the expression.
 * Regardless of the types of the input entities, floating-point division is performed. 
-* Any signed-integer type is converted to a floating-point type prior to the division
+* Any signed-integer type is converted to a float64_t type prior to the division.
+* An entity of a `float32_t` is promoted to `float64_t` prior to the division.
 * The type of the created entity is `float64_t`. 
 #### Binary Integer Division 
 * The binary integer division expression takes the canonical form `E1 // E2` where `E1` and `E2` are the input entities to the expression 

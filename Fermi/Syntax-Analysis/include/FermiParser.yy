@@ -79,6 +79,7 @@ expression-statement: expression ";" {$$ = std::make_shared<ExpressionStatementN
 variable-declaration: 
     "let" IDENTIFIER "=" expression ";" {$$ = std::make_shared<VariableDeclarationNode>(Type::deduced, $2, $4);}
     | "let" IDENTIFIER ":" type "=" expression ";" {$$ = std::make_shared<VariableDeclarationNode>($4, $2, $6);}
+    | "let" IDENTIFIER ":" type ";" {$$ = std::make_shared<VariableDeclarationNode>($4, $2);}
     ;
 type:
     "int8_t" {$$ = Type::int8_t;}

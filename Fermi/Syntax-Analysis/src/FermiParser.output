@@ -16,68 +16,69 @@ Grammar
 
     9 variable-declaration: "let" IDENTIFIER "=" expression ";"
    10                     | "let" IDENTIFIER ":" type "=" expression ";"
+   11                     | "let" IDENTIFIER ":" type ";"
 
-   11 type: "int8_t"
-   12     | "int16_t"
-   13     | "int32_t"
-   14     | "int64_t"
-   15     | "float32_t"
-   16     | "float64_t"
+   12 type: "int8_t"
+   13     | "int16_t"
+   14     | "int32_t"
+   15     | "int64_t"
+   16     | "float32_t"
+   17     | "float64_t"
 
-   17 print_statement: "print" "(" expression-list ")" ";"
+   18 print_statement: "print" "(" expression-list ")" ";"
 
-   18 expression-list: expression-list "," expression
-   19                | expression
+   19 expression-list: expression-list "," expression
+   20                | expression
 
-   20 assignment-statement: IDENTIFIER "=" expression ";"
+   21 assignment-statement: IDENTIFIER "=" expression ";"
 
-   21 expression: identity_expression
-   22           | creation_expression
+   22 expression: identity_expression
+   23           | creation_expression
 
-   23 creation_expression: expression "+" expression
-   24                    | expression "-" expression
-   25                    | expression "*" expression
-   26                    | expression "/" expression
-   27                    | expression "//" expression
-   28                    | expression "^" expression
-   29                    | expression "%" expression
+   24 creation_expression: expression "+" expression
+   25                    | expression "-" expression
+   26                    | expression "*" expression
+   27                    | expression "/" expression
+   28                    | expression "//" expression
+   29                    | expression "^" expression
+   30                    | expression "%" expression
 
-   30 identity_expression: literal
-   31                    | IDENTIFIER
-   32                    | "(" expression ")"
+   31 identity_expression: literal
+   32                    | IDENTIFIER
+   33                    | "(" expression ")"
 
-   33 literal: INTEGER_LITERAL
-   34        | FLOAT_LITERAL
+   34 literal: INTEGER_LITERAL
+   35        | FLOAT_LITERAL
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    INTEGER_LITERAL <std::string> (258) 33
-    FLOAT_LITERAL <std::string> (259) 34
-    IDENTIFIER <std::string> (260) 9 10 20 31
-    "+" (261) 23
-    "-" (262) 24
-    "*" (263) 25
-    "/" (264) 26
-    "//" (265) 27
-    "^" (266) 28
-    "%" (267) 29
-    "=" (268) 9 10 20
-    ";" (269) 8 9 10 17 20
-    "(" (270) 17 32
-    ")" (271) 17 32
-    "," (272) 18
-    ":" (273) 10
-    "let" (274) 9 10
-    "print" (275) 17
-    "int8_t" (276) 11
-    "int16_t" (277) 12
-    "int32_t" (278) 13
-    "int64_t" (279) 14
-    "float32_t" (280) 15
-    "float64_t" (281) 16
+    INTEGER_LITERAL <std::string> (258) 34
+    FLOAT_LITERAL <std::string> (259) 35
+    IDENTIFIER <std::string> (260) 9 10 11 21 32
+    "+" (261) 24
+    "-" (262) 25
+    "*" (263) 26
+    "/" (264) 27
+    "//" (265) 28
+    "^" (266) 29
+    "%" (267) 30
+    "=" (268) 9 10 21
+    ";" (269) 8 9 10 11 18 21
+    "(" (270) 18 33
+    ")" (271) 18 33
+    "," (272) 19
+    ":" (273) 10 11
+    "let" (274) 9 10 11
+    "print" (275) 18
+    "int8_t" (276) 12
+    "int16_t" (277) 13
+    "int32_t" (278) 14
+    "int64_t" (279) 15
+    "float32_t" (280) 16
+    "float64_t" (281) 17
 
 
 Nonterminals, with rules where they appear
@@ -97,32 +98,32 @@ Nonterminals, with rules where they appear
         on left: 8
         on right: 4
     variable-declaration <std::shared_ptr<StatementNode>> (32)
-        on left: 9 10
+        on left: 9 10 11
         on right: 5
     type <Type> (33)
-        on left: 11 12 13 14 15 16
-        on right: 10
+        on left: 12 13 14 15 16 17
+        on right: 10 11
     print_statement <std::shared_ptr<StatementNode>> (34)
-        on left: 17
+        on left: 18
         on right: 6
     expression-list <std::vector<std::shared_ptr<ExpressionNode>>> (35)
-        on left: 18 19
-        on right: 17 18
+        on left: 19 20
+        on right: 18 19
     assignment-statement <std::shared_ptr<StatementNode>> (36)
-        on left: 20
+        on left: 21
         on right: 7
     expression <std::shared_ptr<ExpressionNode>> (37)
-        on left: 21 22
-        on right: 8 9 10 18 19 20 23 24 25 26 27 28 29 32
+        on left: 22 23
+        on right: 8 9 10 19 20 21 24 25 26 27 28 29 30 33
     creation_expression <std::shared_ptr<ExpressionNode>> (38)
-        on left: 23 24 25 26 27 28 29
-        on right: 22
+        on left: 24 25 26 27 28 29 30
+        on right: 23
     identity_expression <std::shared_ptr<ExpressionNode>> (39)
-        on left: 30 31 32
-        on right: 21
+        on left: 31 32 33
+        on right: 22
     literal <std::shared_ptr<ExpressionNode>> (40)
-        on left: 33 34
-        on right: 30
+        on left: 34 35
+        on right: 31
 
 
 State 0
@@ -176,31 +177,31 @@ State 3
 
 State 4
 
-   33 literal: INTEGER_LITERAL •
-
-    $default  reduce using rule 33 (literal)
-
-
-State 5
-
-   34 literal: FLOAT_LITERAL •
+   34 literal: INTEGER_LITERAL •
 
     $default  reduce using rule 34 (literal)
 
 
+State 5
+
+   35 literal: FLOAT_LITERAL •
+
+    $default  reduce using rule 35 (literal)
+
+
 State 6
 
-   20 assignment-statement: IDENTIFIER • "=" expression ";"
-   31 identity_expression: IDENTIFIER •
+   21 assignment-statement: IDENTIFIER • "=" expression ";"
+   32 identity_expression: IDENTIFIER •
 
     "="  shift, and go to state 19
 
-    $default  reduce using rule 31 (identity_expression)
+    $default  reduce using rule 32 (identity_expression)
 
 
 State 7
 
-   32 identity_expression: "(" • expression ")"
+   33 identity_expression: "(" • expression ")"
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -217,13 +218,14 @@ State 8
 
     9 variable-declaration: "let" • IDENTIFIER "=" expression ";"
    10                     | "let" • IDENTIFIER ":" type "=" expression ";"
+   11                     | "let" • IDENTIFIER ":" type ";"
 
     IDENTIFIER  shift, and go to state 22
 
 
 State 9
 
-   17 print_statement: "print" • "(" expression-list ")" ";"
+   18 print_statement: "print" • "(" expression-list ")" ";"
 
     "("  shift, and go to state 23
 
@@ -266,13 +268,13 @@ State 14
 State 15
 
     8 expression-statement: expression • ";"
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
 
     "+"   shift, and go to state 24
     "-"   shift, and go to state 25
@@ -286,28 +288,28 @@ State 15
 
 State 16
 
-   22 expression: creation_expression •
+   23 expression: creation_expression •
 
-    $default  reduce using rule 22 (expression)
+    $default  reduce using rule 23 (expression)
 
 
 State 17
 
-   21 expression: identity_expression •
+   22 expression: identity_expression •
 
-    $default  reduce using rule 21 (expression)
+    $default  reduce using rule 22 (expression)
 
 
 State 18
 
-   30 identity_expression: literal •
+   31 identity_expression: literal •
 
-    $default  reduce using rule 30 (identity_expression)
+    $default  reduce using rule 31 (identity_expression)
 
 
 State 19
 
-   20 assignment-statement: IDENTIFIER "=" • expression ";"
+   21 assignment-statement: IDENTIFIER "=" • expression ";"
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -322,21 +324,21 @@ State 19
 
 State 20
 
-   31 identity_expression: IDENTIFIER •
+   32 identity_expression: IDENTIFIER •
 
-    $default  reduce using rule 31 (identity_expression)
+    $default  reduce using rule 32 (identity_expression)
 
 
 State 21
 
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
-   32 identity_expression: "(" expression • ")"
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
+   33 identity_expression: "(" expression • ")"
 
     "+"   shift, and go to state 24
     "-"   shift, and go to state 25
@@ -352,6 +354,7 @@ State 22
 
     9 variable-declaration: "let" IDENTIFIER • "=" expression ";"
    10                     | "let" IDENTIFIER • ":" type "=" expression ";"
+   11                     | "let" IDENTIFIER • ":" type ";"
 
     "="  shift, and go to state 34
     ":"  shift, and go to state 35
@@ -359,7 +362,7 @@ State 22
 
 State 23
 
-   17 print_statement: "print" "(" • expression-list ")" ";"
+   18 print_statement: "print" "(" • expression-list ")" ";"
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -375,7 +378,7 @@ State 23
 
 State 24
 
-   23 creation_expression: expression "+" • expression
+   24 creation_expression: expression "+" • expression
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -390,7 +393,7 @@ State 24
 
 State 25
 
-   24 creation_expression: expression "-" • expression
+   25 creation_expression: expression "-" • expression
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -405,7 +408,7 @@ State 25
 
 State 26
 
-   25 creation_expression: expression "*" • expression
+   26 creation_expression: expression "*" • expression
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -420,7 +423,7 @@ State 26
 
 State 27
 
-   26 creation_expression: expression "/" • expression
+   27 creation_expression: expression "/" • expression
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -435,7 +438,7 @@ State 27
 
 State 28
 
-   27 creation_expression: expression "//" • expression
+   28 creation_expression: expression "//" • expression
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -450,7 +453,7 @@ State 28
 
 State 29
 
-   28 creation_expression: expression "^" • expression
+   29 creation_expression: expression "^" • expression
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -465,7 +468,7 @@ State 29
 
 State 30
 
-   29 creation_expression: expression "%" • expression
+   30 creation_expression: expression "%" • expression
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
@@ -487,14 +490,14 @@ State 31
 
 State 32
 
-   20 assignment-statement: IDENTIFIER "=" expression • ";"
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
+   21 assignment-statement: IDENTIFIER "=" expression • ";"
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
 
     "+"   shift, and go to state 24
     "-"   shift, and go to state 25
@@ -508,9 +511,9 @@ State 32
 
 State 33
 
-   32 identity_expression: "(" expression ")" •
+   33 identity_expression: "(" expression ")" •
 
-    $default  reduce using rule 32 (identity_expression)
+    $default  reduce using rule 33 (identity_expression)
 
 
 State 34
@@ -531,6 +534,7 @@ State 34
 State 35
 
    10 variable-declaration: "let" IDENTIFIER ":" • type "=" expression ";"
+   11                     | "let" IDENTIFIER ":" • type ";"
 
     "int8_t"     shift, and go to state 47
     "int16_t"    shift, and go to state 48
@@ -544,8 +548,8 @@ State 35
 
 State 36
 
-   17 print_statement: "print" "(" expression-list • ")" ";"
-   18 expression-list: expression-list • "," expression
+   18 print_statement: "print" "(" expression-list • ")" ";"
+   19 expression-list: expression-list • "," expression
 
     ")"  shift, and go to state 54
     ","  shift, and go to state 55
@@ -553,14 +557,14 @@ State 36
 
 State 37
 
-   19 expression-list: expression •
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
+   20 expression-list: expression •
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
 
     "+"   shift, and go to state 24
     "-"   shift, and go to state 25
@@ -570,39 +574,19 @@ State 37
     "^"   shift, and go to state 29
     "%"   shift, and go to state 30
 
-    $default  reduce using rule 19 (expression-list)
+    $default  reduce using rule 20 (expression-list)
 
 
 State 38
 
-   23 creation_expression: expression • "+" expression
-   23                    | expression "+" expression •
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
-
-    "*"   shift, and go to state 26
-    "/"   shift, and go to state 27
-    "//"  shift, and go to state 28
-    "^"   shift, and go to state 29
-    "%"   shift, and go to state 30
-
-    $default  reduce using rule 23 (creation_expression)
-
-
-State 39
-
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   24                    | expression "-" expression •
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
+   24 creation_expression: expression • "+" expression
+   24                    | expression "+" expression •
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
 
     "*"   shift, and go to state 26
     "/"   shift, and go to state 27
@@ -613,103 +597,123 @@ State 39
     $default  reduce using rule 24 (creation_expression)
 
 
-State 40
+State 39
 
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   25                    | expression "*" expression •
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   25                    | expression "-" expression •
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
 
-    "^"  shift, and go to state 29
+    "*"   shift, and go to state 26
+    "/"   shift, and go to state 27
+    "//"  shift, and go to state 28
+    "^"   shift, and go to state 29
+    "%"   shift, and go to state 30
 
     $default  reduce using rule 25 (creation_expression)
 
 
-State 41
+State 40
 
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   26                    | expression "/" expression •
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   26                    | expression "*" expression •
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
 
     "^"  shift, and go to state 29
 
     $default  reduce using rule 26 (creation_expression)
 
 
-State 42
+State 41
 
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   27                    | expression "//" expression •
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   27                    | expression "/" expression •
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
 
     "^"  shift, and go to state 29
 
     $default  reduce using rule 27 (creation_expression)
 
 
-State 43
+State 42
 
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   28                    | expression "^" expression •
-   29                    | expression • "%" expression
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   28                    | expression "//" expression •
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
 
     "^"  shift, and go to state 29
 
     $default  reduce using rule 28 (creation_expression)
 
 
-State 44
+State 43
 
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
-   29                    | expression "%" expression •
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   29                    | expression "^" expression •
+   30                    | expression • "%" expression
 
     "^"  shift, and go to state 29
 
     $default  reduce using rule 29 (creation_expression)
 
 
+State 44
+
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
+   30                    | expression "%" expression •
+
+    "^"  shift, and go to state 29
+
+    $default  reduce using rule 30 (creation_expression)
+
+
 State 45
 
-   20 assignment-statement: IDENTIFIER "=" expression ";" •
+   21 assignment-statement: IDENTIFIER "=" expression ";" •
 
-    $default  reduce using rule 20 (assignment-statement)
+    $default  reduce using rule 21 (assignment-statement)
 
 
 State 46
 
     9 variable-declaration: "let" IDENTIFIER "=" expression • ";"
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
 
     "+"   shift, and go to state 24
     "-"   shift, and go to state 25
@@ -723,70 +727,72 @@ State 46
 
 State 47
 
-   11 type: "int8_t" •
-
-    $default  reduce using rule 11 (type)
-
-
-State 48
-
-   12 type: "int16_t" •
+   12 type: "int8_t" •
 
     $default  reduce using rule 12 (type)
 
 
-State 49
+State 48
 
-   13 type: "int32_t" •
+   13 type: "int16_t" •
 
     $default  reduce using rule 13 (type)
 
 
-State 50
+State 49
 
-   14 type: "int64_t" •
+   14 type: "int32_t" •
 
     $default  reduce using rule 14 (type)
 
 
-State 51
+State 50
 
-   15 type: "float32_t" •
+   15 type: "int64_t" •
 
     $default  reduce using rule 15 (type)
 
 
-State 52
+State 51
 
-   16 type: "float64_t" •
+   16 type: "float32_t" •
 
     $default  reduce using rule 16 (type)
+
+
+State 52
+
+   17 type: "float64_t" •
+
+    $default  reduce using rule 17 (type)
 
 
 State 53
 
    10 variable-declaration: "let" IDENTIFIER ":" type • "=" expression ";"
+   11                     | "let" IDENTIFIER ":" type • ";"
 
     "="  shift, and go to state 57
+    ";"  shift, and go to state 58
 
 
 State 54
 
-   17 print_statement: "print" "(" expression-list ")" • ";"
+   18 print_statement: "print" "(" expression-list ")" • ";"
 
-    ";"  shift, and go to state 58
+    ";"  shift, and go to state 59
 
 
 State 55
 
-   18 expression-list: expression-list "," • expression
+   19 expression-list: expression-list "," • expression
 
     INTEGER_LITERAL  shift, and go to state 4
     FLOAT_LITERAL    shift, and go to state 5
     IDENTIFIER       shift, and go to state 20
     "("              shift, and go to state 7
 
-    expression           go to state 59
+    expression           go to state 60
     creation_expression  go to state 16
     identity_expression  go to state 17
     literal              go to state 18
@@ -808,7 +814,7 @@ State 57
     IDENTIFIER       shift, and go to state 20
     "("              shift, and go to state 7
 
-    expression           go to state 60
+    expression           go to state 61
     creation_expression  go to state 16
     identity_expression  go to state 17
     literal              go to state 18
@@ -816,43 +822,28 @@ State 57
 
 State 58
 
-   17 print_statement: "print" "(" expression-list ")" ";" •
+   11 variable-declaration: "let" IDENTIFIER ":" type ";" •
 
-    $default  reduce using rule 17 (print_statement)
+    $default  reduce using rule 11 (variable-declaration)
 
 
 State 59
 
-   18 expression-list: expression-list "," expression •
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
+   18 print_statement: "print" "(" expression-list ")" ";" •
 
-    "+"   shift, and go to state 24
-    "-"   shift, and go to state 25
-    "*"   shift, and go to state 26
-    "/"   shift, and go to state 27
-    "//"  shift, and go to state 28
-    "^"   shift, and go to state 29
-    "%"   shift, and go to state 30
-
-    $default  reduce using rule 18 (expression-list)
+    $default  reduce using rule 18 (print_statement)
 
 
 State 60
 
-   10 variable-declaration: "let" IDENTIFIER ":" type "=" expression • ";"
-   23 creation_expression: expression • "+" expression
-   24                    | expression • "-" expression
-   25                    | expression • "*" expression
-   26                    | expression • "/" expression
-   27                    | expression • "//" expression
-   28                    | expression • "^" expression
-   29                    | expression • "%" expression
+   19 expression-list: expression-list "," expression •
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
 
     "+"   shift, and go to state 24
     "-"   shift, and go to state 25
@@ -861,10 +852,32 @@ State 60
     "//"  shift, and go to state 28
     "^"   shift, and go to state 29
     "%"   shift, and go to state 30
-    ";"   shift, and go to state 61
+
+    $default  reduce using rule 19 (expression-list)
 
 
 State 61
+
+   10 variable-declaration: "let" IDENTIFIER ":" type "=" expression • ";"
+   24 creation_expression: expression • "+" expression
+   25                    | expression • "-" expression
+   26                    | expression • "*" expression
+   27                    | expression • "/" expression
+   28                    | expression • "//" expression
+   29                    | expression • "^" expression
+   30                    | expression • "%" expression
+
+    "+"   shift, and go to state 24
+    "-"   shift, and go to state 25
+    "*"   shift, and go to state 26
+    "/"   shift, and go to state 27
+    "//"  shift, and go to state 28
+    "^"   shift, and go to state 29
+    "%"   shift, and go to state 30
+    ";"   shift, and go to state 62
+
+
+State 62
 
    10 variable-declaration: "let" IDENTIFIER ":" type "=" expression ";" •
 

@@ -155,3 +155,17 @@ TEST(TestParser, TestParseBinaryExpressions)
 
     EXPECT_EQ(*srcFile7.syntaxTree, node7);
 }
+
+TEST(TestParser, TestBinaryExpressionPrecedenceHandling)
+{
+    std::string test = "x + z*y*z - x/y/z + 3*2^4^x - 3 + 2 % z;";
+    std::istringstream ss{test};
+    FermiSourceFile srcFile{"Precedence Test", ss};
+    FermiParser parser{srcFile};
+
+    ASSERT_EQ(parser.parse(), 0);
+
+    auto term1 = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
+
+   
+}
