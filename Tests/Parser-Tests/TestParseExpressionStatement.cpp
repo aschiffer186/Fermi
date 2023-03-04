@@ -165,7 +165,15 @@ TEST(TestParser, TestBinaryExpressionPrecedenceHandling)
 
     ASSERT_EQ(parser.parse(), 0);
 
+    //x
     auto term1 = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
-
+    
+    //z*y 
+    auto fac1 = std::make_shared<BinaryExpressionNode>(std::make_shared<LiteralNode>("z", LiteralType::Identifier),
+        BinaryExpressionTypes::Multiplication,
+        std::make_shared<LiteralNode>("y", LiteralType::Identifier));
+    auto term2 = std::make_shared<BinaryExpressionNode>(fac1, 
+        BinaryExpressionTypes::Multiplication, 
+        std::make_shared<LiteralNode>("z", LiteralType::Identifier));
    
 }

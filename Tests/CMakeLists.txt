@@ -13,3 +13,4 @@ add_custom_command(TARGET run_tests
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/Tests)
 
 add_subdirectory(Parser-Tests)
+add_subdirectory(Setup-Tests)

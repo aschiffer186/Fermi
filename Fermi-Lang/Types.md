@@ -27,4 +27,23 @@
 * Floating-points are approximations of real-numbers.
 * There are two floating-point types: `float32_t` and `float64_`
     * `float32_t` is a 32-bit IEEE-754 floating-point type
+        * The range of exponents supported by the type is -126 to 127
+        * The significant has 24-bits of precision
     * `float64_t` is a 64-bit IEEE-754 floating-point type
+        * The range of exponents is -1022 to 1023
+        * The significant has 53-bits of precision
+* All floating-point types additionally have 4 specialize values
+    1. Quiet NaN (qNaN)
+    2. Signaling Nan (sNaN)
+    3. ∞
+    4. -∞
+## Arithmetic Type Promotion
+* The arithmetic type promotion rules determine how arithmetic types can be implicitly converted. 
+* An entity of a smaller integral type can be implicitly converted to an entity of an equal or larger integral type.
+* An entity of type `float32_t` can be implicitly converted to an entity of type `float64_t`.
+* An entity of type `int8_t`, `int16_t`, or `int32_t` can be implicitly converted to an entity of type `float64_t`.
+* An entity of any integral type can be converted to an entity of a `float64_t`.
+* The _common type_ of two integer types is the larger of the two types.
+* The _common type_ of two floating-point types is the larger of the two types.
+* The _common type_ of an integer type and a floating-point type is the largest floating-point type that can contain the maximum value of both types.
+    * This may result in implicit promotion of the floating-point types.

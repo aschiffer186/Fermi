@@ -1,40 +1,27 @@
 #ifndef DAG_NODE_HPP
 #define DAG_NODE_HPP
 
+#include <memory>
 #include <vector>
 
 namespace Fermi::SyntaxAnalysis
 {
+    class SyntaxNode;
+}
+
+namespace Fermi::SemanticAnalysis
+{
     enum class DAGNodeType 
     {
-        Float32Add,
-        Float64Add,
-        Int8Add,
-        Int16Add, 
-        Int32Add,
-        Int64Add,
-        Float32Sub,
-        Float64Sub, 
-        Int8Sub, 
-        Int16Sub,
-        Int32Sub,
-        Int64Sub,
-        Float32Mul, 
-        Float64Mul, 
-        Int8Mul,
-        Int16Mul, 
-        Int32Mul, 
-        Int64Mul, 
-        FloatDivision, 
-        IntegerDivision,
-        FloatExponentiation,
-        IntExponentiation, 
-        Modulo,
-        FTOLF,
-        ITOLI, 
-        ITOF,
+        Alloc, 
         Assign, 
-        Print
+        IAdd, 
+        FAdd, 
+        ISub,
+        FSub,
+        IToI,
+        FToF, 
+        IToF
     };
 
     class DAGNode
@@ -46,6 +33,8 @@ namespace Fermi::SyntaxAnalysis
 
         virtual ~DAGNode() = default;
     };
+
+    std::unique_ptr<DAGNode> makeDAG(std::shared_ptr<SyntaxAnalysis::SyntaxNode> syntaxTree);
 }
 
 #endif

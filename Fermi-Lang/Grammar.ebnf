@@ -1,4 +1,4 @@
-####
+#### Lexical Semantics
 ### Literals
 INTEGER-LITERAL: [0-9]+
 FLOATING-POINT-LITERAL: [0-9]*.[0-9]+([+-]?[eE][0-9]+)?
@@ -7,7 +7,33 @@ FLOATING-POINT-LITERAL: [0-9]*.[0-9]+([+-]?[eE][0-9]+)?
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9]
 
 ### Operators and Punctuators
-+ - * / // ^ % = ; ( )
++ - * / // ^ % = ; ( ) , ":"
 
 ### Keywords
 let print int8_t int16_t int32_t int64_t float32_t float64_t 
+
+#### Syntactic Semantics 
+fermi := {statement}
+
+statement := variable-declaration | assign-statement | print-statement 
+variable-declaration := 
+      "let" IDENTIFIER ":" type ";"
+    | "let" IDENTIFIER ":" type "=" expression ";" 
+    | "let" IDENTIFIER "=" expression ";"
+assign-statement := IDENTIFIER "=" expression ";"
+print-statement := "print" "(" expression {"," expression} ")" ";"
+
+expression := identity-expression | creation-expression 
+identity-expression := IDENTIFIER 
+creation-expression := 
+      INTEGER-LITERAL 
+    | FLOATING-POINT-LITERAL 
+    | binary-creation-expression 
+binary-creation-expression :=
+      expression "+" expression 
+    | expression "-" expression
+    | expression "*" expression 
+    | expression "/" expression 
+    | expression "//" expression 
+    | expression "^" expresssion 
+    | expression "%" expression
