@@ -5,10 +5,11 @@
     * The _size function_: maps a type to an `int64_t`: takes in an entity and returns the number of bytes required for its associated object.
         * This function returns the same value for all entities of a particular type. 
     * The _address function_: maps a type to a ??: takes in an entity and returns the address of its associated object. 
-* There is a special type called the _void_ set that contains no values. 
 * A type may have one or more labels that provide alternative names for the type. These labels do not create distinct types. 
-* There are 1 categories of types:
+* There are 3 categories of types:
     * Arithmetic Types 
+    * Void Type 
+    * Unit Type
 # Arithmetic Types
 * Arithmetic types provide representations of the real number system and its subsets.
 * There are two types of arithmetic types: integer-types and floating-point types. 
@@ -48,3 +49,12 @@
 * The _common type_ of two floating-point types is the larger of the two types.
 * The _common type_ of an integer type and a floating-point type is the largest floating-point type that can contain the maximum value of both types.
     * This may result in implicit promotion of the floating-point types.
+# Void Type
+* The void type is the unique type that contains no input entities.
+* The void type is denoted by the keyword `void`.
+* A program that attempts to create an entity whose type is `void` is ill-formed. 
+* The identity and address functions are not defined for the void type.
+* The size function of `void` returns 0; `void` is the only type whose size is 0. 
+# Unit Type
+* The unit type is the unique type that contains exactly one entity.
+    * All instances? of the unity type are the same entity. Specifically, the address of all instances of the unit type are the same.
