@@ -1,3 +1,4 @@
+# Introduction
 * Entities are the smallest unit of semantic meaning in Fermi. 
 * An entity has a value, a type, and an associated object.
     * The value of an entity is one of the following:
@@ -12,8 +13,3 @@
 * The lifetime of a variable starts at its declaration and continues to the end of the scope it is declared in. 
 * If an entity is associated with a variable, the lifetime of the entity is the same as its associated variable. 
 * If an entity is not associated with a variable, the lifetime of an entity begins at its allocation and ends at the completion of the top most expression containing the expression triggering its allocation. (TODO: Re-word this).
-# Variable Declaration
-## Gramar
-```
-    var
-``

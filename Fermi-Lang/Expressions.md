@@ -62,15 +62,22 @@ binary-creation-expression :=
 expression "+" expression
 ``` 
 * Binary addition adds together two entities
-* If the type of both input entities is a signed-integer type, they wil be converted to their common-type if necessary, and added together using signed-integer addition.
-    * If the resulting value is larger than the maximum value of common-type of the input entities, signed integer overflow occurs.
-* If the type of both input entities is a floating-point type, they will be converted their common-type if necessary, and added together using floating-point addition.
-    * If the resulting value is larger than the maximum value of the common-type of the input entities, infinity is returned.
-* If one of the input entities is a floating-point type and one is a signed-integer type, they will be converted to their common-type and added together using floating-point addition.
-    * If the resulting value is larger than the maximum value of the common-type of the input entities, infinity is returned.
-* In all cases, the type of the created entity is the common-type of the input entities.
-* The input entities are not modified.
-* The addition of two signed-integers is associative and commutative; the addition of two floating-point numbers or a floating-point number and a signed-integer is only commutative.
+##### Binary Integer Addition
+* Binary integer addition occurs when both input entities are signed-integer types. 
+* Prior to the addition, the input types will be converted to their common type then added together via signed-integer addition. 
+    * The type of the output entity is the common-type of the input entities.
+* If the sum is larger than the maximum value of the common-type of the input entities, signed-integer overflow occurs. 
+* Binary integer addition is commutative and associative.
+##### Binary Floating-Point Addition
+* Binary floating-point addition occurs when the type of both input entities is a floating-point type or the type of one input entity is a signed-integer type and the type of the other input entity is a floating-point type.
+* Prior to the addition, the input types will be converted to their common type then added together via floating-point addition. 
+    * The addition is performed exactly then rounded to the nearest value of the common-type of the two input entities.
+    * The type of the output entity is the common-type of the input entities.
+* The following special values can occur as the resultant sum.
+    1. If the value of either input entity is `NaN`, the value of the output entity is `NaN` and the "invalid" flag is raised.
+    2. If the absolute value of the sum is greater than the maximum value that can be represented by the common-type, the value of the output entity is infinity and the overflow flag is raised.
+    3. If the absolute value of the sum is less than the minimum exponent of the the common-type, the underflow flag is raised.
+* Floating-point addition is commutative
 #### Binary Subtraction
 ```
 expression "-" expression 
@@ -79,3 +86,17 @@ expression "-" expression
     1. Subtraction is performed instead of addition
     2. Subtraction of signed-integers is not associative or commutative 
     3. Subtraction of floating-point numbers or a floating-point number and a signed-integer is not commutative.
+#### Binary Multiplication 
+``` 
+expression "*" expression 
+```
+* The semantics for binary multiplication are the same as for binary addition with the following modifications:
+    1. Multiplication is performed instead of division 
+#### Binary Division
+```
+expression "/" expression 
+```
+* Binary division performs floating-point division on two entities. 
+* If both input entities are floating-point types, they are converted to their common type, and divided using floating-point division
+* If any input is a signed-integer type, it is converted to the smallest floating-point type that represents it; then floating-point division is performed. 
+* In all cases, the type of the created entity is the common type of the input entities after any necessary conversion to a floating-point type has been performed.

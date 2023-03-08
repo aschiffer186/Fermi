@@ -9,6 +9,12 @@ namespace Fermi::SemanticAnalysis
     {
         std::size_t size; 
         std::string name;
+
+        bool operator==(const Type& lhs) const = default;
     };
+
+    bool isIntegerType(const Type& type);
+
+    bool isFloatingPointType(const Type& type);
 } // namespace Fermi::SemanticAnalysis
 #endif

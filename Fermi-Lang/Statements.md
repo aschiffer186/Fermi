@@ -1,7 +1,7 @@
 # Introduction 
 * A statement is the smallest unit of executable code. 
 
-# Variable Declaration
+# Variable Declaration Statement
 ```
 variable-declaration :=
       "let" IDENTIFIER ":" type
@@ -14,3 +14,4 @@ variable-declaration :=
 * If no type is given; the type is deduced from the initializer.
 * The lifetime of a variable begins when it is declared and continues until the end of its enclosing scope; however, no memory is allocated for the associated entity's associated object until the first time it is assigned to.
 * If an initializer is present, memory is allocated for the the associated entity's associated object and the value of the output entity of the initializer expression is copied into the variable's associated entity.
+# Assignment Statement

@@ -1,3 +1,4 @@
+# Introduction
 * A type is named category of entities and the operations that may be performed on those values. 
 * All types have the following operations defined for them:
     * The _identity function_: maps a type to itself; takes in a entity and returns the same entity unchanged
