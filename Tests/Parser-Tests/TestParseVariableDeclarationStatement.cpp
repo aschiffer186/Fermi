@@ -13,21 +13,23 @@ TEST(TestParser, TestParseVariableDeclarationNoInitializer)
     std::string varDecl1 = "let xyz123 : int8_t;";
     std::istringstream ss1{varDecl1};
 
-    FermiSourceFile srcFile1("Test Var Decl1", ss1);
-    FermiParser parser1{srcFile1};
+    FermiSourceFile srcFile1("Test Var Decl1");
+    FermiLexer lexer1{ss1};
+    FermiParser parser1{srcFile1, lexer1};
 
     ASSERT_EQ(parser1.parse(), 0);
 
     auto variableDeclarationNode = std::make_shared<VariableDeclarationNode>(Type::int8_t, "xyz123");
     FermiNode node1{{variableDeclarationNode}};
 
-    EXPECT_EQ(*srcFile1.syntaxTree, node1);
+    EXPECT_EQ(srcFile1.getTree(), node1);
 
     std::string varDecl2 = "let xyz123 : int16_t = 10;";
     std::istringstream ss2{varDecl2};
 
-    FermiSourceFile srcFile2{"Test Var Decl2", ss2};
-    FermiParser parser2{srcFile2};
+    FermiSourceFile srcFile2{"Test Var Decl2"};
+    FermiLexer lexer2{ss2};
+    FermiParser parser2{srcFile2, lexer2};
     
     ASSERT_EQ(parser2.parse(), 0);
 
@@ -35,13 +37,14 @@ TEST(TestParser, TestParseVariableDeclarationNoInitializer)
     variableDeclarationNode = std::make_shared<VariableDeclarationNode>(Type::int16_t, "xyz123", initializerNode);
     FermiNode node2{{variableDeclarationNode}};
 
-    EXPECT_EQ(*srcFile2.syntaxTree, node2);
+    EXPECT_EQ(srcFile2.getTree(), node2);
 
     std::string varDecl3 = "let xyz123 = 11.2345;";
     std::istringstream ss3{varDecl3};
 
-    FermiSourceFile srcFile3{"Test Var Decl3", ss3};
-    FermiParser parser3{srcFile3};
+    FermiSourceFile srcFile3{"Test Var Decl3"};
+    FermiLexer lexer3{ss3};
+    FermiParser parser3{srcFile3, lexer3};
 
     ASSERT_EQ(parser3.parse(), 0);
 
@@ -49,5 +52,5 @@ TEST(TestParser, TestParseVariableDeclarationNoInitializer)
     variableDeclarationNode = std::make_shared<VariableDeclarationNode>(Type::deduced, "xyz123", initializerNode);
 
     FermiNode node3{{variableDeclarationNode}};
-    EXPECT_EQ(*srcFile3.syntaxTree, node3);
+    EXPECT_EQ(srcFile3.getTree(), node3);
 }

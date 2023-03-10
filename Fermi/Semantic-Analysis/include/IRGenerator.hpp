@@ -12,7 +12,7 @@
 namespace Fermi::SemanticAnalysis
 {
     class AssignNode;
-    class DAGNode;
+    class ASTNode;
     class LiteralNode;
     class TypeConversionNode;
 
@@ -24,7 +24,7 @@ namespace Fermi::SemanticAnalysis
         llvm::AllocaInst* codegen(const LiteralNode* node);
         llvm::AllocaInst* codegen(const TypeConversionNode* node);
     private:
-        std::unique_ptr<DAGNode> DAG_;
+        std::unique_ptr<ASTNode> AST_;
         llvm::LLVMContext context_;
         llvm::Module module_;
     };

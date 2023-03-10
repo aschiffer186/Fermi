@@ -42,13 +42,14 @@
 
 
 // Unqualified %code blocks.
-#line 29 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 34 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 
     #include "FermiSourceFile.hpp"
+    #include "FermiLexer.hpp"
 
-    #define yylex sourceFile.lexer.nextToken
+    #define yylex lexer.nextToken
 
-#line 52 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 53 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
 
 
 #ifndef YY_
@@ -141,10 +142,10 @@
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 namespace Fermi { namespace SyntaxAnalysis {
-#line 145 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 146 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
 
   /// Build a parser object.
-  FermiParser::FermiParser (Fermi::SyntaxAnalysis::FermiSourceFile& sourceFile_yyarg)
+  FermiParser::FermiParser (Fermi::SyntaxAnalysis::FermiSourceFile& sourceFile_yyarg, Fermi::SyntaxAnalysis::FermiLexer& lexer_yyarg)
 #if YYDEBUG
     : yydebug_ (false),
       yycdebug_ (&std::cerr),
@@ -152,7 +153,8 @@ namespace Fermi { namespace SyntaxAnalysis {
     :
 #endif
       yy_lac_established_ (false),
-      sourceFile (sourceFile_yyarg)
+      sourceFile (sourceFile_yyarg),
+      lexer (lexer_yyarg)
   {}
 
   FermiParser::~FermiParser ()
@@ -744,217 +746,217 @@ namespace Fermi { namespace SyntaxAnalysis {
           switch (yyn)
             {
   case 2: // start: statements
-#line 68 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
-                  {sourceFile.syntaxTree = std::make_shared<FermiNode>(yystack_[0].value.as < std::vector<std::shared_ptr<StatementNode>> > ());}
-#line 750 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 74 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+                  {sourceFile.setSyntaxTree(std::make_unique<FermiNode>(yystack_[0].value.as < std::vector<std::shared_ptr<StatementNode>> > ()));}
+#line 752 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 3: // statements: statements statement
-#line 69 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 75 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                  {yystack_[1].value.as < std::vector<std::shared_ptr<StatementNode>> > ().push_back(yystack_[0].value.as < std::shared_ptr<StatementNode> > ()); yylhs.value.as < std::vector<std::shared_ptr<StatementNode>> > () = yystack_[1].value.as < std::vector<std::shared_ptr<StatementNode>> > ();}
-#line 756 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 758 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 4: // statements: %empty
-#line 70 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 76 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
              {yylhs.value.as < std::vector<std::shared_ptr<StatementNode>> > () = std::vector<std::shared_ptr<StatementNode>>{};}
-#line 762 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 764 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 5: // statement: expression-statement
-#line 73 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 79 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                          {yylhs.value.as < std::shared_ptr<StatementNode> > () = yystack_[0].value.as < std::shared_ptr<ExpressionStatementNode> > ();}
-#line 768 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 770 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 6: // statement: variable-declaration
-#line 74 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 80 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                            {yylhs.value.as < std::shared_ptr<StatementNode> > () = yystack_[0].value.as < std::shared_ptr<StatementNode> > ();}
-#line 774 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 776 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 7: // statement: print_statement
-#line 75 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 81 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                       {yylhs.value.as < std::shared_ptr<StatementNode> > () = yystack_[0].value.as < std::shared_ptr<StatementNode> > ();}
-#line 780 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 782 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 8: // statement: assignment-statement
-#line 76 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 82 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                            {yylhs.value.as < std::shared_ptr<StatementNode> > () = yystack_[0].value.as < std::shared_ptr<StatementNode> > ();}
-#line 786 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 788 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 9: // expression-statement: expression ";"
-#line 78 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 84 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                      {yylhs.value.as < std::shared_ptr<ExpressionStatementNode> > () = std::make_shared<ExpressionStatementNode>(yystack_[1].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 792 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 794 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 10: // variable-declaration: "let" IDENTIFIER "=" expression ";"
-#line 80 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 86 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                         {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<VariableDeclarationNode>(Type::deduced, yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 798 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 800 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 11: // variable-declaration: "let" IDENTIFIER ":" type "=" expression ";"
-#line 81 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 87 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                                    {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<VariableDeclarationNode>(yystack_[3].value.as < Type > (), yystack_[5].value.as < std::string > (), yystack_[1].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 804 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 806 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 12: // variable-declaration: "let" IDENTIFIER ":" type ";"
-#line 82 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 88 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                     {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<VariableDeclarationNode>(yystack_[1].value.as < Type > (), yystack_[3].value.as < std::string > ());}
-#line 810 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 812 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 13: // type: "int8_t"
-#line 85 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 91 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
              {yylhs.value.as < Type > () = Type::int8_t;}
-#line 816 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 818 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 14: // type: "int16_t"
-#line 86 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 92 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                 {yylhs.value.as < Type > () = Type::int16_t;}
-#line 822 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 824 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 15: // type: "int32_t"
-#line 87 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 93 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                 {yylhs.value.as < Type > () = Type::int32_t;}
-#line 828 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 830 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 16: // type: "int64_t"
-#line 88 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 94 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                 {yylhs.value.as < Type > () = Type::int64_t;}
-#line 834 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 836 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 17: // type: "float32_t"
-#line 89 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 95 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                   {yylhs.value.as < Type > () = Type::float32_t;}
-#line 840 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 842 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 18: // type: "float64_t"
-#line 90 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 96 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                   {yylhs.value.as < Type > () = Type::float64_t;}
-#line 846 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 848 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 19: // print_statement: "print" "(" expression-list ")" ";"
-#line 92 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 98 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                                      {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<PrintNode>(yystack_[2].value.as < std::vector<std::shared_ptr<ExpressionNode>> > ());}
-#line 852 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 854 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 20: // expression-list: expression-list "," expression
-#line 93 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 99 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                                 {yystack_[2].value.as < std::vector<std::shared_ptr<ExpressionNode>> > ().push_back(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ()); yylhs.value.as < std::vector<std::shared_ptr<ExpressionNode>> > () = yystack_[2].value.as < std::vector<std::shared_ptr<ExpressionNode>> > ();}
-#line 858 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 860 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 21: // expression-list: expression
-#line 94 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 100 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                  {std::vector<std::shared_ptr<ExpressionNode>> v; v.push_back(yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ()); yylhs.value.as < std::vector<std::shared_ptr<ExpressionNode>> > () = v;}
-#line 864 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 866 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 22: // assignment-statement: IDENTIFIER "=" expression ";"
-#line 96 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 102 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                                     {yylhs.value.as < std::shared_ptr<StatementNode> > () = std::make_shared<AssignmentStatementNode>(yystack_[3].value.as < std::string > (), yystack_[1].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 870 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 872 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 23: // expression: identity_expression
-#line 98 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 104 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                         {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ();}
-#line 876 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 878 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 24: // expression: creation_expression
-#line 99 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 105 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                           {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ();}
-#line 882 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 884 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 25: // creation_expression: expression "+" expression
-#line 102 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 108 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                               {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > (), BinaryExpressionTypes::Addition, yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 888 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 890 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 26: // creation_expression: expression "-" expression
-#line 103 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 109 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > (), BinaryExpressionTypes::Subtraction, yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 894 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 896 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 27: // creation_expression: expression "*" expression
-#line 104 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 110 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > (), BinaryExpressionTypes::Multiplication, yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 900 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 902 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 28: // creation_expression: expression "/" expression
-#line 105 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 111 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > (), BinaryExpressionTypes::Division, yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 906 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 908 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 29: // creation_expression: expression "//" expression
-#line 106 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 112 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                  {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > (), BinaryExpressionTypes::IntegerDivision, yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 912 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 914 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 30: // creation_expression: expression "^" expression
-#line 107 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 113 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > (), BinaryExpressionTypes::Exponentiation, yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 918 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 920 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 31: // creation_expression: expression "%" expression
-#line 108 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 114 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<BinaryExpressionNode>(yystack_[2].value.as < std::shared_ptr<ExpressionNode> > (), BinaryExpressionTypes::Modulo, yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ());}
-#line 924 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 926 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 32: // identity_expression: literal
-#line 111 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 117 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
             {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = yystack_[0].value.as < std::shared_ptr<ExpressionNode> > ();}
-#line 930 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 932 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 33: // identity_expression: IDENTIFIER
-#line 112 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 118 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                  {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<LiteralNode>(yystack_[0].value.as < std::string > (), LiteralType::Identifier);}
-#line 936 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 938 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 34: // identity_expression: "(" expression ")"
-#line 113 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 119 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                          {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = yystack_[1].value.as < std::shared_ptr<ExpressionNode> > ();}
-#line 942 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 944 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 35: // literal: INTEGER_LITERAL
-#line 116 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 122 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                     {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<LiteralNode>(yystack_[0].value.as < std::string > (), LiteralType::Integer);}
-#line 948 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 950 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 36: // literal: FLOAT_LITERAL
-#line 117 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 123 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                     {yylhs.value.as < std::shared_ptr<ExpressionNode> > () = std::make_shared<LiteralNode>(yystack_[0].value.as < std::string > (), LiteralType::Float);}
-#line 954 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 956 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
 
-#line 958 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 960 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
 
             default:
               break;
@@ -1524,10 +1526,10 @@ namespace Fermi { namespace SyntaxAnalysis {
   const signed char
   FermiParser::yyrline_[] =
   {
-       0,    68,    68,    69,    70,    73,    74,    75,    76,    78,
-      80,    81,    82,    85,    86,    87,    88,    89,    90,    92,
-      93,    94,    96,    98,    99,   102,   103,   104,   105,   106,
-     107,   108,   111,   112,   113,   116,   117
+       0,    74,    74,    75,    76,    79,    80,    81,    82,    84,
+      86,    87,    88,    91,    92,    93,    94,    95,    96,    98,
+      99,   100,   102,   104,   105,   108,   109,   110,   111,   112,
+     113,   114,   117,   118,   119,   122,   123
   };
 
   void
@@ -1560,9 +1562,9 @@ namespace Fermi { namespace SyntaxAnalysis {
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 1564 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
+#line 1566 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
 
-#line 119 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
+#line 125 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 
 namespace Fermi::SyntaxAnalysis
 {
@@ -1571,6 +1573,6 @@ namespace Fermi::SyntaxAnalysis
         std::string errorMsg = "Error: " + msg; 
         errorMsg.append(" on line: ").append(std::to_string(loc.begin.line));
         errorMsg.append(", col: ").append(std::to_string(loc.end.line));
-        sourceFile.errors.push_back(errorMsg);
+        sourceFile.addDiagnostic(errorMsg);
     }
 }

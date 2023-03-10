@@ -52,9 +52,13 @@
     #include "ExpressionNode.hpp"
     #include "StatementNode.hpp"
 
-    namespace Fermi::SyntaxAnalysis { class FermiSourceFile; }
+    namespace Fermi::SyntaxAnalysis 
+    { 
+        class FermiSourceFile; 
+        class FermiLexer;
+    }
 
-#line 58 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.hpp"
+#line 62 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.hpp"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -195,7 +199,7 @@
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 namespace Fermi { namespace SyntaxAnalysis {
-#line 199 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.hpp"
+#line 203 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.hpp"
 
 
 
@@ -972,7 +976,7 @@ switch (yykind)
     };
 
     /// Build a parser object.
-    FermiParser (Fermi::SyntaxAnalysis::FermiSourceFile& sourceFile_yyarg);
+    FermiParser (Fermi::SyntaxAnalysis::FermiSourceFile& sourceFile_yyarg, Fermi::SyntaxAnalysis::FermiLexer& lexer_yyarg);
     virtual ~FermiParser ();
 
 #if 201103L <= YY_CPLUSPLUS
@@ -1774,6 +1778,7 @@ switch (yykind)
 
     // User arguments.
     Fermi::SyntaxAnalysis::FermiSourceFile& sourceFile;
+    Fermi::SyntaxAnalysis::FermiLexer& lexer;
 
   };
 
@@ -1971,7 +1976,7 @@ switch (yykind)
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 1975 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.hpp"
+#line 1980 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.hpp"
 
 
 

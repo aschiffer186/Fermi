@@ -21,15 +21,21 @@
     #include "ExpressionNode.hpp"
     #include "StatementNode.hpp"
 
-    namespace Fermi::SyntaxAnalysis { class FermiSourceFile; }
+    namespace Fermi::SyntaxAnalysis 
+    { 
+        class FermiSourceFile; 
+        class FermiLexer;
+    }
 }
 
 %parse-param {Fermi::SyntaxAnalysis::FermiSourceFile& sourceFile}
+%parse-param {Fermi::SyntaxAnalysis::FermiLexer& lexer}
 
 %code {
     #include "FermiSourceFile.hpp"
+    #include "FermiLexer.hpp"
 
-    #define yylex sourceFile.lexer.nextToken
+    #define yylex lexer.nextToken
 }
 
 // Literals
@@ -65,7 +71,7 @@
 %nterm <std::shared_ptr<ExpressionNode>> identity_expression
 %nterm <std::shared_ptr<ExpressionNode>> literal
 %%
-start: statements {sourceFile.syntaxTree = std::make_shared<FermiNode>($1);}
+start: statements {sourceFile.setSyntaxTree(std::make_unique<FermiNode>($1));}
 statements: statements statement {$1.push_back($2); $$ = $1;}
     | %empty {$$ = std::vector<std::shared_ptr<StatementNode>>{};}
     ;
@@ -124,6 +130,6 @@ namespace Fermi::SyntaxAnalysis
         std::string errorMsg = "Error: " + msg; 
         errorMsg.append(" on line: ").append(std::to_string(loc.begin.line));
         errorMsg.append(", col: ").append(std::to_string(loc.end.line));
-        sourceFile.errors.push_back(errorMsg);
+        sourceFile.addDiagnostic(errorMsg);
     }
 }

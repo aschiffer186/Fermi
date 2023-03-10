@@ -3,12 +3,12 @@
 
 #include <memory>
 
-#include "DAGNode.hpp"
+#include "ASTNode.hpp"
 #include "Type.hpp"
 
 namespace Fermi::SemanticAnalysis
 {
-    class ExpressionNode : public DAGNode
+    class ExpressionNode : public ASTNode
     {
     public:
         virtual Type getOutputEntityType() const = 0;
@@ -20,9 +20,9 @@ namespace Fermi::SemanticAnalysis
     public:
         TypeConversionNode(std::unique_ptr<ExpressionNode> child, const Type& outputType);
 
-        DAGNodeType getType() const override;
+        ASTNodeType getType() const override;
 
-        std::vector<const DAGNode*> getChildren() const override;
+        std::vector<const ASTNode*> getChildren() const override;
 
         void accept(Visitor* visitor) const override;
 
@@ -42,9 +42,9 @@ namespace Fermi::SemanticAnalysis
     public: 
         BinaryExpressionNode(std::unique_ptr<ExpressionNode> lhs, BinaryExpressionOperator op, std::unique_ptr<ExpressionNode> rhs);
 
-        DAGNodeType getType() const override;
+        ASTNodeType getType() const override;
 
-        std::vector<const DAGNode*> getChildren() const override;
+        std::vector<const ASTNode*> getChildren() const override;
 
         void accept(Visitor* visitor) const override;
 
@@ -60,11 +60,11 @@ namespace Fermi::SemanticAnalysis
     class LiteralNode : public ExpressionNode
     {
     public:
-        LiteralNode(Type type_, std::string_view value_);
+        LiteralNode(Type type, std::string_view value);
 
-        DAGNodeType getType() const override;
+        ASTNodeType getType() const override;
 
-        std::vector<const DAGNode*> getChildren() const override;
+        std::vector<const ASTNode*> getChildren() const override;
 
         void accept(Visitor* visitor) const override; 
 
@@ -79,11 +79,11 @@ namespace Fermi::SemanticAnalysis
     class IdentifierNode : public ExpressionNode 
     {
     public:
-        IdentifierNode(std::string_view identifier);
+        IdentifierNode(std::string_view identifier, const Type& type);
     
-        DAGNodeType getType() const override;
+        ASTNodeType getType() const override;
 
-        std::vector<const DAGNode*> getChildren() const override;
+        std::vector<const ASTNode*> getChildren() const override;
 
         void accept(Visitor* visitor) const override;
 
@@ -92,6 +92,7 @@ namespace Fermi::SemanticAnalysis
         const std::string& getIdentifier() const;
     private:
         std::string identifier_;
+        Type type_;
     };
 }
 

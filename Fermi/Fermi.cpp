@@ -36,20 +36,30 @@ int main(int argc, const char** argv)
     }
 
     std::string fileName = args.sourceFiles[0];
-    std::ifstream fin{fileName};
+    //std::ifstream fin{fileName};
 
-    Fermi::SyntaxAnalysis::FermiSourceFile srcFile{fileName, fin};
-    Fermi::SyntaxAnalysis::FermiParser parser{srcFile};
-    int res = parser.parse();
-    if (res != 0)
+    // Fermi::SyntaxAnalysis::FermiSourceFile srcFile{fileName, fin};
+    // Fermi::SyntaxAnalysis::FermiParser parser{srcFile};
+    // int res = parser.parse();
+    // if (res != 0)
+    // {
+    //     for(std::string_view msg : srcFile.errors)
+    //         std::cerr << msg << "\n";
+    //     std::cerr << "Compilation failed\n";
+    //     return 0;
+    // }
+
+    // if (static_cast<Fermi::Setup::CLT>(args.options & Fermi::Setup::CommandLineOptions::ShowSyntaxTree))
+    //     std::cout << *srcFile.syntaxTree << "\n";
+
+    std::vector<Fermi::SyntaxAnalysis::FermiSourceFile> srcFiles;
+
+    for(const auto& sourceFileName : args.sourceFiles)
     {
-        for(std::string_view msg : srcFile.errors)
-            std::cerr << msg << "\n";
-        std::cerr << "Compilation failed\n";
-        return 0;
+        std::ifstream fin{sourceFileName};
+        Fermi::SyntaxAnalysis::FermiLexer lexer{fin};
+        Fermi::SyntaxAnalysis::FermiSourceFile srcFile{sourceFileName};
+        Fermi::SyntaxAnalysis::FermiParser parser{srcFile, lexer};
     }
-
-    if (static_cast<Fermi::Setup::CLT>(args.options & Fermi::Setup::CommandLineOptions::ShowSyntaxTree))
-        std::cout << *srcFile.syntaxTree << "\n";
     return 0;
 }

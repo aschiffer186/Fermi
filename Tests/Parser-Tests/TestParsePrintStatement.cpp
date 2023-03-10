@@ -16,9 +16,9 @@ TEST(TestParser, TestPrintIntegerLiterals)
     std::string statement = "print(1, 2, 3);";
 
     std::stringstream ss{statement};
-    FermiSourceFile srcFile{"Test1", ss};
-
-    FermiParser parser{srcFile};
+    FermiSourceFile srcFile{"Test1"};
+    FermiLexer lexer1{ss};
+    FermiParser parser{srcFile, lexer1};
     
     EXPECT_EQ(parser.parse(), 0);
 
@@ -33,7 +33,7 @@ TEST(TestParser, TestPrintIntegerLiterals)
 
     FermiNode node{statements};
 
-    EXPECT_EQ(*srcFile.syntaxTree, node);
+    EXPECT_EQ(srcFile.getTree(), node);
 }
 
 TEST(TestParser, TestPrintFloatLiterals)
@@ -41,9 +41,9 @@ TEST(TestParser, TestPrintFloatLiterals)
     std::string statement = "print(1.1, 2, 0.6672);";
 
     std::stringstream ss{statement};
-    FermiSourceFile srcFile{"Test1", ss};
-
-    FermiParser parser{srcFile};
+    FermiSourceFile srcFile{"Test1"};
+    FermiLexer lexer1{ss};
+    FermiParser parser{srcFile, lexer1};
 
     EXPECT_EQ(parser.parse(), 0);
 
@@ -58,7 +58,7 @@ TEST(TestParser, TestPrintFloatLiterals)
 
     FermiNode node{statements};
 
-    EXPECT_EQ(*srcFile.syntaxTree, node);
+    EXPECT_EQ(srcFile.getTree(), node);
 }
 
 TEST(TestParser, TestPrintMixedLiterals)
@@ -66,9 +66,9 @@ TEST(TestParser, TestPrintMixedLiterals)
     std::string statement = "print(1.1, 2, 0.6672, var1);";
 
     std::stringstream ss{statement};
-    FermiSourceFile srcFile{"Test1", ss};
-
-    FermiParser parser{srcFile};
+    FermiSourceFile srcFile{"Test1"};
+    FermiLexer lexer{ss};
+    FermiParser parser{srcFile, lexer};
 
     EXPECT_EQ(parser.parse(), 0);
 
@@ -84,5 +84,5 @@ TEST(TestParser, TestPrintMixedLiterals)
 
     FermiNode node{statements};
 
-    EXPECT_EQ(*srcFile.syntaxTree, node);
+    EXPECT_EQ(srcFile.getTree(), node);
 }

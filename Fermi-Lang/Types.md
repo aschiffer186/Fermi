@@ -25,6 +25,18 @@
         * The range of this type is -2,147,483,648 to 2,147,483,647
     * `int64_t` is a signed 64-bit, 8-byte integer type.
         * The range of this type is -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+## Rational Types
+* Rational types represent the exact value of the division of two integers.
+* All entities of rational types have two accessible sub-entities representing the numerator and denominator of the rational number.
+    * The type of the sub-entities must be the same and must be an integer-type.
+    * The type of the sub-entities is referred to as the _representation type_ of the rational type.
+    * The `Num` property is an entity of the representation type whose value is the numerator of the rational type 
+    * The `Denom` property is an entity of the representation type whose value is the denominator of the rational type
+* There are four rational types: `rat8_t`, `rat16_t`, `rat32_t`, `rat64_t`
+    * `rat8_t` has a representation type of `int8_t`
+    * `rat16_t` has a representation type of `int16_t`
+    * `rat32_t` has a representation type of `int32_t`
+    * `rat64_t` has a representation type of `int64_t`
 ## Floating Point Types
 * Floating-points are approximations of real-numbers.
 * There are two floating-point types: `float32_t` and `float64_`
@@ -41,14 +53,21 @@
     4. -∞
 ## Arithmetic Type Promotion
 * The arithmetic type promotion rules determine how arithmetic types can be implicitly converted. 
-* An entity of a smaller integral type can be implicitly converted to an entity of an equal or larger integral type.
+* An entity of an integral type can be implicitly converted to an entity of an equal or larger integral type.
+* An entity of an integral type _T_ can be implicitly converted to a rational type if _T_ can be implicitly converted to the rational type's representation type.
 * An entity of type `float32_t` can be implicitly converted to an entity of type `float64_t`.
-* An entity of type `int8_t`, `int16_t`, or `int32_t` can be implicitly converted to an entity of type `float64_t`.
-* An entity of any integral type can be converted to an entity of a `float64_t`.
+* An entity of any integral type may be implicitly converted to a floating-point type. 
+* An entity of any rational type may be implicitly converted to a floating-point-type.
 * The _common type_ of two integer types is the larger of the two types.
+* The _common type_ of two rational types _T1_ and _T2_ is a rational type whose representation type is the common type of the representation types of _T1_ and _T2_.
 * The _common type_ of two floating-point types is the larger of the two types.
-* The _common type_ of an integer type and a floating-point type is the largest floating-point type that can contain the maximum value of both types.
-    * This may result in implicit promotion of the floating-point types.
+* The _common type_ of an integer type _T1_ and a rational type _T2_ is the rational type whose representation type is the common type of _T1_ and the representation type of _T2_.
+* The _common type_ of an integer type and a floating-point type is the floating-point type.
+* The _common type_ of a rational type and a floating-point type is the floating-point type.
+# Bool Type
+* The bool type is used to express logical conditions and is denoted by the keyword `bool`.
+* All entities of type `bool` can have one of two possible values: true, denoted by the keyword `true` and false, denoted by the keyword `false`.
+* The size of `bool` is 1. 
 # Void Type
 * The void type is the unique type that contains no input entities.
 * The void type is denoted by the keyword `void`.
@@ -58,3 +77,4 @@
 # Unit Type
 * The unit type is the unique type that contains exactly one entity.
     * All instances? of the unity type are the same entity. Specifically, the address of all instances of the unit type are the same.
+* The size of the unit type is implementation defined.

@@ -16,9 +16,10 @@ TEST(TestParser, TestAssignLiterals)
     std::string statement = "x = y;";
 
     std::stringstream ss{statement};
-    FermiSourceFile srcFile{"Test1", ss};
+    FermiSourceFile srcFile{"Test1"};
+    FermiLexer lexer{ss};
 
-    FermiParser parser{srcFile};
+    FermiParser parser{srcFile, lexer};
 
     EXPECT_EQ(parser.parse(), 0);
 
@@ -26,20 +27,20 @@ TEST(TestParser, TestAssignLiterals)
     auto assignmentNode = std::make_shared<AssignmentStatementNode>("x", rhs);
     FermiNode node{{assignmentNode}};
 
-    EXPECT_EQ(*srcFile.syntaxTree, node);
+    EXPECT_EQ(srcFile.getTree(), node);
 
     std::string statement2 = "x = 1;";
     std::stringstream ss2{statement2};
+    FermiLexer lexer2{ss2};
+    FermiSourceFile srcFile2{"Test2"};
 
-    FermiSourceFile srcFile2{"Test2", ss};
-
-    FermiParser parser2{srcFile2};
+    FermiParser parser2{srcFile2, lexer2};
 
     EXPECT_EQ(parser2.parse(), 0);
 
-    rhs = std::make_shared<LiteralNode>("1", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralNode>("1", LiteralType::Integer);
     assignmentNode = std::make_shared<AssignmentStatementNode>("x", rhs);
     FermiNode node2{{assignmentNode}};
 
-    EXPECT_EQ(*srcFile2.syntaxTree, node2);
+    EXPECT_EQ(srcFile2.getTree(), node2);
 }

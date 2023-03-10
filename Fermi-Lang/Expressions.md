@@ -44,7 +44,8 @@ literal :=
     * If the value is out of range of all integer types; the program is ill-formed.
 * A floating-point literal creates a `float64_t` whose value is the nearest IEE-754 double precision representation of the value.
     * If the floating-point literal is larger than the largest value that can be represented by a `float64_t`, the value of the created entity is ∞.
-    * If a floating-point literal is smaller than the most negative value that can be represented by a `float64_`, the value of the created entity is -∞.
+    * If a floating-point literal is smaller than the most negative value that can be represented by a `float64_t`, the value of the created entity is -∞.
+    * If a floating-pointer literal is smaller than the smallest exponent of `float64_t`, the program is ill-formed.
 ## Binary Creation Expression 
 ### Grammar
 ```
