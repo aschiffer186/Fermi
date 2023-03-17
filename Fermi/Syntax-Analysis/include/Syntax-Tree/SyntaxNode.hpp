@@ -12,6 +12,8 @@ namespace Fermi::SyntaxAnalysis
     inline constexpr const char* PIPE = "|";
     inline const std::string SPACE = "   ";
 
+    class Visitor;
+
     enum class SyntaxNodeType 
     {
         BinaryExpression,
@@ -68,7 +70,9 @@ namespace Fermi::SyntaxAnalysis
          * @return the modified output stream
          */
         virtual std::ostream& print(std::ostream& os, std::string indent, bool isLast) const = 0;
-        
+
+        virtual void accept(Visitor* visitor) const = 0;
+
         virtual ~SyntaxNode() = default;
         
     private:

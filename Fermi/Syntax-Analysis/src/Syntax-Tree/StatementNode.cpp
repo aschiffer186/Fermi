@@ -2,6 +2,7 @@
 
 #include "ExpressionNode.hpp"
 #include "StatementNode.hpp"
+#include "Visitor.hpp"
 
 using namespace std::literals;
 
@@ -33,6 +34,11 @@ namespace Fermi::SyntaxAnalysis
         return std::equal(statements_.begin(), statements_.end(), node.statements_.begin(),  [](const auto& lhs, const auto& rhs){
             return *lhs == *rhs;
         });
+    }
+
+    void FermiNode::accept(Visitor* visitor) const 
+    {
+        visitor->visit(this);
     }
 
     std::ostream& FermiNode::print(std::ostream& os, std::string indent, bool isLast) const 
@@ -90,6 +96,11 @@ namespace Fermi::SyntaxAnalysis
         return os;
     }
 
+    void ExpressionStatementNode::accept(Visitor* visitor) const 
+    {
+        visitor->visit(this);
+    }
+
     bool ExpressionStatementNode::equals(const SyntaxNode& other) const noexcept 
     {
         const auto& node = dynamic_cast<const ExpressionStatementNode&>(other);
@@ -120,6 +131,11 @@ namespace Fermi::SyntaxAnalysis
     const std::string& VariableDeclarationNode::getIdentifier() const 
     {
         return identifier_;
+    }
+
+    void VariableDeclarationNode::accept(Visitor* visitor) const 
+    {
+        visitor->visit(this);
     }
 
     bool VariableDeclarationNode::equals(const SyntaxNode& other) const noexcept

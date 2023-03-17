@@ -112,10 +112,26 @@ expression "/" expression
 expression "//" expression
 ```
 * Binary integer division performs integer-division in two entities.
-* The types of the two input entities must be integer types; the program is ill-formed if floating-point division. 
+* The types of the two input entities must be integer types; the program is ill-formed if one or both is a floating-point type.
 * The resulting quotient is calculated by exactly divided the two integers then truncating the result. 
     * x//y = floor(x/y)
 * The type of the output entity is the common-type of the two input entities.
 * The following special values can occur
     * If the denominator is 0 and the numerator is positive, the value of the output entity is the largest value of the common-type of the two input entities.
     * If the denominator is 0 and the numerator is non-positive, the value of the output entity is the smallest value of the common-type of the two input entities.
+### Exponentiation
+```
+expression "^" expression
+``` 
+### Modulo 
+```
+expression "%" expression
+```
+* Binary modulo computes the remainder of an integer division.
+    * Specifically, the modulo performs the following calculation:
+        * Let x and y be two integers 
+        * Let q = x // y
+        * If n = x & y then n satisfies q*y + n == x
+* The types of the two input entities must be integer types; the program is ill-formed if one or both is a floating-point type.
+* The type of the output entity is the common-type of the two input entities.
+* If the second operand to the expression is 0 then ?????

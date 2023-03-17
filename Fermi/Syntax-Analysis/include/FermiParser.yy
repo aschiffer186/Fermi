@@ -99,7 +99,9 @@ print_statement: "print" "(" expression-list ")" ";" {$$ = std::make_shared<Prin
 expression-list: expression-list "," expression {$1.push_back($3); $$ = $1;}
     | expression {std::vector<std::shared_ptr<ExpressionNode>> v; v.push_back($1); $$ = v;}
     ;
-assignment-statement: IDENTIFIER "=" expression ";" {$$ = std::make_shared<AssignmentStatementNode>($1, $3);};
+assignment-statement: IDENTIFIER "=" expression ";" {$$ = std::make_shared<AssignmentStatementNode>($1, $3);}
+    | IDENTIFIER "=" expression error {srcFile.addDiagnostic("Expected \";\" on line: "")}
+    ;
 expression:
     identity_expression {$$ = $1;}
     | creation_expression {$$ = $1;}

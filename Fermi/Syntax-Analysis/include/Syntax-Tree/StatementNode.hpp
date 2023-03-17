@@ -23,6 +23,8 @@ namespace Fermi::SyntaxAnalysis
 
         std::vector<const SyntaxNode*> getChildren() const override; 
 
+        void accept(Visitor* visitor) const override;
+
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
@@ -51,6 +53,9 @@ namespace Fermi::SyntaxAnalysis
         SyntaxNodeType getNodeType() const override;
 
         std::vector<const SyntaxNode*> getChildren() const override; 
+
+        void accept(Visitor* visitor) const override;
+
         
         std::ostream& print(std::ostream& os, std::string ident, bool isLast) const override;
     private:
@@ -71,6 +76,9 @@ namespace Fermi::SyntaxAnalysis
         Type getType() const;
 
         const std::string& getIdentifier() const;
+
+        void accept(Visitor* visitor) const override;
+
         
         std::ostream& print(std::ostream& os, std::string ident, bool isLast) const override;
     private:
@@ -91,6 +99,8 @@ namespace Fermi::SyntaxAnalysis
         std::vector<const SyntaxNode*> getChildren() const override; 
 
         void addPrintingExpression(std::shared_ptr<ExpressionNode> expression);
+
+        void accept(Visitor* visitor) const override;
         
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
@@ -109,6 +119,8 @@ namespace Fermi::SyntaxAnalysis
         std::vector<const SyntaxNode*> getChildren() const override; 
 
         const std::string& getAssignee() const; 
+
+        void accept(Visitor* visitor) const override;
         
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:

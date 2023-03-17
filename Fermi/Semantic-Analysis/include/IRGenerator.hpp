@@ -13,15 +13,15 @@ namespace Fermi::SemanticAnalysis
 {
     class AssignNode;
     class ASTNode;
-    class LiteralNode;
+    class LiteralASTNode;
     class TypeConversionNode;
 
     class IRGenerator
     {
     private:
         llvm::AllocaInst* codegen(const AssignNode* node);
-        llvm::AllocaInst* codegen(const BinaryExpressionNode* node);
-        llvm::AllocaInst* codegen(const LiteralNode* node);
+        llvm::AllocaInst* codegen(const BinaryExpressionASTNode* node);
+        llvm::AllocaInst* codegen(const LiteralASTNode* node);
         llvm::AllocaInst* codegen(const TypeConversionNode* node);
     private:
         std::unique_ptr<ASTNode> AST_;

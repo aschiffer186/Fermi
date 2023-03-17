@@ -1,5 +1,6 @@
 add_library(FermiSemanticAnalysis STATIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set_target_properties(FermiSemanticAnalysis PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries(FermiSemanticAnalysis PUBLIC ${llvm_libs})
-target_include_directories(FermiSemanticAnalysis PUBLIC ${LLVM_INCLUDE_DIRECTORIES} ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(FermiSemanticAnalysis PUBLIC 
+    ${LLVM_INCLUDE_DIRECTORIES} ${CMAKE_CURRENT_SOURCE_DIR}/include ${PARSER_INCLUDE_DIR})
 target_compile_definitions(FermiSemanticAnalysis PUBLIC ${LLVM_DEFINITIONS}) 

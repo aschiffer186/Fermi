@@ -9,13 +9,15 @@ namespace Fermi::SemanticAnalysis
     class AssignNode : public ASTNode
     {
     private:
-        IdentifierNode lhs_;
-        std::unique_ptr<ExpressionNode> rhs_;
+        IdentifierASTNode lhs_;
+        std::unique_ptr<ExpressionASTNode> rhs_;
     };
 
-    class FermiNode : public ASTNode 
+    class FermiASTNode : public ASTNode 
     {
     public:
+        FermiASTNode();
+
         ASTNodeType getType() const override;
 
         std::vector<const ASTNode*> getChildren() const override;

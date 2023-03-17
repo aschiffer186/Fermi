@@ -8,17 +8,17 @@
 
 namespace Fermi::SemanticAnalysis
 {
-    class ExpressionNode : public ASTNode
+    class ExpressionASTNode : public ASTNode
     {
     public:
         virtual Type getOutputEntityType() const = 0;
-        virtual ~ExpressionNode() = default;
+        virtual ~ExpressionASTNode() = default;
     };
 
-    class TypeConversionNode : public ExpressionNode
+    class TypeConversionNode : public ExpressionASTNode
     {
     public:
-        TypeConversionNode(std::unique_ptr<ExpressionNode> child, const Type& outputType);
+        TypeConversionNode(std::unique_ptr<ExpressionASTNode> child, const Type& outputType);
 
         ASTNodeType getType() const override;
 
@@ -29,18 +29,24 @@ namespace Fermi::SemanticAnalysis
         Type getOutputEntityType() const override;
     private:
         Type outputType_;
-        std::unique_ptr<ExpressionNode> child_;
+        std::unique_ptr<ExpressionASTNode> child_;
     };
 
     enum class BinaryExpressionOperator
     {
-        Addition
+        Addition,
+        Subtraction,
+        Multiplication,
+        Division,
+        IntegerDivision, 
+        Exponentiation,
+        Modulo
     }; 
 
-    class BinaryExpressionNode : public ExpressionNode
+    class BinaryExpressionASTNode : public ExpressionASTNode
     {
     public: 
-        BinaryExpressionNode(std::unique_ptr<ExpressionNode> lhs, BinaryExpressionOperator op, std::unique_ptr<ExpressionNode> rhs);
+        BinaryExpressionASTNode(std::unique_ptr<ExpressionASTNode> lhs, BinaryExpressionOperator op, std::unique_ptr<ExpressionASTNode> rhs);
 
         ASTNodeType getType() const override;
 
@@ -53,14 +59,14 @@ namespace Fermi::SemanticAnalysis
     private:
         BinaryExpressionOperator op_;
         Type outputType_;
-        std::unique_ptr<ExpressionNode> lhs_;
-        std::unique_ptr<ExpressionNode> rhs_;
+        std::unique_ptr<ExpressionASTNode> lhs_;
+        std::unique_ptr<ExpressionASTNode> rhs_;
     };
 
-    class LiteralNode : public ExpressionNode
+    class LiteralASTNode : public ExpressionASTNode
     {
     public:
-        LiteralNode(Type type, std::string_view value);
+        LiteralASTNode(Type type, std::string_view value);
 
         ASTNodeType getType() const override;
 
@@ -76,10 +82,10 @@ namespace Fermi::SemanticAnalysis
         std::string value_;
     };
 
-    class IdentifierNode : public ExpressionNode 
+    class IdentifierASTNode : public ExpressionASTNode 
     {
     public:
-        IdentifierNode(std::string_view identifier, const Type& type);
+        IdentifierASTNode(std::string_view identifier, const Type& type);
     
         ASTNodeType getType() const override;
 

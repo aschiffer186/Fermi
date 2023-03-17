@@ -78,6 +78,8 @@ namespace Fermi::SyntaxAnalysis
          */
         BinaryExpressionTypes getOperator() const;
 
+        void accept(Visitor* visitor) const override;
+
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
@@ -110,6 +112,8 @@ namespace Fermi::SyntaxAnalysis
         const std::string& getValue() const;
 
         LiteralType getType() const;
+
+        void accept(Visitor* visitor) const override;
         
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:

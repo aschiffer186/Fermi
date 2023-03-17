@@ -1,6 +1,7 @@
 #include <typeinfo>
 
 #include "ExpressionNode.hpp"
+#include "Visitor.hpp"
 
 using namespace std::literals;
 
@@ -27,6 +28,11 @@ namespace Fermi::SyntaxAnalysis
     BinaryExpressionTypes BinaryExpressionNode::getOperator() const 
     {
         return operator_;
+    }
+
+    void BinaryExpressionNode::accept(Visitor* visitor) const 
+    {
+        visitor->visit(this);
     }
 
     bool BinaryExpressionNode::equals(const SyntaxNode& other) const noexcept 
@@ -90,6 +96,11 @@ namespace Fermi::SyntaxAnalysis
     LiteralType LiteralNode::getType() const 
     {
         return type_;
+    }
+
+    void LiteralNode::accept(Visitor* visitor) const 
+    {
+        visitor->visit(this);
     }
 
     bool LiteralNode::equals(const SyntaxNode& other) const noexcept 
