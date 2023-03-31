@@ -1,7 +1,19 @@
+/**
+ * @file ExpressionASTNode.hpp
+ * @author Alex Schiffer (aschiffer186@gmail.com)
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef EXPRESSION_AST_NODE_HPP
 #define EXPRESSION_AST_NODE_HPP
 
+
 #include <memory>
+#include <string>
+#include <string_view>
 
 #include "ASTNode.hpp"
 #include "Type.hpp"
@@ -22,6 +34,7 @@ namespace Fermi::SemanticAnalysis
         Subtraction,
         Multiplication,
         Division,
+        IntegerDivision,
         Exponentiation,
         Modulo
     };

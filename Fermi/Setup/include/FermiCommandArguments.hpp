@@ -1,7 +1,15 @@
+/**
+ * @file FermiCommandArguments.hpp
+ * @author Alex Schiffer (aschiffer186@gmail.com)
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef FERMI_COMMAND_ARGUMENTS_HPP
 #define FERMI_COMMAND_ARGUMENTS_HPP
 
-#include <cstdint>
 #include <string>
 #include <vector>
 

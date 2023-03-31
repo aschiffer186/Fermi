@@ -1,3 +1,12 @@
+/**
+ * @file SyntaxNode.hpp
+ * @author Alex Schiffer (aschiffer186@gmail.com)
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #include <typeinfo>
 
 #include "ExpressionNode.hpp"
@@ -28,11 +37,6 @@ namespace Fermi::SyntaxAnalysis
     BinaryExpressionTypes BinaryExpressionNode::getOperator() const 
     {
         return operator_;
-    }
-
-    void BinaryExpressionNode::accept(Visitor* visitor) const 
-    {
-        visitor->visit(this);
     }
 
     bool BinaryExpressionNode::equals(const SyntaxNode& other) const noexcept 
@@ -96,11 +100,6 @@ namespace Fermi::SyntaxAnalysis
     LiteralType LiteralNode::getType() const 
     {
         return type_;
-    }
-
-    void LiteralNode::accept(Visitor* visitor) const 
-    {
-        visitor->visit(this);
     }
 
     bool LiteralNode::equals(const SyntaxNode& other) const noexcept 

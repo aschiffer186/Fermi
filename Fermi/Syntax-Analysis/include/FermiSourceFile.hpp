@@ -1,3 +1,14 @@
+/**
+ * @file FermiSourceFile.hpp
+ * @author Alex Schiffer (aschiffer186@gmail.com)
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
+
 #ifndef FERMI_SOURCE_FILE_HPP
 #define FERMI_SOURCE_FILE_HPP
 
@@ -12,22 +23,6 @@
 namespace Fermi::SyntaxAnalysis
 {
     class SyntaxNode;
-
-    // class FermiSourceFile
-    // {
-    // public:
-    //     std::string name;
-    //     FermiLexer lexer;
-    //     std::shared_ptr<FermiNode> syntaxTree;
-    //     std::vector<std::string> errors;
-
-    //     FermiSourceFile(std::string_view nameIn, std::istream& istreamIn)
-    //     : name{nameIn}, lexer{istreamIn}, syntaxTree{nullptr}, errors{}
-    //     {
-
-    //     }
-    // };
-
 
     /**
      * @brief Manages parsing

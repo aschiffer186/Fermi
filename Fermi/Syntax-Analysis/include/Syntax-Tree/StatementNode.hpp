@@ -1,3 +1,12 @@
+/**
+ * @file SyntaxNode.hpp
+ * @author Alex Schiffer (aschiffer186@gmail.com)
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef STATEMENT_NODE_HPP
 #define STATEMENT_NODE_HPP
 
@@ -22,8 +31,6 @@ namespace Fermi::SyntaxAnalysis
         SyntaxNodeType getNodeType() const override;
 
         std::vector<const SyntaxNode*> getChildren() const override; 
-
-        void accept(Visitor* visitor) const override;
 
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
@@ -54,9 +61,6 @@ namespace Fermi::SyntaxAnalysis
 
         std::vector<const SyntaxNode*> getChildren() const override; 
 
-        void accept(Visitor* visitor) const override;
-
-        
         std::ostream& print(std::ostream& os, std::string ident, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
@@ -77,9 +81,6 @@ namespace Fermi::SyntaxAnalysis
 
         const std::string& getIdentifier() const;
 
-        void accept(Visitor* visitor) const override;
-
-        
         std::ostream& print(std::ostream& os, std::string ident, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
@@ -100,8 +101,6 @@ namespace Fermi::SyntaxAnalysis
 
         void addPrintingExpression(std::shared_ptr<ExpressionNode> expression);
 
-        void accept(Visitor* visitor) const override;
-        
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
@@ -119,8 +118,6 @@ namespace Fermi::SyntaxAnalysis
         std::vector<const SyntaxNode*> getChildren() const override; 
 
         const std::string& getAssignee() const; 
-
-        void accept(Visitor* visitor) const override;
         
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:

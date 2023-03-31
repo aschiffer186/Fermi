@@ -1,7 +1,16 @@
+/**
+ * @file FermiLexer.hpp
+ * @author Alex Schiffer (aschiffer186@gmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef FERMI_LEXER_HPP
 #define FERMI_LEXER_HPP
-
-/// @file FermiLexer.hpp Declaration of FermiLexer used to lex Fermi source files
 
 #include <iosfwd>
 

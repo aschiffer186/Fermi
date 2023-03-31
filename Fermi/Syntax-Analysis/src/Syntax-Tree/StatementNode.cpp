@@ -1,3 +1,12 @@
+/**
+ * @file SyntaxNode.hpp
+ * @author Alex Schiffer (aschiffer186@gmail.com)
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #include <algorithm>
 
 #include "ExpressionNode.hpp"
@@ -34,11 +43,6 @@ namespace Fermi::SyntaxAnalysis
         return std::equal(statements_.begin(), statements_.end(), node.statements_.begin(),  [](const auto& lhs, const auto& rhs){
             return *lhs == *rhs;
         });
-    }
-
-    void FermiNode::accept(Visitor* visitor) const 
-    {
-        visitor->visit(this);
     }
 
     std::ostream& FermiNode::print(std::ostream& os, std::string indent, bool isLast) const 
@@ -96,11 +100,6 @@ namespace Fermi::SyntaxAnalysis
         return os;
     }
 
-    void ExpressionStatementNode::accept(Visitor* visitor) const 
-    {
-        visitor->visit(this);
-    }
-
     bool ExpressionStatementNode::equals(const SyntaxNode& other) const noexcept 
     {
         const auto& node = dynamic_cast<const ExpressionStatementNode&>(other);
@@ -131,11 +130,6 @@ namespace Fermi::SyntaxAnalysis
     const std::string& VariableDeclarationNode::getIdentifier() const 
     {
         return identifier_;
-    }
-
-    void VariableDeclarationNode::accept(Visitor* visitor) const 
-    {
-        visitor->visit(this);
     }
 
     bool VariableDeclarationNode::equals(const SyntaxNode& other) const noexcept
@@ -253,17 +247,11 @@ namespace Fermi::SyntaxAnalysis
         return os;
     }
 
-    void PrintNode::accept(Visitor* visitor) const
-    {
-        visitor->visit(this);
-    }
-
     AssignmentStatementNode::AssignmentStatementNode(std::string_view lhs, std::shared_ptr<ExpressionNode> rhs)
     : lhs_{lhs}, rhs_{rhs}
     {
 
     }
-
 
     SyntaxNodeType AssignmentStatementNode::getNodeType() const 
     {
@@ -284,11 +272,6 @@ namespace Fermi::SyntaxAnalysis
     {
         const auto& node = dynamic_cast<const AssignmentStatementNode&>(other);
         return lhs_ == node.lhs_ && *rhs_ == *node.rhs_;
-    }
-
-    void AssignmentStatementNode::accept(Visitor* visitor) const 
-    {
-        visitor->visit(this);
     }
 
     std::ostream& AssignmentStatementNode::print(std::ostream& os, std::string indent, bool isLast) const 

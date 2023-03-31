@@ -1,3 +1,12 @@
+/**
+ * @file SyntaxNode.hpp
+ * @author Alex Schiffer (aschiffer186@gmail.com)
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef EXPRESSION_NODE_HPP
 #define EXPRESSION_NODE_HPP
 
@@ -78,8 +87,6 @@ namespace Fermi::SyntaxAnalysis
          */
         BinaryExpressionTypes getOperator() const;
 
-        void accept(Visitor* visitor) const override;
-
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
@@ -113,8 +120,6 @@ namespace Fermi::SyntaxAnalysis
 
         LiteralType getType() const;
 
-        void accept(Visitor* visitor) const override;
-        
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;

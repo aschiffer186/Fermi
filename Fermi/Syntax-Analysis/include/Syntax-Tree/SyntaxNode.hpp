@@ -1,3 +1,13 @@
+/**
+ * @file SyntaxNode.hpp
+ * @author Alex Schiffer (aschiffer186@gmail.com)
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef SYNTAX_NODE_HPP
 #define SYNTAX_NODE_HPP
 
@@ -71,10 +81,7 @@ namespace Fermi::SyntaxAnalysis
          */
         virtual std::ostream& print(std::ostream& os, std::string indent, bool isLast) const = 0;
 
-        virtual void accept(Visitor* visitor) const = 0;
-
         virtual ~SyntaxNode() = default;
-        
     private:
         // @pre typeid(other) == typeid(*this)
         virtual bool equals(const SyntaxNode& other) const noexcept = 0; 

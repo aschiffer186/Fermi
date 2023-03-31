@@ -1,3 +1,13 @@
+/**
+ * @file Type.hpp
+ * @author Alex Schiffer (aschiffer186@gmail.com)
+ * @version 0.1
+ * @date 2023-03-31
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef TYPE_HPP
 #define TYPE_HPP
 
@@ -25,6 +35,8 @@ namespace Fermi::SemanticAnalysis
 
     bool isIntegerType(const FermiType& type) noexcept;
     bool isFloatingPointType(const FermiType& type) noexcept;
+
+    FermiType commonType(const FermiType& t1, const FermiType& t2);
 }
 
 #endif
