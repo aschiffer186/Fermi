@@ -2,3 +2,6 @@ doc/*
 build*/*
 ideas/*
 .vscode/*
+
+compile_commaneds.json
+.cache/*

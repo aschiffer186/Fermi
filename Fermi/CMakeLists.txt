@@ -6,4 +6,4 @@ add_subdirectory(Syntax-Analysis)
 add_subdirectory(Semantic-Analysis)
 
 add_executable(Fermi Fermi.cpp)
-target_link_libraries(Fermi PRIVATE FermiParser FermiSetup)
+target_link_libraries(Fermi PRIVATE FermiParser FermiSetup FermiSemanticAnalysis)

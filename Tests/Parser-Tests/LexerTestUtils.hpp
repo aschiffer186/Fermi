@@ -85,7 +85,7 @@ inline void runLexerTest(std::fstream& testStream,
     }
 }
 
-void compareTokens(const FermiParser::symbol_type& actual, const FermiParser::symbol_type& expected)
+inline void compareTokens(const FermiParser::symbol_type& actual, const FermiParser::symbol_type& expected)
 {
     EXPECT_EQ(actual.kind(), expected.kind());
     EXPECT_EQ(actual.location.begin.column, expected.location.begin.column);

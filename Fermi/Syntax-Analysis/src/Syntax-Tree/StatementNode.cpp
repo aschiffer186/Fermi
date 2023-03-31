@@ -253,6 +253,11 @@ namespace Fermi::SyntaxAnalysis
         return os;
     }
 
+    void PrintNode::accept(Visitor* visitor) const
+    {
+        visitor->visit(this);
+    }
+
     AssignmentStatementNode::AssignmentStatementNode(std::string_view lhs, std::shared_ptr<ExpressionNode> rhs)
     : lhs_{lhs}, rhs_{rhs}
     {
@@ -279,6 +284,11 @@ namespace Fermi::SyntaxAnalysis
     {
         const auto& node = dynamic_cast<const AssignmentStatementNode&>(other);
         return lhs_ == node.lhs_ && *rhs_ == *node.rhs_;
+    }
+
+    void AssignmentStatementNode::accept(Visitor* visitor) const 
+    {
+        visitor->visit(this);
     }
 
     std::ostream& AssignmentStatementNode::print(std::ostream& os, std::string indent, bool isLast) const 
