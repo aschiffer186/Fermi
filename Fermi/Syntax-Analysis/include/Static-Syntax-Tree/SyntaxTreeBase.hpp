@@ -8,20 +8,14 @@
 
 namespace Fermi::SyntaxAnalysis
 {
-    class BinaryExpressionNode;
-    class LiteralNode;
-
-    using NodeView = std::variant<BinaryExpressionNode, LiteralNode>;
-
     template<typename NodeType>
     concept SyntaxNode = std::equality_comparable<NodeType> && 
         requires(NodeType node, std::ostream& os)
         {
-            {node.getChildren()} -> std::same_as<std::vector<NodeView>>;
             os << node;
         };
     
-} // namespace Fermi::Synta
+} // namespace Fermi::SyntaxAnalysis
 
 
 #endif

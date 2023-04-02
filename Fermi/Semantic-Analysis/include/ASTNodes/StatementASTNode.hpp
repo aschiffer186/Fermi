@@ -14,6 +14,8 @@
 #include <vector>
 
 #include "ASTNode.hpp"
+#include "ExpressionASTNode.hpp"
+#include "Type.hpp"
 
 namespace Fermi::SemanticAnalysis
 {
@@ -21,6 +23,18 @@ namespace Fermi::SemanticAnalysis
     {
     public: 
         virtual ~StatementASTNode() = default;
+    };
+
+    class ExpressionStatementASTNode : public StatementASTNode 
+    {
+    public:
+        explicit ExpressionStatementASTNode(std::unique_ptr<ExpressionASTNode> childExpr);
+
+        std::vector<const ASTNode*> getChildren() const override;
+
+        ASTNodeType getNodeType() const override;
+    public:
+        std::unique_ptr<ExpressionASTNode> childExpr_;
     };
 
     class FermiASTNode : public StatementASTNode 
@@ -33,6 +47,23 @@ namespace Fermi::SemanticAnalysis
         void addChild(std::unique_ptr<StatementASTNode> child);
     private:
         std::vector<std::unique_ptr<StatementASTNode>> children_;
+    };
+
+
+    class VariableDeclarationASTNode : public StatementASTNode 
+    {
+    public:
+        std::vector<const ASTNode*> getChildren() const override;
+
+        ASTNodeType getNodeType() const override;
+
+        std::string_view getIdentifier() const;
+
+        const FermiType& getType() const;
+    private:
+        std::string identifier_;
+        FermiType type_;
+        std::unique_ptr<ExpressionASTNode> initializer_;
     };
 }
 

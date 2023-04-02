@@ -3,6 +3,8 @@
 
 #include "SyntaxTreeBase.hpp"
 
+#include <string>
+
 namespace Fermi::SyntaxAnalysis
 {
     enum class BinaryOperator 
@@ -15,25 +17,49 @@ namespace Fermi::SyntaxAnalysis
         Exponentiation, 
         Modulo
     };
-
-    class LiteralNode 
-    {
-
-    };
     
+    template<SyntaxNode Child1, SyntaxNode Child2>
     class BinaryExpressionNode
     {
     public:
-        template<typename LHSNodeType, typename RHSNodeType>
-        BinaryExpressionNode(LHSNodeType&& lhs, BinaryOperator op, RHSNodeType&& rhs)
-        : lhs_{std::forward<LHSNodeType>(lhs)}
+        BinaryExpressionNode(const Child1& lhs, BinaryOperator op, const Child2& rhs)
+        : lhs_{lhs}, op_{op}, rhs_{rhs}
         {
 
         }
+
+        BinaryOperator getOperator() const 
+        {
+            return op_;
+        }
+
+        const Child1& getLHS() const
+        {
+            return lhs_;
+        }
+
+        const Child2& getRHS() const 
+        {
+            return rhs_;
+        }
     private:
-        NodeView lhs_;
+        Child1 lhs_;
         BinaryOperator op_;
-        NodeView rhs_;
+        Child2 rhs_;
+    };
+
+    enum class LiteralNodeType 
+    {
+        Float, 
+        Identifier, 
+        Integer
+    };
+
+    class LiteralNode 
+    {
+    private:
+        LiteralNodeType type_;
+        std::string value_;
     };
 
 }

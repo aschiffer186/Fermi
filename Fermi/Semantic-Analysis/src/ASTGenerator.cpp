@@ -7,6 +7,7 @@
  * 
  */
 #include <cstdint>
+#include <cassert>
 #include <limits>
 #include <stdexcept>
 
@@ -14,8 +15,12 @@
 #include "Syntax-Tree/StatementNode.hpp"
 
 #include "ASTNodes/ExpressionASTNode.hpp"
+#include "ASTNodes/StatementASTNode.hpp"
 #include "ASTGenerator.hpp"
+#include "Syntax-Tree/SyntaxNode.hpp"
 #include "Type.hpp"
+
+#define FERMI_UNREACHABLE std::terminate();
 
 namespace Fermi::SemanticAnalysis
 {
@@ -62,5 +67,105 @@ namespace Fermi::SemanticAnalysis
         case SyntaxAnalysis::LiteralType::Identifier:
             return nullptr;
         }
+    }
+
+    std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::BinaryExpressionNode& node)
+    {
+        const auto* lhsExpr = node.getChildren()[0];
+        const auto* rhsExpr = node.getChildren()[0];
+
+        std::unique_ptr<ExpressionASTNode> lhsChild;
+        std::unique_ptr<ExpressionASTNode> rhsChild;
+
+        if (lhsExpr->getNodeType() == SyntaxAnalysis::SyntaxNodeType::Literal)
+        {
+            lhsChild = transform(static_cast<const SyntaxAnalysis::LiteralNode&>(*lhsExpr));
+        }
+        else if (lhsExpr->getNodeType() == SyntaxAnalysis::SyntaxNodeType::BinaryExpression)
+        {
+            lhsChild = transform(static_cast<const SyntaxAnalysis::BinaryExpressionNode&>(*lhsExpr));
+        }
+
+        if (rhsExpr->getNodeType() == SyntaxAnalysis::SyntaxNodeType::Literal)
+        {
+            rhsChild = transform(static_cast<const SyntaxAnalysis::LiteralNode&>(*rhsExpr));
+        }
+        else if (rhsExpr->getNodeType() == SyntaxAnalysis::SyntaxNodeType::BinaryExpression)
+        {
+            rhsChild = transform(static_cast<const SyntaxAnalysis::BinaryExpressionNode&>(*rhsExpr));
+        }
+
+        FermiType childCommonType = commonType(lhsChild->getType(), rhsChild->getType());
+
+        if (lhsChild->getType() != childCommonType)
+        {
+            lhsChild = std::make_unique<TypeConversionASTNode>(std::move(lhsChild), childCommonType);
+        }
+
+        if (rhsChild->getType() != childCommonType)
+        {
+            rhsChild = std::make_unique<TypeConversionASTNode>(std::move(rhsChild), childCommonType);
+        }
+
+        BinaryOperatorType op;
+        switch(node.getOperator())
+        {
+        case SyntaxAnalysis::BinaryExpressionTypes::Addition:
+            op = BinaryOperatorType::Addition;
+            break;
+        case SyntaxAnalysis::BinaryExpressionTypes::Subtraction:
+            op = BinaryOperatorType::Subtraction;
+            break;
+        case SyntaxAnalysis::BinaryExpressionTypes::Multiplication:
+            op = BinaryOperatorType::Multiplication;
+            break;
+        case SyntaxAnalysis::BinaryExpressionTypes::Division:
+            op = BinaryOperatorType::Division;
+            break;
+        case SyntaxAnalysis::BinaryExpressionTypes::IntegerDivision:
+            op = BinaryOperatorType::IntegerDivision;
+            break;
+        case SyntaxAnalysis::BinaryExpressionTypes::Exponentiation:
+            op = BinaryOperatorType::Exponentiation;
+            break;
+        case SyntaxAnalysis::BinaryExpressionTypes::Modulo:
+            op = BinaryOperatorType::Modulo;
+            break;
+        }
+
+        return std::make_unique<BinaryExpressionASTNode>(std::move(lhsChild), op, std::move(rhsChild));
+    }
+
+    std::unique_ptr<StatementASTNode> transform(const SyntaxAnalysis::ExpressionStatementNode& node)
+    {
+        const auto* child = node.getChildren()[0];
+        SyntaxAnalysis::SyntaxNodeType type = child->getNodeType();
+
+        switch(type)
+        {
+        case SyntaxAnalysis::SyntaxNodeType::BinaryExpression:
+            return std::make_unique<ExpressionStatementASTNode>(transform(static_cast<const SyntaxAnalysis::BinaryExpressionNode&>(*child)));
+        case SyntaxAnalysis::SyntaxNodeType::Literal:
+            return std::make_unique<ExpressionStatementASTNode>(transform(static_cast<const SyntaxAnalysis::LiteralNode&>(*child)));
+        default:
+            FERMI_UNREACHABLE;
+        }
+    }
+
+    std::unique_ptr<FermiASTNode> transform(const SyntaxAnalysis::FermiNode& node)
+    {
+        std::unique_ptr<FermiASTNode> output = std::make_unique<FermiASTNode>();
+        for(const auto* child : node.getChildren())
+        {
+            SyntaxAnalysis::SyntaxNodeType type = child->getNodeType();
+            switch(type)
+            {
+            case SyntaxAnalysis::SyntaxNodeType::ExpressionStatementNode:
+                output->addChild(transform(static_cast<const SyntaxAnalysis::ExpressionStatementNode&>(*child)));
+            default:
+                FERMI_UNREACHABLE;
+            }
+        }
+        return output;
     }
 }
