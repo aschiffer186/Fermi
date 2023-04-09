@@ -25,10 +25,13 @@ set(SYNTAX_TREE_SOURCES
     ${SYNTAX_TREE_DIR}/StatementNode.cpp
     )
 
-add_library(FermiParser STATIC 
+add_library(FermiSyntaxAnalysis STATIC 
     ${BISON_FermiParser_OUTPUTS} 
     ${FLEX_FermiLexer_OUTPUTS} 
     ${SYNTAX_TREE_SOURCES}
     ${PARSER_SOURCE_DIR}/FermiSourceFile.cpp)
 
-target_include_directories(FermiParser PUBLIC ${PARSER_INCLUDE_DIR} ${PARSER_INCLUDE_DIR}/Syntax-Tree)
+target_include_directories(FermiSyntaxAnalysis PUBLIC 
+    ${PARSER_INCLUDE_DIR} 
+    ${PARSER_INCLUDE_DIR}/Syntax-Tree
+    ${PARSER_INCLUDE_DIR}/Static-Syntax-Tree)

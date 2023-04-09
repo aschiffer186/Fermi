@@ -21,6 +21,9 @@
     #include "ExpressionNode.hpp"
     #include "StatementNode.hpp"
 
+    #include "Static-Syntax-Tree/ExpressionNodes.hpp"
+    #include "Static-Syntax-Tree/StatementNodes.hpp"
+
     namespace Fermi::SyntaxAnalysis 
     { 
         class FermiSourceFile; 
@@ -69,7 +72,7 @@
 %nterm <std::shared_ptr<ExpressionNode>> expression
 %nterm <std::shared_ptr<ExpressionNode>> creation_expression
 %nterm <std::shared_ptr<ExpressionNode>> identity_expression
-%nterm <std::shared_ptr<ExpressionNode>> literal
+%nterm <LiteralExpressionNode> literal
 %%
 start: statements {sourceFile.setSyntaxTree(std::make_unique<FermiNode>($1));}
 statements: statements statement {$1.push_back($2); $$ = $1;}
@@ -107,22 +110,22 @@ expression:
     | creation_expression {$$ = $1;}
     ;
 creation_expression:
-    expression "+" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Addition, $3);}
-    | expression "-" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Subtraction, $3);}
-    | expression "*" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Multiplication, $3);}
-    | expression "/" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Division, $3);}
-    | expression "//" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::IntegerDivision, $3);}
-    | expression "^" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Exponentiation, $3);}
-    | expression "%" expression {$$ = std::make_shared<BinaryExpressionNode>($1, BinaryExpressionTypes::Modulo, $3);}
+    expression "+" expression {$$ = BinaryExpressionNode{$1, BinaryOperator::Addition, $3};}
+    | expression "-" expression {$$ = BinaryExpressionNode{$1, BinaryOperator::Subtraction, $3};}
+    | expression "*" expression {$$ = BinaryExpressionNode{$1, BinaryOperator::Multiplication, $3};}
+    | expression "/" expression {$$ = BinaryExpressionNode{$1, BinaryOperator::Division, $3};}
+    | expression "//" expression {$$ = BinaryExpressionNode{$1, BinaryOperator::IntegerDivision, $3};}
+    | expression "^" expression {$$ = BinaryExpressionNode{$1, BinaryOperator::Exponentiation, $3};}
+    | expression "%" expression {$$ = BinaryExpressionNode{$1, BinaryOperator::Modulo, $3};}
     ;
 identity_expression:
     literal {$$ = $1;}
-    | IDENTIFIER {$$ = std::make_shared<LiteralNode>($1, LiteralType::Identifier);}
+    | IDENTIFIER {$$ = LitealExpressionNode{$1, LiteralNodeType::Identifier};}
     | "(" expression ")" {$$ = $2;}
     ;
 literal: 
-    INTEGER_LITERAL {$$ = std::make_shared<LiteralNode>($1, LiteralType::Integer);}
-    | FLOAT_LITERAL {$$ = std::make_shared<LiteralNode>($1, LiteralType::Float);}
+    INTEGER_LITERAL {$$ = LiteralExpressionNode{$1, LiteralNodeType::Integer};}
+    | FLOAT_LITERAL {$$ = LiteralExpressionNode{$1, LiteralType::Float};}
     ;
 %%
 namespace Fermi::SyntaxAnalysis

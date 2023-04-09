@@ -19,16 +19,49 @@
 #endif
 
 #include "Location.hpp"
-#include "FermiParser.hpp"
 
 /// @namespace Namespace containing all types and functions related to syntax analysis
 namespace Fermi::SyntaxAnalysis
 {
     enum class FermiTokenType 
     {
-
+        // Literals
+        FloatLiteral,
+        IntegerLiteral,
+        // Identifier
+        Identifier,
+        // Operators
+        Plus,
+        Minus, 
+        Star,
+        Slash,
+        SlashSlash,
+        Caret,
+        Percent,
+        Assign,
+        // Punctuators
+        Colon,
+        SemiColon,
+        LeftParenthesis,
+        RightParenthesis,
+        Comma,
+        //Keywords
+        Int8T, 
+        Int16T,
+        Int32T,
+        Int64T, 
+        Float32T, 
+        Float64T,
+        Let, 
+        Print,
+        Error,
+        FermiEOF
     };
 
+    /**
+     * @brief Type of a lexical token
+     * 
+     */
     struct FermiToken 
     {
         std::size_t line;
@@ -81,8 +114,13 @@ namespace Fermi::SyntaxAnalysis
          * @return the next token in the source file
          */
         FermiToken nextToken();
+
+        FermiToken lookaheadToken();
     private:
-        location loc_;
+        FermiToken makeToken(FermiTokenType type);
+    private:
+        std::size_t line_; 
+        std::size_t col_;
     };
 } // namespace Fermi::SyntaxAnalysis
 

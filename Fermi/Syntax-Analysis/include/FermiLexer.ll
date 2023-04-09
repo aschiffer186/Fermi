@@ -12,8 +12,9 @@
 
     using Parser = Fermi::SyntaxAnalysis::FermiParser;
     using Lexer = Fermi::SyntaxAnalysis::FermiLexer;
+    using TokenType = Fermi::SyntaxAnalysis::FermiToken;
 
-    #define YY_DECL Parser::symbol_type Lexer::nextToken()
+    #define YY_DECL TokenType Lexer::nextToken()
     #define YY_USER_ACTION loc_.columns(yyleng);
 
     #ifdef YY_NULL

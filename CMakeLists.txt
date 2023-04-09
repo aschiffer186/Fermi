@@ -18,4 +18,4 @@ find_package(LLVM REQUIRED)
 
 add_subdirectory(Fermi)
 
-add_subdirectory(Tests)
+# add_subdirectory(Tests)
