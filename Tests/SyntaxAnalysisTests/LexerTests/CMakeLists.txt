@@ -1,0 +1,7 @@
+add_executable(TestLexLiterals TestLexLiterals.cpp)
+target_include_directories(TestLexLiterals PRIVATE ${SYNTAX_ANALYSIS_INCLUDE_DIR})
+target_link_libraries(TestLexLiterals PRIVATE GTest::gtest_main FermiSyntaxAnalysis)
+
+
+
+gtest_discover_tests(TestLexLiterals)
