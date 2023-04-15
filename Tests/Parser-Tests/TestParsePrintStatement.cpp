@@ -24,14 +24,14 @@ TEST(TestParser, TestPrintIntegerLiterals)
 
     // Build expected syntax tree
     std::vector<std::shared_ptr<ExpressionNode>> expressions;
-    expressions.push_back(std::make_shared<LiteralNode>("1", LiteralType::Integer));
-    expressions.push_back(std::make_shared<LiteralNode>("2", LiteralType::Integer));
-    expressions.push_back(std::make_shared<LiteralNode>("3", LiteralType::Integer));
+    expressions.push_back(std::make_shared<LiteralExpressionNode>("1", LiteralType::Integer));
+    expressions.push_back(std::make_shared<LiteralExpressionNode>("2", LiteralType::Integer));
+    expressions.push_back(std::make_shared<LiteralExpressionNode>("3", LiteralType::Integer));
     
     std::vector<std::shared_ptr<StatementNode>> statements;
-    statements.push_back(std::make_shared<PrintNode>(expressions));
+    statements.push_back(std::make_shared<PrintStatementNode>(expressions));
 
-    FermiNode node{statements};
+    FermiStatementNode node{statements};
 
     EXPECT_EQ(srcFile.getTree(), node);
 }
@@ -49,14 +49,14 @@ TEST(TestParser, TestPrintFloatLiterals)
 
     //Build expected syntax tree 
      std::vector<std::shared_ptr<ExpressionNode>> expressions;
-    expressions.push_back(std::make_shared<LiteralNode>("1.1", LiteralType::Float));
-    expressions.push_back(std::make_shared<LiteralNode>("2", LiteralType::Integer));
-    expressions.push_back(std::make_shared<LiteralNode>("0.6672", LiteralType::Float));
+    expressions.push_back(std::make_shared<LiteralExpressionNode>("1.1", LiteralType::Float));
+    expressions.push_back(std::make_shared<LiteralExpressionNode>("2", LiteralType::Integer));
+    expressions.push_back(std::make_shared<LiteralExpressionNode>("0.6672", LiteralType::Float));
     
     std::vector<std::shared_ptr<StatementNode>> statements;
-    statements.push_back(std::make_shared<PrintNode>(expressions));
+    statements.push_back(std::make_shared<PrintStatementNode>(expressions));
 
-    FermiNode node{statements};
+    FermiStatementNode node{statements};
 
     EXPECT_EQ(srcFile.getTree(), node);
 }
@@ -74,15 +74,15 @@ TEST(TestParser, TestPrintMixedLiterals)
 
     //Build expected syntax tree 
      std::vector<std::shared_ptr<ExpressionNode>> expressions;
-    expressions.push_back(std::make_shared<LiteralNode>("1.1", LiteralType::Float));
-    expressions.push_back(std::make_shared<LiteralNode>("2", LiteralType::Integer));
-    expressions.push_back(std::make_shared<LiteralNode>("0.6672", LiteralType::Float));
-    expressions.push_back(std::make_shared<LiteralNode>("var1", LiteralType::Identifier));
+    expressions.push_back(std::make_shared<LiteralExpressionNode>("1.1", LiteralType::Float));
+    expressions.push_back(std::make_shared<LiteralExpressionNode>("2", LiteralType::Integer));
+    expressions.push_back(std::make_shared<LiteralExpressionNode>("0.6672", LiteralType::Float));
+    expressions.push_back(std::make_shared<LiteralExpressionNode>("var1", LiteralType::Identifier));
     
     std::vector<std::shared_ptr<StatementNode>> statements;
-    statements.push_back(std::make_shared<PrintNode>(expressions));
+    statements.push_back(std::make_shared<PrintStatementNode>(expressions));
 
-    FermiNode node{statements};
+    FermiStatementNode node{statements};
 
     EXPECT_EQ(srcFile.getTree(), node);
 }

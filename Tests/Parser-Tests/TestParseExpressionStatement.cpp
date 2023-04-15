@@ -18,9 +18,9 @@ TEST(TestParser, TestExpressionStatementLiterals)
 
     ASSERT_EQ(parser1.parse(), 0);
 
-    std::shared_ptr<ExpressionNode> exp = std::make_shared<LiteralNode>("123456789", LiteralType::Integer);
+    std::shared_ptr<ExpressionNode> exp = std::make_shared<LiteralExpressionNode>("123456789", LiteralType::Integer);
     std::shared_ptr<StatementNode> stmt = std::make_shared<ExpressionStatementNode>(exp);
-    FermiNode root{{stmt}};
+    FermiStatementNode root{{stmt}};
 
     EXPECT_EQ(root, srcFile1.getTree());
 
@@ -33,9 +33,9 @@ TEST(TestParser, TestExpressionStatementLiterals)
 
     ASSERT_EQ(parser2.parse(), 0);
 
-    exp = std::make_shared<LiteralNode>("1234567890.9876543210e-1234567890", LiteralType::Float);
+    exp = std::make_shared<LiteralExpressionNode>("1234567890.9876543210e-1234567890", LiteralType::Float);
     stmt = std::make_shared<ExpressionStatementNode>(exp);
-    FermiNode root2{{stmt}};
+    FermiStatementNode root2{{stmt}};
 
     EXPECT_EQ(root2, srcFile2.getTree());
 
@@ -46,9 +46,9 @@ TEST(TestParser, TestExpressionStatementLiterals)
     FermiLexer lexer3{ss3};
     FermiParser parse3{srcFile3, lexer3};
 
-    exp = std::make_shared<LiteralNode>("abcdefg", LiteralType::Identifier);
+    exp = std::make_shared<LiteralExpressionNode>("abcdefg", LiteralType::Identifier);
     stmt = std::make_shared<ExpressionStatementNode>(exp);
-    FermiNode root3{{stmt}};
+    FermiStatementNode root3{{stmt}};
 }
 
 TEST(TestParser, TestParseBinaryExpressions)
@@ -61,11 +61,11 @@ TEST(TestParser, TestParseBinaryExpressions)
 
     ASSERT_EQ(parser1.parse(), 0);
 
-    std::shared_ptr<ExpressionNode> lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
-    std::shared_ptr<ExpressionNode> rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
-    std::shared_ptr<ExpressionNode> exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Addition, rhs);
+    std::shared_ptr<ExpressionNode> lhs = std::make_shared<LiteralExpressionNode>("x", LiteralType::Identifier);
+    std::shared_ptr<ExpressionNode> rhs = std::make_shared<LiteralExpressionNode>("y", LiteralType::Identifier);
+    std::shared_ptr<ExpressionNode> exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionOperators::Addition, rhs);
     std::shared_ptr<StatementNode> stmt = std::make_shared<ExpressionStatementNode>(exp);
-    FermiNode node1{{stmt}};
+    FermiStatementNode node1{{stmt}};
 
     EXPECT_EQ(srcFile1.getTree(), node1);
 
@@ -77,11 +77,11 @@ TEST(TestParser, TestParseBinaryExpressions)
 
     ASSERT_EQ(parser2.parse(), 0);
 
-    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
-    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
-    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Subtraction, rhs);
+    lhs = std::make_shared<LiteralExpressionNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralExpressionNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionOperators::Subtraction, rhs);
     stmt = std::make_shared<ExpressionStatementNode>(exp);
-    FermiNode node2{{stmt}};
+    FermiStatementNode node2{{stmt}};
 
     EXPECT_EQ(srcFile2.getTree(), node2);
 
@@ -93,11 +93,11 @@ TEST(TestParser, TestParseBinaryExpressions)
 
     ASSERT_EQ(parser3.parse(), 0);
 
-    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
-    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
-    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Multiplication, rhs);
+    lhs = std::make_shared<LiteralExpressionNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralExpressionNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionOperators::Multiplication, rhs);
     stmt = std::make_shared<ExpressionStatementNode>(exp);
-    FermiNode node3{{stmt}};
+    FermiStatementNode node3{{stmt}};
 
     EXPECT_EQ(srcFile3.getTree(), node3);
 
@@ -109,11 +109,11 @@ TEST(TestParser, TestParseBinaryExpressions)
 
     ASSERT_EQ(parser4.parse(), 0);
 
-    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
-    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
-    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Division, rhs);
+    lhs = std::make_shared<LiteralExpressionNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralExpressionNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionOperators::Division, rhs);
     stmt = std::make_shared<ExpressionStatementNode>(exp);
-    FermiNode node4{{stmt}};
+    FermiStatementNode node4{{stmt}};
 
     EXPECT_EQ(srcFile4.getTree(), node4);
 
@@ -125,11 +125,11 @@ TEST(TestParser, TestParseBinaryExpressions)
 
     ASSERT_EQ(parser5.parse(), 0);
 
-    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
-    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
-    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::IntegerDivision, rhs);
+    lhs = std::make_shared<LiteralExpressionNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralExpressionNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionOperators::IntegerDivision, rhs);
     stmt = std::make_shared<ExpressionStatementNode>(exp);
-    FermiNode node5{{stmt}};
+    FermiStatementNode node5{{stmt}};
 
     EXPECT_EQ(srcFile5.getTree(), node5);
 
@@ -141,11 +141,11 @@ TEST(TestParser, TestParseBinaryExpressions)
 
     ASSERT_EQ(parser6.parse(), 0);
 
-    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
-    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
-    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Exponentiation, rhs);
+    lhs = std::make_shared<LiteralExpressionNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralExpressionNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionOperators::Exponentiation, rhs);
     stmt = std::make_shared<ExpressionStatementNode>(exp);
-    FermiNode node6{{stmt}};
+    FermiStatementNode node6{{stmt}};
 
     EXPECT_EQ(srcFile6.getTree(), node6);
 
@@ -157,11 +157,11 @@ TEST(TestParser, TestParseBinaryExpressions)
 
     ASSERT_EQ(parser7.parse(), 0);
 
-    lhs = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
-    rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
-    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionTypes::Modulo, rhs);
+    lhs = std::make_shared<LiteralExpressionNode>("x", LiteralType::Identifier);
+    rhs = std::make_shared<LiteralExpressionNode>("y", LiteralType::Identifier);
+    exp = std::make_shared<BinaryExpressionNode>(lhs, BinaryExpressionOperators::Modulo, rhs);
     stmt = std::make_shared<ExpressionStatementNode>(exp);
-    FermiNode node7{{stmt}};
+    FermiStatementNode node7{{stmt}};
 
     EXPECT_EQ(srcFile7.getTree(), node7);
 }
@@ -177,14 +177,14 @@ TEST(TestParser, TestBinaryExpressionPrecedenceHandling)
     ASSERT_TRUE(srcFile.parsedSuccessfully());
 
     //x
-    auto term1 = std::make_shared<LiteralNode>("x", LiteralType::Identifier);
+    auto term1 = std::make_shared<LiteralExpressionNode>("x", LiteralType::Identifier);
     
     //z*y 
-    auto fac1 = std::make_shared<BinaryExpressionNode>(std::make_shared<LiteralNode>("z", LiteralType::Identifier),
-        BinaryExpressionTypes::Multiplication,
-        std::make_shared<LiteralNode>("y", LiteralType::Identifier));
+    auto fac1 = std::make_shared<BinaryExpressionNode>(std::make_shared<LiteralExpressionNode>("z", LiteralType::Identifier),
+        BinaryExpressionOperators::Multiplication,
+        std::make_shared<LiteralExpressionNode>("y", LiteralType::Identifier));
     auto term2 = std::make_shared<BinaryExpressionNode>(fac1, 
-        BinaryExpressionTypes::Multiplication, 
-        std::make_shared<LiteralNode>("z", LiteralType::Identifier));
+        BinaryExpressionOperators::Multiplication, 
+        std::make_shared<LiteralExpressionNode>("z", LiteralType::Identifier));
    
 }

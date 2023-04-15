@@ -23,9 +23,9 @@ TEST(TestParser, TestAssignLiterals)
 
     EXPECT_EQ(parser.parse(), 0);
 
-    auto rhs = std::make_shared<LiteralNode>("y", LiteralType::Identifier);
+    auto rhs = std::make_shared<LiteralExpressionNode>("y", LiteralType::Identifier);
     auto assignmentNode = std::make_shared<AssignmentStatementNode>("x", rhs);
-    FermiNode node{{assignmentNode}};
+    FermiStatementNode node{{assignmentNode}};
 
     EXPECT_EQ(srcFile.getTree(), node);
 
@@ -38,9 +38,9 @@ TEST(TestParser, TestAssignLiterals)
 
     EXPECT_EQ(parser2.parse(), 0);
 
-    rhs = std::make_shared<LiteralNode>("1", LiteralType::Integer);
+    rhs = std::make_shared<LiteralExpressionNode>("1", LiteralType::Integer);
     assignmentNode = std::make_shared<AssignmentStatementNode>("x", rhs);
-    FermiNode node2{{assignmentNode}};
+    FermiStatementNode node2{{assignmentNode}};
 
     EXPECT_EQ(srcFile2.getTree(), node2);
 }

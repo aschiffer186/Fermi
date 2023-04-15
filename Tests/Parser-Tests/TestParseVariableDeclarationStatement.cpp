@@ -19,8 +19,8 @@ TEST(TestParser, TestParseVariableDeclarationNoInitializer)
 
     ASSERT_EQ(parser1.parse(), 0);
 
-    auto variableDeclarationNode = std::make_shared<VariableDeclarationNode>(Type::int8_t, "xyz123");
-    FermiNode node1{{variableDeclarationNode}};
+    auto variableDeclarationNode = std::make_shared<VariableDeclarationStatementNode>(Type::int8_t, "xyz123");
+    FermiStatementNode node1{{variableDeclarationNode}};
 
     EXPECT_EQ(srcFile1.getTree(), node1);
 
@@ -33,9 +33,9 @@ TEST(TestParser, TestParseVariableDeclarationNoInitializer)
     
     ASSERT_EQ(parser2.parse(), 0);
 
-    auto initializerNode = std::make_shared<LiteralNode>("10", LiteralType::Integer);
-    variableDeclarationNode = std::make_shared<VariableDeclarationNode>(Type::int16_t, "xyz123", initializerNode);
-    FermiNode node2{{variableDeclarationNode}};
+    auto initializerNode = std::make_shared<LiteralExpressionNode>("10", LiteralType::Integer);
+    variableDeclarationNode = std::make_shared<VariableDeclarationStatementNode>(Type::int16_t, "xyz123", initializerNode);
+    FermiStatementNode node2{{variableDeclarationNode}};
 
     EXPECT_EQ(srcFile2.getTree(), node2);
 
@@ -48,9 +48,9 @@ TEST(TestParser, TestParseVariableDeclarationNoInitializer)
 
     ASSERT_EQ(parser3.parse(), 0);
 
-    initializerNode = std::make_shared<LiteralNode>("11.2345", LiteralType::Float);
-    variableDeclarationNode = std::make_shared<VariableDeclarationNode>(Type::deduced, "xyz123", initializerNode);
+    initializerNode = std::make_shared<LiteralExpressionNode>("11.2345", LiteralType::Float);
+    variableDeclarationNode = std::make_shared<VariableDeclarationStatementNode>(Type::deduced, "xyz123", initializerNode);
 
-    FermiNode node3{{variableDeclarationNode}};
+    FermiStatementNode node3{{variableDeclarationNode}};
     EXPECT_EQ(srcFile3.getTree(), node3);
 }

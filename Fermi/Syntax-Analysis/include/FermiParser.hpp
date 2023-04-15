@@ -49,8 +49,8 @@
 
     #include <string>
 
-    #include "ExpressionNode.hpp"
-    #include "StatementNode.hpp"
+    #include "Syntax-Tree/ExpressionNodes.hpp"
+    #include "Syntax-Tree/StatementNodes.hpp"
 
     namespace Fermi::SyntaxAnalysis 
     { 
@@ -431,7 +431,7 @@ namespace Fermi { namespace SyntaxAnalysis {
       char dummy3[sizeof (std::shared_ptr<ExpressionStatementNode>)];
 
       // start
-      char dummy4[sizeof (std::shared_ptr<FermiNode>)];
+      char dummy4[sizeof (std::shared_ptr<FermiStatementNode>)];
 
       // statement
       // variable-declaration
@@ -636,7 +636,7 @@ namespace Fermi { namespace SyntaxAnalysis {
         break;
 
       case symbol_kind::S_start: // start
-        value.move< std::shared_ptr<FermiNode> > (std::move (that.value));
+        value.move< std::shared_ptr<FermiStatementNode> > (std::move (that.value));
         break;
 
       case symbol_kind::S_statement: // statement
@@ -726,13 +726,13 @@ namespace Fermi { namespace SyntaxAnalysis {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::shared_ptr<FermiNode>&& v, location_type&& l)
+      basic_symbol (typename Base::kind_type t, std::shared_ptr<FermiStatementNode>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
         , location (std::move (l))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const std::shared_ptr<FermiNode>& v, const location_type& l)
+      basic_symbol (typename Base::kind_type t, const std::shared_ptr<FermiStatementNode>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -835,7 +835,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_start: // start
-        value.template destroy< std::shared_ptr<FermiNode> > ();
+        value.template destroy< std::shared_ptr<FermiStatementNode> > ();
         break;
 
       case symbol_kind::S_statement: // statement
@@ -1814,7 +1814,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_start: // start
-        value.copy< std::shared_ptr<FermiNode> > (YY_MOVE (that.value));
+        value.copy< std::shared_ptr<FermiStatementNode> > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_statement: // statement
@@ -1885,7 +1885,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_start: // start
-        value.move< std::shared_ptr<FermiNode> > (YY_MOVE (s.value));
+        value.move< std::shared_ptr<FermiStatementNode> > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_statement: // statement

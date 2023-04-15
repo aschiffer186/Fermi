@@ -25,7 +25,7 @@ namespace Fermi::SemanticAnalysis
     public:
         virtual ~ExpressionASTNode() = default;
 
-        virtual const FermiType& getType() const = 0;
+        virtual FermiType getType() const = 0;
     };
 
     enum class BinaryOperatorType 
@@ -48,7 +48,7 @@ namespace Fermi::SemanticAnalysis
 
         std::vector<const ASTNode*> getChildren() const override; 
 
-        const FermiType& getType() const override;
+        FermiType getType() const override;
     private:
         std::unique_ptr<ExpressionASTNode> child_;
         FermiType outputType_;
@@ -63,7 +63,7 @@ namespace Fermi::SemanticAnalysis
 
         std::vector<const ASTNode*> getChildren() const override; 
 
-        const FermiType& getType() const override;
+        FermiType getType() const override;
 
         BinaryOperatorType getOperator() const;
     private:
@@ -81,7 +81,7 @@ namespace Fermi::SemanticAnalysis
 
         std::vector<const ASTNode*> getChildren() const override; 
 
-        const FermiType& getType() const override;
+        FermiType getType() const override;
 
         std::string_view getValue() const;
     private:

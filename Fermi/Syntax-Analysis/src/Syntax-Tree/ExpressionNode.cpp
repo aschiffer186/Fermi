@@ -7,9 +7,10 @@
  * @copyright Copyright (c) 2023
  * 
  */
+#include "ExpressionNodes.hpp"
+
 #include <typeinfo>
 
-#include "ExpressionNode.hpp"
 #include "Visitor.hpp"
 
 using namespace std::literals;
@@ -17,7 +18,7 @@ using namespace std::literals;
 namespace Fermi::SyntaxAnalysis
 {
     BinaryExpressionNode::BinaryExpressionNode(std::shared_ptr<ExpressionNode> lhs, 
-                                               BinaryExpressionTypes operatorIn, 
+                                               BinaryExpressionOperators operatorIn, 
                                                std::shared_ptr<ExpressionNode> rhs)
         : lhs_{lhs}, operator_{operatorIn}, rhs_{rhs}
         {
@@ -34,7 +35,7 @@ namespace Fermi::SyntaxAnalysis
         return {lhs_.get(), rhs_.get()};
     }
 
-    BinaryExpressionTypes BinaryExpressionNode::getOperator() const 
+    BinaryExpressionOperators BinaryExpressionNode::getOperator() const 
     {
         return operator_;
     }
@@ -47,14 +48,14 @@ namespace Fermi::SyntaxAnalysis
 
     namespace 
     {
-        std::unordered_map<BinaryExpressionTypes, std::string> BinaryNodeToString = {
-            {BinaryExpressionTypes::Addition, "+"},
-            {BinaryExpressionTypes::Division, "/"},
-            {BinaryExpressionTypes::Exponentiation, "^"},
-            {BinaryExpressionTypes::IntegerDivision, "//"},
-            {BinaryExpressionTypes::Modulo, "%"},
-            {BinaryExpressionTypes::Multiplication, "*"},
-            {BinaryExpressionTypes::Subtraction, "-"}
+        std::unordered_map<BinaryExpressionOperators, std::string> BinaryNodeToString = {
+            {BinaryExpressionOperators::Addition, "+"},
+            {BinaryExpressionOperators::Division, "/"},
+            {BinaryExpressionOperators::Exponentiation, "^"},
+            {BinaryExpressionOperators::IntegerDivision, "//"},
+            {BinaryExpressionOperators::Modulo, "%"},
+            {BinaryExpressionOperators::Multiplication, "*"},
+            {BinaryExpressionOperators::Subtraction, "-"}
         };
     }
 
@@ -76,39 +77,39 @@ namespace Fermi::SyntaxAnalysis
         return os;
     }
 
-    LiteralNode::LiteralNode(std::string_view value, LiteralType type)
+    LiteralExpressionNode::LiteralExpressionNode(std::string_view value, LiteralType type)
     : type_{type}, value_{value}
     {
 
     }
 
-    SyntaxNodeType LiteralNode::getNodeType() const 
+    SyntaxNodeType LiteralExpressionNode::getNodeType() const 
     {
         return SyntaxNodeType::Literal;
     }
 
-    std::vector<const SyntaxNode*> LiteralNode::getChildren() const 
+    std::vector<const SyntaxNode*> LiteralExpressionNode::getChildren() const 
     {
         return {};
     }
 
-    const std::string& LiteralNode::getValue() const 
+    const std::string& LiteralExpressionNode::getValue() const 
     {
         return value_;
     }
 
-    LiteralType LiteralNode::getType() const 
+    LiteralType LiteralExpressionNode::getType() const 
     {
         return type_;
     }
 
-    bool LiteralNode::equals(const SyntaxNode& other) const noexcept 
+    bool LiteralExpressionNode::equals(const SyntaxNode& other) const noexcept 
     {
-        const auto& node = dynamic_cast<const LiteralNode&>(other);
+        const auto& node = dynamic_cast<const LiteralExpressionNode&>(other);
         return type_ == node.type_ && value_ == node.value_;
     }
 
-    std::ostream& LiteralNode::print(std::ostream& os, std::string indent, bool isLast) const
+    std::ostream& LiteralExpressionNode::print(std::ostream& os, std::string indent, bool isLast) const
     {
         std::string tokenMarker = (isLast) ? CORNER : TEE;
 

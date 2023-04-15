@@ -35,7 +35,7 @@ namespace Fermi::SyntaxAnalysis
      * This enum contains values representing all possible operators
      * in a binary expression.
      */
-    enum class BinaryExpressionTypes
+    enum class BinaryExpressionOperators
     {
         /// @brief Binary addition operator
         Addition,
@@ -72,7 +72,7 @@ namespace Fermi::SyntaxAnalysis
          * @param operatorIn the binary operator
          * @param rhs the right hand side operand
          */
-        BinaryExpressionNode(std::shared_ptr<ExpressionNode> lhs, BinaryExpressionTypes operatorIn, std::shared_ptr<ExpressionNode> rhs);
+        BinaryExpressionNode(std::shared_ptr<ExpressionNode> lhs, BinaryExpressionOperators operatorIn, std::shared_ptr<ExpressionNode> rhs);
 
         SyntaxNodeType getNodeType() const override; 
 
@@ -85,14 +85,14 @@ namespace Fermi::SyntaxAnalysis
          * 
          * @return the binary expression node's binary operator
          */
-        BinaryExpressionTypes getOperator() const;
+        BinaryExpressionOperators getOperator() const;
 
         std::ostream& print(std::ostream& os, std::string indent, bool isLast) const override;
     private:
         bool equals(const SyntaxNode& other) const noexcept override;
     private:
         std::shared_ptr<ExpressionNode> lhs_;
-        BinaryExpressionTypes operator_;
+        BinaryExpressionOperators operator_;
         std::shared_ptr<ExpressionNode> rhs_;
     };
 
@@ -107,10 +107,10 @@ namespace Fermi::SyntaxAnalysis
         Identifier
     };
 
-    class LiteralNode : public ExpressionNode
+    class LiteralExpressionNode : public ExpressionNode
     {
     public:
-        explicit LiteralNode(std::string_view value, LiteralType type);
+        explicit LiteralExpressionNode(std::string_view value, LiteralType type);
 
         SyntaxNodeType getNodeType() const override;
 

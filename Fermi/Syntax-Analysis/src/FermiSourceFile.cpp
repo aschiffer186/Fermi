@@ -17,7 +17,7 @@ namespace Fermi::SyntaxAnalysis
 
     }
 
-    void FermiSourceFile::setSyntaxTree(std::unique_ptr<FermiNode> syntaxTree)
+    void FermiSourceFile::setSyntaxTree(std::unique_ptr<FermiStatementNode> syntaxTree)
     {
         syntaxTree_ = std::move(syntaxTree);
     }
@@ -27,7 +27,7 @@ namespace Fermi::SyntaxAnalysis
         diagnostics_.emplace_back(diagnostic);
     }
 
-    const FermiNode& FermiSourceFile::getTree() const 
+    const FermiStatementNode& FermiSourceFile::getTree() const 
     {
         return *syntaxTree_;
     }

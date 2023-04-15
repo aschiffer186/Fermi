@@ -18,7 +18,7 @@
 
 #include "FermiLexer.hpp"
 
-#include "StatementNode.hpp"
+#include "StatementNodes.hpp"
 
 namespace Fermi::SyntaxAnalysis
 {
@@ -42,11 +42,11 @@ namespace Fermi::SyntaxAnalysis
         FermiSourceFile& operator=(const FermiSourceFile&) = delete;
         FermiSourceFile& operator=(FermiSourceFile&&) = delete; 
 
-        void setSyntaxTree(std::unique_ptr<FermiNode> syntaxTree);
+        void setSyntaxTree(std::unique_ptr<FermiStatementNode> syntaxTree);
 
         void addDiagnostic(std::string_view diagnostic);
 
-        const FermiNode& getTree() const;
+        const FermiStatementNode& getTree() const;
 
         bool parsedSuccessfully() const;
 
@@ -56,7 +56,7 @@ namespace Fermi::SyntaxAnalysis
     private:
         std::string name_;
         std::vector<std::string> diagnostics_;
-        std::unique_ptr<FermiNode> syntaxTree_;
+        std::unique_ptr<FermiStatementNode> syntaxTree_;
     };
 } // namespace Fermi::SyntaxAnalysis
 

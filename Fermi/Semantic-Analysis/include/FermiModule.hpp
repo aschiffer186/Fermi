@@ -18,7 +18,7 @@
 
 namespace Fermi::SyntaxAnalysis
 {
-    class FermiNode;
+    class FermiStatementNode;
 }
 
 namespace Fermi::SemanticAnalysis
@@ -26,7 +26,7 @@ namespace Fermi::SemanticAnalysis
     class FermiModule
     {
     public: 
-        explicit FermiModule(const SyntaxAnalysis::FermiNode& syntaxTree);
+        explicit FermiModule(const SyntaxAnalysis::FermiStatementNode& syntaxTree);
     private: 
         FermiASTNode ast_;
         std::unordered_map<std::string, FermiType> symbolTable_;

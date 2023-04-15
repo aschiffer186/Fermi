@@ -6,17 +6,18 @@
  * @copyright Copyright (c) 2023
  * 
  */
+#include "ASTGenerator.hpp"
+
 #include <cstdint>
 #include <cassert>
 #include <limits>
 #include <stdexcept>
 
-#include "Syntax-Tree/ExpressionNode.hpp"
-#include "Syntax-Tree/StatementNode.hpp"
+#include "Syntax-Tree/ExpressionNodes.hpp"
+#include "Syntax-Tree/StatementNodes.hpp"
 
 #include "ASTNodes/ExpressionASTNode.hpp"
 #include "ASTNodes/StatementASTNode.hpp"
-#include "ASTGenerator.hpp"
 #include "Syntax-Tree/SyntaxNode.hpp"
 #include "Type.hpp"
 
@@ -24,7 +25,7 @@
 
 namespace Fermi::SemanticAnalysis
 {
-    std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::LiteralNode& node)
+    std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::LiteralExpressionNode& node)
     {
         SyntaxAnalysis::LiteralType type = node.getType();
         const std::string& valueStr = node.getValue();
@@ -46,6 +47,7 @@ namespace Fermi::SemanticAnalysis
                     //Useful error message
                 }
             }
+            break;
         case SyntaxAnalysis::LiteralType::Integer: 
             {
                 try 
@@ -64,9 +66,11 @@ namespace Fermi::SemanticAnalysis
                     //Useful error message
                 }
             }
+            break;
         case SyntaxAnalysis::LiteralType::Identifier:
             return nullptr;
         }
+        return nullptr;
     }
 
     std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::BinaryExpressionNode& node)
@@ -79,7 +83,7 @@ namespace Fermi::SemanticAnalysis
 
         if (lhsExpr->getNodeType() == SyntaxAnalysis::SyntaxNodeType::Literal)
         {
-            lhsChild = transform(static_cast<const SyntaxAnalysis::LiteralNode&>(*lhsExpr));
+            lhsChild = transform(static_cast<const SyntaxAnalysis::LiteralExpressionNode&>(*lhsExpr));
         }
         else if (lhsExpr->getNodeType() == SyntaxAnalysis::SyntaxNodeType::BinaryExpression)
         {
@@ -88,7 +92,7 @@ namespace Fermi::SemanticAnalysis
 
         if (rhsExpr->getNodeType() == SyntaxAnalysis::SyntaxNodeType::Literal)
         {
-            rhsChild = transform(static_cast<const SyntaxAnalysis::LiteralNode&>(*rhsExpr));
+            rhsChild = transform(static_cast<const SyntaxAnalysis::LiteralExpressionNode&>(*rhsExpr));
         }
         else if (rhsExpr->getNodeType() == SyntaxAnalysis::SyntaxNodeType::BinaryExpression)
         {
@@ -110,25 +114,25 @@ namespace Fermi::SemanticAnalysis
         BinaryOperatorType op;
         switch(node.getOperator())
         {
-        case SyntaxAnalysis::BinaryExpressionTypes::Addition:
+        case SyntaxAnalysis::BinaryExpressionOperators::Addition:
             op = BinaryOperatorType::Addition;
             break;
-        case SyntaxAnalysis::BinaryExpressionTypes::Subtraction:
+        case SyntaxAnalysis::BinaryExpressionOperators::Subtraction:
             op = BinaryOperatorType::Subtraction;
             break;
-        case SyntaxAnalysis::BinaryExpressionTypes::Multiplication:
+        case SyntaxAnalysis::BinaryExpressionOperators::Multiplication:
             op = BinaryOperatorType::Multiplication;
             break;
-        case SyntaxAnalysis::BinaryExpressionTypes::Division:
+        case SyntaxAnalysis::BinaryExpressionOperators::Division:
             op = BinaryOperatorType::Division;
             break;
-        case SyntaxAnalysis::BinaryExpressionTypes::IntegerDivision:
+        case SyntaxAnalysis::BinaryExpressionOperators::IntegerDivision:
             op = BinaryOperatorType::IntegerDivision;
             break;
-        case SyntaxAnalysis::BinaryExpressionTypes::Exponentiation:
+        case SyntaxAnalysis::BinaryExpressionOperators::Exponentiation:
             op = BinaryOperatorType::Exponentiation;
             break;
-        case SyntaxAnalysis::BinaryExpressionTypes::Modulo:
+        case SyntaxAnalysis::BinaryExpressionOperators::Modulo:
             op = BinaryOperatorType::Modulo;
             break;
         }
@@ -146,13 +150,13 @@ namespace Fermi::SemanticAnalysis
         case SyntaxAnalysis::SyntaxNodeType::BinaryExpression:
             return std::make_unique<ExpressionStatementASTNode>(transform(static_cast<const SyntaxAnalysis::BinaryExpressionNode&>(*child)));
         case SyntaxAnalysis::SyntaxNodeType::Literal:
-            return std::make_unique<ExpressionStatementASTNode>(transform(static_cast<const SyntaxAnalysis::LiteralNode&>(*child)));
+            return std::make_unique<ExpressionStatementASTNode>(transform(static_cast<const SyntaxAnalysis::LiteralExpressionNode&>(*child)));
         default:
             FERMI_UNREACHABLE;
         }
     }
 
-    std::unique_ptr<FermiASTNode> transform(const SyntaxAnalysis::FermiNode& node)
+    std::unique_ptr<FermiASTNode> transform(const SyntaxAnalysis::FermiStatementNode& node)
     {
         std::unique_ptr<FermiASTNode> output = std::make_unique<FermiASTNode>();
         for(const auto* child : node.getChildren())
@@ -162,6 +166,7 @@ namespace Fermi::SemanticAnalysis
             {
             case SyntaxAnalysis::SyntaxNodeType::ExpressionStatementNode:
                 output->addChild(transform(static_cast<const SyntaxAnalysis::ExpressionStatementNode&>(*child)));
+                break;
             default:
                 FERMI_UNREACHABLE;
             }

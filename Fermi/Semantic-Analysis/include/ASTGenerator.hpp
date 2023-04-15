@@ -6,15 +6,16 @@
  * @copyright Copyright (c) 2023
  * 
  */
-#include "Syntax-Tree/StatementNode.hpp"
 #include <memory>
+
+#include "Syntax-Tree/StatementNodes.hpp"
 
 namespace Fermi::SyntaxAnalysis
 {
     class BinaryExpressionNode;
     class ExpressionStatementNode;
-    class FermiNode;
-    class LiteralNode;
+    class FermiStatementNode;
+    class LiteralExpressionNode;
 }
 
 namespace Fermi::SemanticAnalysis
@@ -23,10 +24,10 @@ namespace Fermi::SemanticAnalysis
     class FermiASTNode;
     class StatementASTNode;
     
-    std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::LiteralNode& node);
+    std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::LiteralExpressionNode& node);
     std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::BinaryExpressionNode& node);
     
     std::unique_ptr<StatementASTNode> transform(const SyntaxAnalysis::ExpressionStatementNode& node);
 
-    std::unique_ptr<FermiASTNode> transform(const SyntaxAnalysis::FermiNode& node);
+    std::unique_ptr<FermiASTNode> transform(const SyntaxAnalysis::FermiStatementNode& node);
 }

@@ -7,28 +7,29 @@
  * @copyright Copyright (c) 2023
  * 
  */
+#include "StatementNodes.hpp"
+
 #include <algorithm>
 
-#include "ExpressionNode.hpp"
-#include "StatementNode.hpp"
+#include "ExpressionNodes.hpp"
 #include "Visitor.hpp"
 
 using namespace std::literals;
 
 namespace Fermi::SyntaxAnalysis
 {
-    FermiNode::FermiNode(const std::vector<std::shared_ptr<StatementNode>>& statements)
+    FermiStatementNode::FermiStatementNode(const std::vector<std::shared_ptr<StatementNode>>& statements)
     : statements_{statements}
     {
 
     }
 
-    SyntaxNodeType FermiNode::getNodeType() const 
+    SyntaxNodeType FermiStatementNode::getNodeType() const 
     {
         return SyntaxNodeType::FermiNode;
     }
 
-    std::vector<const SyntaxNode*> FermiNode::getChildren() const 
+    std::vector<const SyntaxNode*> FermiStatementNode::getChildren() const 
     {
         std::vector<const SyntaxNode*> children;
         std::transform(statements_.begin(), statements_.end(), std::back_inserter(children), [](const auto& node) {
@@ -37,15 +38,15 @@ namespace Fermi::SyntaxAnalysis
         return children;
     }
 
-    bool FermiNode::equals(const SyntaxNode& other) const noexcept 
+    bool FermiStatementNode::equals(const SyntaxNode& other) const noexcept 
     {
-        const auto& node = dynamic_cast<const FermiNode&>(other);
+        const auto& node = dynamic_cast<const FermiStatementNode&>(other);
         return std::equal(statements_.begin(), statements_.end(), node.statements_.begin(),  [](const auto& lhs, const auto& rhs){
             return *lhs == *rhs;
         });
     }
 
-    std::ostream& FermiNode::print(std::ostream& os, std::string indent, bool isLast) const 
+    std::ostream& FermiStatementNode::print(std::ostream& os, std::string indent, bool isLast) const 
     {
         std::string tokenMarker = (isLast) ? CORNER : TEE;
 
@@ -106,35 +107,35 @@ namespace Fermi::SyntaxAnalysis
         return *expression_ == *node.expression_;
     }
 
-    VariableDeclarationNode::VariableDeclarationNode(Type type, std::string_view identifier, std::shared_ptr<ExpressionNode> initializer)
+    VariableDeclarationStatementNode::VariableDeclarationStatementNode(Type type, std::string_view identifier, std::shared_ptr<ExpressionNode> initializer)
     : type_{type}, identifier_{identifier}, initializer_{std::move(initializer)}
     {
 
     }
 
-    SyntaxNodeType VariableDeclarationNode::getNodeType() const 
+    SyntaxNodeType VariableDeclarationStatementNode::getNodeType() const 
     {
         return SyntaxNodeType::VariableDeclarationNode;
     }
 
-    std::vector<const SyntaxNode*> VariableDeclarationNode::getChildren() const 
+    std::vector<const SyntaxNode*> VariableDeclarationStatementNode::getChildren() const 
     {
         return {initializer_.get()};
     }
 
-    Type VariableDeclarationNode::getType() const 
+    Type VariableDeclarationStatementNode::getType() const 
     {
         return type_;
     }
 
-    const std::string& VariableDeclarationNode::getIdentifier() const 
+    const std::string& VariableDeclarationStatementNode::getIdentifier() const 
     {
         return identifier_;
     }
 
-    bool VariableDeclarationNode::equals(const SyntaxNode& other) const noexcept
+    bool VariableDeclarationStatementNode::equals(const SyntaxNode& other) const noexcept
     {
-        const auto& node = dynamic_cast<const VariableDeclarationNode&>(other);
+        const auto& node = dynamic_cast<const VariableDeclarationStatementNode&>(other);
         if(type_ != node.type_)
             return false;
         if (identifier_ != node.identifier_)
@@ -144,7 +145,7 @@ namespace Fermi::SyntaxAnalysis
         return *initializer_ == *node.initializer_;
     }
 
-    std::ostream& VariableDeclarationNode::print(std::ostream& os, std::string indent, bool isLast) const
+    std::ostream& VariableDeclarationStatementNode::print(std::ostream& os, std::string indent, bool isLast) const
     {
         std::string tokenMarker = (isLast) ? CORNER : TEE;
 
@@ -192,38 +193,38 @@ namespace Fermi::SyntaxAnalysis
         return os;
     }
 
-    PrintNode::PrintNode(const std::vector<std::shared_ptr<ExpressionNode>>& vec)
+    PrintStatementNode::PrintStatementNode(const std::vector<std::shared_ptr<ExpressionNode>>& vec)
     : expressions_{vec}
     {
 
     }
     
-    SyntaxNodeType PrintNode::getNodeType() const 
+    SyntaxNodeType PrintStatementNode::getNodeType() const 
     {
         return SyntaxNodeType::PrintNode;
     }
 
-    std::vector<const SyntaxNode*> PrintNode::getChildren() const 
+    std::vector<const SyntaxNode*> PrintStatementNode::getChildren() const 
     {
         std::vector<const SyntaxNode*> children;
         std::transform(expressions_.begin(), expressions_.end(), std::back_inserter(children), [](const auto& exp) {return exp.get();});
         return children;
     }
 
-    void PrintNode::addPrintingExpression(std::shared_ptr<ExpressionNode> expression)
+    void PrintStatementNode::addPrintingExpression(std::shared_ptr<ExpressionNode> expression)
     {
         expressions_.push_back(expression);
     }
 
-    bool PrintNode::equals(const SyntaxNode& other) const noexcept
+    bool PrintStatementNode::equals(const SyntaxNode& other) const noexcept
     {
-        const auto& node = dynamic_cast<const PrintNode&>(other);
+        const auto& node = dynamic_cast<const PrintStatementNode&>(other);
         return std::equal(expressions_.begin(), expressions_.end(), node.expressions_.begin(), [](const auto& lhs, const auto& rhs){
             return *lhs == *rhs;
         });
     }
 
-    std::ostream& PrintNode::print(std::ostream& os, std::string indent, bool isLast) const 
+    std::ostream& PrintStatementNode::print(std::ostream& os, std::string indent, bool isLast) const 
     {
         
         std::string tokenMarker = (isLast) ? CORNER : TEE;

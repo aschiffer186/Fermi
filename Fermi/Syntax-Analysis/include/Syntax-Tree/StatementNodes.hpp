@@ -23,10 +23,10 @@ namespace Fermi::SyntaxAnalysis
         virtual ~StatementNode() = default;
     };
 
-    class FermiNode : public SyntaxNode 
+    class FermiStatementNode : public SyntaxNode 
     {
     public:
-        explicit FermiNode(const std::vector<std::shared_ptr<StatementNode>>& statements);
+        explicit FermiStatementNode(const std::vector<std::shared_ptr<StatementNode>>& statements);
 
         SyntaxNodeType getNodeType() const override;
 
@@ -68,10 +68,10 @@ namespace Fermi::SyntaxAnalysis
         std::shared_ptr<ExpressionNode> expression_;
     };
 
-    class VariableDeclarationNode : public StatementNode 
+    class VariableDeclarationStatementNode : public StatementNode 
     {
     public:
-        VariableDeclarationNode(Type type, std::string_view identifier, std::shared_ptr<ExpressionNode> initializer = nullptr);
+        VariableDeclarationStatementNode(Type type, std::string_view identifier, std::shared_ptr<ExpressionNode> initializer = nullptr);
 
         SyntaxNodeType getNodeType() const override;
 
@@ -90,10 +90,10 @@ namespace Fermi::SyntaxAnalysis
         std::shared_ptr<ExpressionNode> initializer_;
     };
 
-    class PrintNode : public StatementNode 
+    class PrintStatementNode : public StatementNode 
     {
     public:
-        PrintNode(const std::vector<std::shared_ptr<ExpressionNode>>& vec);
+        PrintStatementNode(const std::vector<std::shared_ptr<ExpressionNode>>& vec);
 
         SyntaxNodeType getNodeType() const override;
 

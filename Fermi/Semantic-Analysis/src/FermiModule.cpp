@@ -6,13 +6,13 @@
  * @copyright Copyright (c) 2023
  * 
  */
-#include "Syntax-Tree/StatementNode.hpp"
-
 #include "FermiModule.hpp"
+
+#include "Syntax-Tree/StatementNodes.hpp"
 
 namespace Fermi::SemanticAnalysis
 {
-    FermiModule::FermiModule([[maybe_unused]] const SyntaxAnalysis::FermiNode& node)
+    FermiModule::FermiModule([[maybe_unused]] const SyntaxAnalysis::FermiStatementNode& node)
     {
 
     }
