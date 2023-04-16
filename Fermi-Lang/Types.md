@@ -37,6 +37,10 @@
     * `rat16_t` has a representation type of `int16_t`
     * `rat32_t` has a representation type of `int32_t`
     * `rat64_t` has a representation type of `int64_t`
+* Each rational type has 4 special constants 
+    * NaN
+    * ∞
+    * -∞
 ## Floating Point Types
 * Floating-points are approximations of real-numbers.
 * There are two floating-point types: `float32_t` and `float64_`

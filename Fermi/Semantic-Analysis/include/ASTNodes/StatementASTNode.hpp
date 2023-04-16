@@ -25,6 +25,16 @@ namespace Fermi::SemanticAnalysis
         virtual ~StatementASTNode() = default;
     };
 
+    class AssignmentStatementASTNode : public StatementASTNode 
+    {
+    public:
+        AssignmentStatementASTNode(std::string_view assignee, std::unique_ptr<ExpressionASTNode> initializer);
+
+        std::vector<const ASTNode*> getChildren() const override;
+
+        ASTNodeType getNodeType() const override;
+    };
+
     class ExpressionStatementASTNode : public StatementASTNode 
     {
     public:
@@ -53,6 +63,8 @@ namespace Fermi::SemanticAnalysis
     class VariableDeclarationASTNode : public StatementASTNode 
     {
     public:
+        VariableDeclarationASTNode(std::string_view identifier, const FermiType& type, std::unique_ptr<ExpressionASTNode> initializer);
+
         std::vector<const ASTNode*> getChildren() const override;
 
         ASTNodeType getNodeType() const override;

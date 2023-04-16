@@ -21,10 +21,27 @@
 #include "Syntax-Tree/SyntaxNode.hpp"
 #include "Type.hpp"
 
-#define FERMI_UNREACHABLE std::terminate();
+#if defined(__cpp_lib_unreachable) && __cpp_lib_unreachable >= 202202L
+#define FERMI_UNREACHABLE std::unreachable()
+#else 
+#define FERMI_UNREACHABLE std::terminate()
+#endif
 
 namespace Fermi::SemanticAnalysis
 {
+    struct string_hash
+    {
+        using hash_type = std::hash<std::string_view>;
+        using is_transparent = void;
+    
+        std::size_t operator()(const char* str) const        { return hash_type{}(str); }
+        std::size_t operator()(std::string_view str) const   { return hash_type{}(str); }
+        std::size_t operator()(std::string const& str) const { return hash_type{}(str); }
+    };
+    
+    std::unordered_map<std::string, FermiType, string_hash, std::equal_to<>> symbolTable;
+
+
     std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::LiteralExpressionNode& node)
     {
         SyntaxAnalysis::LiteralType type = node.getType();
@@ -45,6 +62,7 @@ namespace Fermi::SemanticAnalysis
                 catch (const std::out_of_range& ex) 
                 {
                     //Useful error message
+                    throw 1;
                 }
             }
             break;
@@ -64,13 +82,20 @@ namespace Fermi::SemanticAnalysis
                 catch (const std::out_of_range& ex)
                 {
                     //Useful error message
+                    throw 1;
                 }
             }
             break;
         case SyntaxAnalysis::LiteralType::Identifier:
-            return nullptr;
+            if (auto it = symbolTable.find(valueStr); it != symbolTable.end())
+            {
+                return std::make_unique<IdentifierExpressionASTNode>(valueStr, it->second);
+            }
+            else 
+            {
+                throw 1;
+            }
         }
-        return nullptr;
     }
 
     std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::BinaryExpressionNode& node)
@@ -140,20 +165,81 @@ namespace Fermi::SemanticAnalysis
         return std::make_unique<BinaryExpressionASTNode>(std::move(lhsChild), op, std::move(rhsChild));
     }
 
-    std::unique_ptr<StatementASTNode> transform(const SyntaxAnalysis::ExpressionStatementNode& node)
-    {
-        const auto* child = node.getChildren()[0];
-        SyntaxAnalysis::SyntaxNodeType type = child->getNodeType();
-
-        switch(type)
+    std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::ExpressionNode& node)
+    { 
+        switch(node.getNodeType())
         {
         case SyntaxAnalysis::SyntaxNodeType::BinaryExpression:
-            return std::make_unique<ExpressionStatementASTNode>(transform(static_cast<const SyntaxAnalysis::BinaryExpressionNode&>(*child)));
+            return transform(static_cast<const SyntaxAnalysis::BinaryExpressionNode&>(node));
         case SyntaxAnalysis::SyntaxNodeType::Literal:
-            return std::make_unique<ExpressionStatementASTNode>(transform(static_cast<const SyntaxAnalysis::LiteralExpressionNode&>(*child)));
+            return transform(static_cast<const SyntaxAnalysis::LiteralExpressionNode&>(node));
         default:
             FERMI_UNREACHABLE;
         }
+    }
+
+    std::unique_ptr<StatementASTNode> transform(const SyntaxAnalysis::AssignmentStatementNode& node)
+    {
+        std::string_view assignee = node.getAssignee();
+        auto it = symbolTable.find(assignee);
+        if (it == symbolTable.end())
+            throw 1;
+        const FermiType& type = it->second;
+
+        const SyntaxAnalysis::SyntaxNode* child = node.getChildren()[0];
+        std::unique_ptr<ExpressionASTNode> initializer = transform(static_cast<const SyntaxAnalysis::ExpressionNode&>(*child));
+
+        if (initializer->getType() != type)
+        {
+            if (isConvertibleTo(initializer->getType(), type))
+            {
+                initializer = std::make_unique<TypeConversionASTNode>(std::move(initializer), type);
+            }
+            else 
+            {
+                throw 1;
+            }
+        }
+
+        return std::make_unique<AssignmentStatementASTNode>(assignee, std::move(initializer));
+    }
+
+    std::unique_ptr<StatementASTNode> transform(const SyntaxAnalysis::VariableDeclarationStatementNode& node)
+    {
+        std::string_view identifier = node.getIdentifier();
+        SyntaxAnalysis::Type type = node.getType();
+        const SyntaxAnalysis::SyntaxNode* child = node.getChildren()[0];
+
+        std::unique_ptr<ExpressionASTNode> initializer;
+        FermiType nodeType;
+        if (child)
+            initializer = transform(static_cast<const SyntaxAnalysis::ExpressionNode&>(*child));
+        
+        if (type == SyntaxAnalysis::Type::deduced)
+        {
+            if (!child)
+                throw 1;
+            nodeType = initializer->getType();
+        }
+        else 
+        {
+            nodeType = toASTType(type);
+            if (initializer && initializer->getType() != nodeType)
+            {
+                if(!isConvertibleTo(initializer->getType(), nodeType))
+                    throw 1;
+                initializer = std::make_unique<TypeConversionASTNode>(std::move(initializer), nodeType);
+            }
+        }
+
+        symbolTable.emplace(identifier, type);
+        return std::make_unique<VariableDeclarationASTNode>(identifier, nodeType, std::move(initializer));
+    }
+
+    std::unique_ptr<StatementASTNode> transform(const SyntaxAnalysis::ExpressionStatementNode& node)
+    {
+        const auto* child = node.getChildren()[0];
+        return std::make_unique<ExpressionStatementASTNode>(transform(static_cast<const SyntaxAnalysis::ExpressionNode&>(*child)));
     }
 
     std::unique_ptr<FermiASTNode> transform(const SyntaxAnalysis::FermiStatementNode& node)
@@ -164,6 +250,9 @@ namespace Fermi::SemanticAnalysis
             SyntaxAnalysis::SyntaxNodeType type = child->getNodeType();
             switch(type)
             {
+            case SyntaxAnalysis::SyntaxNodeType::AssignmentStatementNode:
+                output->addChild(transform(static_cast<const SyntaxAnalysis::AssignmentStatementNode&>(*child)));
+                break;
             case SyntaxAnalysis::SyntaxNodeType::ExpressionStatementNode:
                 output->addChild(transform(static_cast<const SyntaxAnalysis::ExpressionStatementNode&>(*child)));
                 break;

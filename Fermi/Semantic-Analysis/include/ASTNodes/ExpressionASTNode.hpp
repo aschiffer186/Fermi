@@ -91,7 +91,17 @@ namespace Fermi::SemanticAnalysis
 
     class IdentifierExpressionASTNode : public ExpressionASTNode
     {
+    public:
+        IdentifierExpressionASTNode(std::string_view value, const FermiType& type);
 
+        ASTNodeType getNodeType() const override; 
+
+        std::vector<const ASTNode*> getChildren() const override; 
+
+        FermiType getType() const override;
+    private:
+        std::string value_;
+        FermiType type_;
     };
 }
 

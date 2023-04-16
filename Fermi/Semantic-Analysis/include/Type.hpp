@@ -14,6 +14,8 @@
 #include <ostream>
 #include <string>
 
+#include "Syntax-Tree/StatementNodes.hpp"
+
 namespace Fermi::SemanticAnalysis
 {
     struct FermiType 
@@ -35,8 +37,12 @@ namespace Fermi::SemanticAnalysis
 
     bool isIntegerType(const FermiType& type) noexcept;
     bool isFloatingPointType(const FermiType& type) noexcept;
+    bool isConvertibleTo(const FermiType& from, const FermiType& to);
 
     FermiType commonType(const FermiType& t1, const FermiType& t2);
+
+    FermiType toASTType(SyntaxAnalysis::Type);
+
 }
 
 #endif

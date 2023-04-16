@@ -6,8 +6,8 @@
 #include "FermiParser.hpp"
 #include "FermiSourceFile.hpp"
 
-#include "ExpressionNode.hpp"
-#include "StatementNode.hpp"
+#include "ExpressionNodes.hpp"
+#include "StatementNodes.hpp"
 
 using namespace Fermi::SyntaxAnalysis;
 
