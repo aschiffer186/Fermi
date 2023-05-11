@@ -12,10 +12,12 @@
 
 namespace Fermi::SyntaxAnalysis
 {
+    class AssignmentStatementNode;
     class BinaryExpressionNode;
     class ExpressionStatementNode;
     class FermiStatementNode;
     class LiteralExpressionNode;
+    class VariableDeclarationNode;
 }
 
 namespace Fermi::SemanticAnalysis
@@ -27,7 +29,9 @@ namespace Fermi::SemanticAnalysis
     std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::LiteralExpressionNode& node);
     std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::BinaryExpressionNode& node);
     
+    std::unique_ptr<StatementASTNode> transform(const SyntaxAnalysis::AssignmentStatementNode& node);
     std::unique_ptr<StatementASTNode> transform(const SyntaxAnalysis::ExpressionStatementNode& node);
+    std::unique_ptr<StatementASTNode> transform(const SyntaxAnalysis::VariableDeclarationStatementNode& node);
 
     std::unique_ptr<FermiASTNode> transform(const SyntaxAnalysis::FermiStatementNode& node);
 }

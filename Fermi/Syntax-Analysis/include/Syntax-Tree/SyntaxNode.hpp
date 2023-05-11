@@ -46,6 +46,11 @@ namespace Fermi::SyntaxAnalysis
     {
     public:
 
+        SyntaxNode(const SyntaxNode&) = delete;
+        SyntaxNode(SyntaxNode&&) = delete;
+        SyntaxNode& operator=(const SyntaxNode&) = delete;
+        SyntaxNode& operator=(SyntaxNode&&) = delete;
+
         /**
          * @brief Return the node type
          * 
