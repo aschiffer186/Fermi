@@ -41,7 +41,6 @@ namespace Fermi::SemanticAnalysis
     
     std::unordered_map<std::string, FermiType, string_hash, std::equal_to<>> symbolTable;
 
-
     std::unique_ptr<ExpressionASTNode> transform(const SyntaxAnalysis::LiteralExpressionNode& node)
     {
         SyntaxAnalysis::LiteralType type = node.getType();

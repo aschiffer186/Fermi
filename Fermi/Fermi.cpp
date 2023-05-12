@@ -14,6 +14,7 @@
 #include "FermiCommandArguments.hpp"
 #include "FermiSourceFile.hpp"
 #include "FermiParser.hpp"
+#include "Semantic-Analysis/include/FermiModule.hpp"
 
 int main(int argc, const char** argv)
 {
@@ -69,6 +70,13 @@ int main(int argc, const char** argv)
         Fermi::SyntaxAnalysis::FermiLexer lexer{fin};
         Fermi::SyntaxAnalysis::FermiSourceFile srcFile{sourceFileName};
         Fermi::SyntaxAnalysis::FermiParser parser{srcFile, lexer};
+    }
+
+    std::unordered_map<std::string, Fermi::SemanticAnalysis::FermiModule> modules;
+
+    for(const auto& srcFile : srcFiles)
+    {
+
     }
     return 0;
 }
