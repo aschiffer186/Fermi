@@ -1,7 +1,5 @@
-doc/*
-build*/*
-ideas/*
+build/*
 .vscode/*
+.clangd/*
 
-compile_commaneds.json
-.cache/*
+compile_commands.json
