@@ -13,9 +13,10 @@
 #define FERMI_LEXER_HPP
 
 #include <iosfwd>
+#include <string>
 #include <vector>
 
-#ifndef yyFlexLever
+#ifndef yyFlexLexer
 #include <FlexLexer.h>
 #endif
 
@@ -28,13 +29,13 @@ namespace Fermi::LexicalAnalysis
     public:
         using FlexLexer::yylex; 
 
-        FermiLexer(std::istream&);
+        explicit FermiLexer(std::istream&);
     
         std::vector<FermiToken> lex();
     private:
         FermiToken nextToken();
 
-        static FermiToken makeToken();
+        FermiToken makeToken(FermiTokenKind, std::string) const;
     private: 
         Location _currLoc;
     };

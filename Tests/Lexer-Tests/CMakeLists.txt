@@ -1,0 +1,11 @@
+function(create_lexer_test TEST_NAME SOURCE_FILE_NAME)
+    add_executable(${TEST_NAME} EXCLUDE_FROM_ALL ${SOURCE_FILE_NAME})
+    target_compile_features(${TEST_NAME} PRIVATE cxx_std_20)
+    target_include_directories(${TEST_NAME} PRIVATE ${LEXICAL_ANALYSIS_INCLUDE_DIR})
+    target_link_libraries(${TEST_NAME} PRIVATE GTest::gtest_main FermiLexer)
+    gtest_discover_tests(${TEST_NAME})
+    add_dependencies(Lexer_Tests ${TEST_NAME})
+endfunction()
+
+add_custom_target(Lexer_Tests)
+create_lexer_test(LexLiterals TestLexLiterals.cpp)

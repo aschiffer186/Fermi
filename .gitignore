@@ -1,5 +1,8 @@
 build/*
 .vscode/*
 .clangd/*
+.cache/*
+
+ideas/*
 
 compile_commands.json

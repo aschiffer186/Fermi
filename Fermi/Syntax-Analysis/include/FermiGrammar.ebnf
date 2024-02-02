@@ -1,0 +1,62 @@
+fermi-program = [functin-declaration] ;
+
+function-declaration =
+  function-interface ';'
+| function-interface '=' statement 
+;
+
+function-interface =
+  ["export"] "let" IDENTIFIER "(" [function-params] ")" [function-modifiers] [return-type]
+| ["export"] "let" "operator" operator "(" [function-params] ")" [function-modifiers] [return-type]
+;
+function-params = function-param {"," function-param} ;
+function-param = IDENTIFIER [[inout] type-identifier] ;
+function-modifiers = function-modifier {function-modifier} ;
+function-modifier = "const" | pure-modifier | nothrow-modifier | compeval-modifier ;
+pure-modifier = "pure" ["(" expression ")"] ;
+nothrow-modifier = "nothrow" ["(" expression ")"] ;
+compeval-modifier = "compeval" ["(" expression ")"] ;
+inout = "in" | "out" | "inout" ;
+type-identifier = ":" type 
+| ":" "&"
+| ":" "const"
+| ":" "const" "&"
+;
+
+statement = 
+  expression 
+| expression "=" expression ";"
+;
+
+expression =
+  literal
+| IDENTIFIER
+| '(' expression ')'
+| expression "+" expression 
+| expression "-" expression 
+| expression "*" expression 
+| expression "/" expression 
+| expression "//" expression 
+| expression "^" expression 
+| expression "%" expression 
+| expression "&&" expression 
+| expression "||" expression 
+| expression "==" expression 
+| expression "!=" expression 
+| expression "<" expression 
+| expression ">" expression 
+| expression "<=" expression 
+| expression ">=" expression 
+| expression "<=>" expression 
+| function-call-expression
+;
+
+literal = 
+  INTEGER_LITERAL 
+| FLOAT_LITERAL 
+| COMPLEX_LITERAL
+| CHARACTER_LITERAL 
+| STRING_LITERAL
+| "true"
+| "false"
+;
