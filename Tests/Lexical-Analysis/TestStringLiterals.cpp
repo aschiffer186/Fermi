@@ -5,9 +5,9 @@
 TEST(TestLexer, TestStringLiterals)
 {
     const std::string test1 = 
-        "\"abcddefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+        "\"abcddefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
         "!@#$%^&*()-_=+{}[];:,.<>/?'\"";
-    Fermi::Scanner s{test1};
+    Fermi::Lexer s{test1};
     std::vector<Fermi::Token> tokens = s.scanTokens();
     std::vector<Fermi::Token> expectedTokens
     {
@@ -17,7 +17,7 @@ TEST(TestLexer, TestStringLiterals)
     EXPECT_EQ(expectedTokens, tokens);
 
     const std::string test2 = "\"\"";
-    Fermi::Scanner s2{test2};
+    Fermi::Lexer s2{test2};
     tokens = s2.scanTokens(); 
     expectedTokens = 
     {
@@ -26,17 +26,18 @@ TEST(TestLexer, TestStringLiterals)
     };
     EXPECT_EQ(expectedTokens, tokens);
 
-    const std::string test3= "\"\\\"\\\\n";
-    Fermi::Scanner s3{test3};
-    //tokens = s.scanTokens(); 
+    const std::string test3= "\"Hello World\"";
+    Fermi::Lexer s3{test3};
+    tokens = s3.scanTokens(); 
     expectedTokens = 
     {
         Fermi::Token{.type = Fermi::TokenType::String, .line = 1, .lexeme = test3, .literal = test3.substr(1, test3.length() - 2)}, 
         Fermi::Token{.type = Fermi::TokenType::FermiEOF, .line = 1, .lexeme = "$", .literal = ""}
     };
+    EXPECT_EQ(expectedTokens, tokens);
 }
 
-TEST(TestLexer, TestCharacterLiters)
+TEST(TestLexer, TestCharacterLiterals)
 {
     const std::string allChars = 
         "abcddefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
@@ -47,7 +48,7 @@ TEST(TestLexer, TestCharacterLiters)
         test1.append(std::string{c});
         test1.append("'");
 
-        Fermi::Scanner s{test1};
+        Fermi::Lexer s{test1};
         std::vector<Fermi::Token> tokens = s.scanTokens();
         std::vector<Fermi::Token> expectedTokens
         {

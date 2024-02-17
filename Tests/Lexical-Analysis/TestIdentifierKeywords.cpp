@@ -5,7 +5,7 @@
 TEST(TestLexer, TestIdentifiers)
 {
     const std::string test1 = "abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
-    Fermi::Scanner s{test1};
+    Fermi::Lexer s{test1};
     std::vector<Fermi::Token> tokens = s.scanTokens();
     std::vector<Fermi::Token> expectedTokens
     {
@@ -15,7 +15,7 @@ TEST(TestLexer, TestIdentifiers)
     EXPECT_EQ(expectedTokens, tokens);
 
     const std::string test2 = "_";
-    Fermi::Scanner s2{test2};
+    Fermi::Lexer s2{test2};
     tokens = s2.scanTokens();
     expectedTokens =
     {
@@ -56,7 +56,7 @@ TEST(TestLexer, TestKeywords)
 
     for(const auto& [keyword, type] : keywords)
     {
-        Fermi::Scanner s{keyword};
+        Fermi::Lexer s{keyword};
         std::vector<Fermi::Token> tokens = s.scanTokens(); 
         std::vector<Fermi::Token> expectedTokens 
         {

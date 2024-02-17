@@ -17,3 +17,8 @@ add_executable(TestOperators TestOperators.cpp)
 add_test(NAME OperatorsTest COMMAND TestOperators)
 target_link_libraries(TestOperators PRIVATE Scanner GTest::gtest_main)
 target_include_directories(TestOperators PRIVATE ${CMAKE_SOURCE_DIR}/Lexical-Analysis)
+
+add_executable(TestSpaces TestSpaces.cpp)
+add_test(NAME SpacesTest COMMAND TestSpaces)
+target_link_libraries(TestSpaces PRIVATE Scanner GTest::gtest_main)
+target_include_directories(TestSpaces PRIVATE ${CMAKE_SOURCE_DIR}/Lexical-Analysis)

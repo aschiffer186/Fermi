@@ -36,7 +36,7 @@ namespace Fermi
         return os;
     }
 
-    const std::unordered_map<std::string, TokenType, StringHash, std::equal_to<>> Scanner::keywords_
+    const std::unordered_map<std::string, TokenType, StringHash, std::equal_to<>> Lexer::keywords_
     {
         {"float32_t", TokenType::Float32},
         {"float64_t", TokenType::Float64},
@@ -62,31 +62,50 @@ namespace Fermi
         {"true", TokenType::True}
     };
 
-    Scanner::Scanner(std::string source)
+    Lexer::Lexer(std::string source)
     : source_(std::move(source))
     {
 
     }
 
-    auto Scanner::scanTokens() -> const std::vector<Token>& 
+    auto Lexer::scanTokens() -> const std::vector<Token>& 
     {
         while (!isAtEnd())
         {
             start_ = current_;
-            tokens_.push_back(scanToken());
+            Token tok = scanToken();
+            if (tok.type != TokenType::Space) 
+            {
+                tokens_.push_back(std::move(tok));
+            }
         }
-
+        
         tokens_.emplace_back(TokenType::FermiEOF, line_, "$", "");
-        if (std::ranges::any_of(tokens_, [](const auto& tok) { return tok.type == TokenType::Error; }))
-        {
-            tokens_.clear();
-            return tokens_;
-        }
         return tokens_;
     }
 
-    auto Scanner::scanToken() -> Token 
+    auto Lexer::scanToken() -> Token 
     {
+        using enum TokenType;
+
+        while (std::isspace(peek())) 
+        { 
+            if (peek() == '\n') { 
+                ++ line_; 
+                advance();
+                return makeToken(Space);
+            }
+            advance();
+            ++start_;
+            if (isAtEnd()) { return  makeToken(Space); }
+        }
+
+        if (peek() == '#')
+        {
+            while (!isAtEnd() && peek() != '\n') { advance(); }
+            return makeToken(Space);
+        }
+
         const char c = advance();
         switch (c)
         {
@@ -101,25 +120,27 @@ namespace Fermi
                 return makeToken(LeftBrace);
             case '}':
                 return makeToken(RightBrace);
+            case ';':
+                return makeToken(Semicolon);
             case '=':
             {
-                const TokenType type = match('=') ? Assign : Equal; 
+                const TokenType type = match('=') ? Equal : Assign; 
                 return makeToken(type);
             }
             case '<':
-                return makeToken(Less);
+            {
+                const TokenType type = match('-') ? LeftArrow : Less;
+                return makeToken(type);
+            }
             case '>':
                 return makeToken(Greater);
             case '+':
             {
                 const TokenType type = match('-') ? PlusMinus : Plus;
-                return makeToken(Plus);
-            }
-            case '-':
-            {
-                const TokenType type = match('>') ? LeftArrow : Minus;
                 return makeToken(type);
             }
+            case '-':
+                return makeToken(Minus);
             case '*':
                 return makeToken(Star);
             case '%':
@@ -144,17 +165,6 @@ namespace Fermi
                 return string();
             case '\'':
                 return character();
-            // Comments and whitespace 
-            case '#':
-                while (peek() != '\n' && !isAtEnd()) { advance(); }
-                break;
-            case ' ':
-            case '\t':
-            case '\r':
-                break; 
-            case '\n':
-                ++line_; 
-                break;
             default: 
                 if (std::isdigit(c))             { return digit();      }
                 if (std::isalpha(c) || c == '_') { return identifierKeyword(); }
@@ -163,13 +173,13 @@ namespace Fermi
         __builtin_unreachable();
     }
 
-    auto Scanner::makeToken(TokenType type, std::string literal) const -> Token 
+    auto Lexer::makeToken(TokenType type, std::string literal) const -> Token 
     {
         const std::string text{source_.cbegin() + start_, source_.cbegin() + current_};
         return {.type = type, .line = line_, .lexeme = text, .literal = std::move(literal)};
     }
 
-    auto Scanner::character() -> Token 
+    auto Lexer::character() -> Token 
     {
         using enum TokenType;
 
@@ -185,7 +195,7 @@ namespace Fermi
         return makeToken(Character, std::move(literal));
     }
 
-    auto Scanner::string() -> Token 
+    auto Lexer::string() -> Token 
     {
         using enum TokenType;
         while (peek() != '"' && !isAtEnd())
@@ -199,7 +209,7 @@ namespace Fermi
         return makeToken(String, std::move(literal));
     }
 
-    auto Scanner::identifierKeyword() -> Token 
+    auto Lexer::identifierKeyword() -> Token 
     {
         using enum TokenType; 
 
@@ -213,7 +223,7 @@ namespace Fermi
         return makeToken(Identifier);
     }
 
-    auto Scanner::digit() -> Token 
+    auto Lexer::digit() -> Token 
     {
         using enum TokenType;
 
@@ -237,25 +247,25 @@ namespace Fermi
         return makeToken(Integer, text);
     }
 
-    auto Scanner::advance() -> char 
+    auto Lexer::advance() -> char 
     {
         if(isAtEnd()) { return 0; }
         return source_[current_++];
     }
 
-    auto Scanner::peek() const -> char 
+    auto Lexer::peek() const -> char 
     {
         if(isAtEnd()) { return '\0'; }
         return source_[current_];
     }
 
-    auto Scanner::peekNext() const -> char 
+    auto Lexer::peekNext() const -> char 
     {
         if(current_ + 1 >= source_.length()) { return '\0'; }
         return source_[current_ + 1];
     }
 
-    auto Scanner::match(char expected) -> bool 
+    auto Lexer::match(char expected) -> bool 
     {
         if(isAtEnd())           { return false; }
         if (peek() != expected) { return false; }
@@ -264,7 +274,7 @@ namespace Fermi
         return true;
     }   
 
-    auto Scanner::isAtEnd() const -> bool 
+    auto Lexer::isAtEnd() const -> bool 
     {
         return current_ >= source_.length();
     }

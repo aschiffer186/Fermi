@@ -5,7 +5,7 @@
 TEST(TestLexer, TestIntegerLiterals)
 {
     const std::string test1 = "123456789";
-    Fermi::Scanner s{test1};
+    Fermi::Lexer s{test1};
     std::vector<Fermi::Token> tokens = s.scanTokens();
     std::vector<Fermi::Token> expectedTokens
     {
@@ -18,7 +18,7 @@ TEST(TestLexer, TestIntegerLiterals)
 TEST(TestLexer, TestFloatLiterals)
 {
     const std::string test1 = "123456789.987654321";
-    Fermi::Scanner s{test1};
+    Fermi::Lexer s{test1};
     std::vector<Fermi::Token> tokens = s.scanTokens();
     std::vector<Fermi::Token> expectedTokens
     {
@@ -28,7 +28,7 @@ TEST(TestLexer, TestFloatLiterals)
     EXPECT_EQ(tokens, expectedTokens);
 
     const std::string test2 = ".987654321";
-    Fermi::Scanner s2{test2};
+    Fermi::Lexer s2{test2};
     tokens = s2.scanTokens(); 
     expectedTokens = 
     {
@@ -38,7 +38,7 @@ TEST(TestLexer, TestFloatLiterals)
     EXPECT_EQ(tokens, expectedTokens);
 
     const std::string test3 = "123456789.";
-    Fermi::Scanner s3{test3};
+    Fermi::Lexer s3{test3};
     tokens = s3.scanTokens();
     expectedTokens = 
     {

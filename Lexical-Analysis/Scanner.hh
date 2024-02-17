@@ -17,6 +17,7 @@ namespace Fermi
         RightParen, // )
         LeftBrace, // {
         RightBrace, // }
+        Semicolon,
 
         // Operators 
         Assign, // =
@@ -75,6 +76,7 @@ namespace Fermi
         String,
 
         FermiEOF,
+        Space,
         Error
     };
 
@@ -99,10 +101,10 @@ namespace Fermi
         auto operator()(const std::string&) const noexcept -> std::size_t;
     };
 
-    class Scanner 
+    class Lexer 
     {
     public:
-        explicit Scanner(std::string);
+        explicit Lexer(std::string);
 
         auto scanTokens() -> const std::vector<Token>&;
     private:

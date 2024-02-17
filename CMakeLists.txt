@@ -14,10 +14,11 @@ add_compile_definitions(FERMI_MAJOR_VERSION=${FERMI_MAJOR_VERSION})
 add_compile_definitions(FERMI_MINOR_VERSION=${FERMI_MINOR_VERSION})
 add_compile_definitions(FERMI_PATCH_VERSION=${FERMI_PATCH_VERSION})
 
+add_subdirectory(Common)
 add_subdirectory(Lexical-Analysis)
 
 add_executable(Fermi Fermi.cpp)
-target_link_libraries(Fermi PRIVATE Scanner)
+target_link_libraries(Fermi PRIVATE Scanner Common)
 target_include_directories(Fermi PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/Lexical-Analysis)
 
 add_subdirectory(Tests)
