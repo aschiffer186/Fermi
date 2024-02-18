@@ -1,0 +1,38 @@
+(* Top level production *)
+Fermi = statement* ;
+
+(* A statement is anything that potentially executes some action *)
+statement = expression ";"        |
+            assignment-statement  |
+            compound-statement    |
+            conditional-statement
+            ;
+(* Unlike C/C++ (and like Ada), assignment is a statement not an expression*)
+assignment-statement  = expression "="  expression |
+                        expression "<-" expression 
+                        ;
+compound-statement    = "{" statement* "}" ;
+conditional-statement = if-block else-if-block* else-block? ;
+if-block              = "if" "(" expression ")" compound-statement ; 
+(* Unlike C/C++, an else if block is a distinct part of the grammar*)
+else-if-block         = "elseif" "(" expression ")" compound-statement ;
+else-block            = "else" compound-statement ;
+
+(* Expressions are orderd by precedence, lowest first, where possible*)
+(* A gap is inserted between each precedence level *)
+expression = or ;
+or         = and        ( "or" and)* ;
+and        = equality   ( "and" equality)* ;
+equality   = comparison ( ("==" | "!=") comparison)* ;
+comparison = term       ( (">" | ">=" | "<" | "<=") term)* ;
+term       = factor     ( ("+" | "+-" | "-") factor)* ;
+factor     = exponent   ( ("*" | "/" | "//" | "%") exponent)* ;
+exponent   = unary-fact ("^" unary-fact)*;
+unary-fact = unary-not (unary-not "!")* ;
+unary      = "!" primary |
+             primary 
+             ;
+primary =   Character | Floating-Point | Integer | String | Identifier |
+            | "true" | "false" |
+            "(" expression ")" 
+            ;

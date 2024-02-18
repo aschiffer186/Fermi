@@ -16,6 +16,7 @@ add_compile_definitions(FERMI_PATCH_VERSION=${FERMI_PATCH_VERSION})
 
 add_subdirectory(Common)
 add_subdirectory(Lexical-Analysis)
+add_subdirectory(Syntax-Analysis)
 
 add_executable(Fermi Fermi.cpp)
 target_link_libraries(Fermi PRIVATE Scanner Common)

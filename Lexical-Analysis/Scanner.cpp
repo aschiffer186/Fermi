@@ -49,6 +49,11 @@ namespace Fermi
         {"nat32_t", TokenType::Nat32},
         {"nat64_t", TokenType::Nat64},
         {"as", TokenType::As},
+        {"and", TokenType::And}, 
+        {"else", TokenType::Else}, 
+        {"elseif", TokenType::ElseIf}, 
+        {"if", TokenType::If}, 
+        {"or", TokenType::Or},        
         {"define", TokenType::Define},
         {"let", TokenType::Let},
         {"private", TokenType::Private},
@@ -59,7 +64,7 @@ namespace Fermi
         {"static", TokenType::Static},
         {"false", TokenType::False},
         {"this", TokenType::This},
-        {"true", TokenType::True}
+        {"true", TokenType::True},
     };
 
     Lexer::Lexer(std::string source)
@@ -129,11 +134,17 @@ namespace Fermi
             }
             case '<':
             {
-                const TokenType type = match('-') ? LeftArrow : Less;
+                TokenType type; 
+                if(match('-')) { type = LeftArrow; }
+                else if(match('=')) { type = LessEqual; }
+                else { type = Less; }
                 return makeToken(type);
             }
             case '>':
-                return makeToken(Greater);
+            {
+                const TokenType type = match('=') ? GreaterEqual : Greater;
+                return makeToken(type);
+            }
             case '+':
             {
                 const TokenType type = match('-') ? PlusMinus : Plus;
@@ -154,7 +165,7 @@ namespace Fermi
                 return makeToken(Caret);
             case '!':
             {
-                const TokenType type = match('=') ? Bang : Bang; 
+                const TokenType type = match('=') ? NotEqual : Bang; 
                 return makeToken(type);
             }
             case '.':

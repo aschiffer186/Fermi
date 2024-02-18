@@ -40,9 +40,12 @@ TEST(TestLexer, TestOperators)
         {"^", Caret},
         {"==", Equal},
         {">", Greater},
+        {">=", GreaterEqual},
         {"<-", LeftArrow},
         {"<", Less},
+        {"<=", LessEqual}, 
         {"-", Minus},
+        {"!=", NotEqual},
         {"%", Percent},
         {"+", Plus},
         {"+-", PlusMinus},
@@ -50,6 +53,9 @@ TEST(TestLexer, TestOperators)
         {"//", SlashSlash},
         {"*", Star}
     };
+
+    constexpr auto diff =  static_cast<int>(Float32) - static_cast<int>(Assign);
+    ASSERT_EQ(operators.size(), diff);
 
     for(const auto& [op, type] : operators)
     {

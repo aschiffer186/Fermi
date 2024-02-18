@@ -31,28 +31,36 @@ TEST(TestLexer, TestKeywords)
     const std::vector<std::pair<std::string, Fermi::TokenType>> keywords 
     {
         {"float32_t", Float32},
-        {"float64_t", Float64}, 
-        {"int8_t",    Int8},
-        {"int16_t",   Int16},
-        {"int32_t",   Int32},
-        {"int64_t",   Int64},
-        {"nat8_t",    Nat8},
-        {"nat16_t",   Nat16},
-        {"nat32_t",   Nat32},
-        {"nat64_t",   Nat64},
-        {"as",        As},
-        {"define",    Define},
-        {"let",       Let},
-        {"private",   Private},
-        {"public",    Public},
-        {"compeval",  Compeval},
-        {"mutable",   Mutable},
-        {"pure",      Pure},
-        {"static",    Static},
-        {"false",     False},
-        {"this",      This},
-        {"true",      True}
+        {"float64_t", Float64},
+        {"int8_t", Int8},
+        {"int16_t", Int16},
+        {"int32_t", Int32},
+        {"int64_t", Int64},
+        {"nat8_t", Nat8},
+        {"nat16_t", Nat16},
+        {"nat32_t", Nat32},
+        {"nat64_t", Nat64},
+        {"as", As},
+        {"and", And}, 
+        {"else", Else}, 
+        {"elseif", ElseIf}, 
+        {"if", If}, 
+        {"or", Or},        
+        {"define", Define},
+        {"let", Let},
+        {"private", Private},
+        {"public", Public},
+        {"compeval", Compeval},
+        {"mutable", Mutable},
+        {"pure", Pure},
+        {"static", Static},
+        {"false", False},
+        {"this", This},
+        {"true", True},
     };
+
+    constexpr auto diff = static_cast<int>(Identifier) - static_cast<int>(Float32);
+    ASSERT_EQ(keywords.size(), diff);
 
     for(const auto& [keyword, type] : keywords)
     {

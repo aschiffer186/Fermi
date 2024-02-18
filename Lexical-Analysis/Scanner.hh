@@ -25,9 +25,12 @@ namespace Fermi
         Caret, // ^
         Equal,
         Greater,
+        GreaterEqual,
         LeftArrow, // <-
         Less,
+        LessEqual,
         Minus, // -
+        NotEqual,
         Percent, // %
         Plus, // +
         PlusMinus, // +-
@@ -47,6 +50,13 @@ namespace Fermi
         Nat16, 
         Nat32, 
         Nat64,
+
+        // Control flow 
+        And, 
+        Else,
+        ElseIf,
+        If, 
+        Or,
 
         // Declaration related
         As,
