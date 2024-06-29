@@ -295,12 +295,22 @@ void yyfree ( void *  );
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
 /* Begin user sect3 */
+#define YY_SKIP_YYWRAP
 typedef flex_uint8_t YY_CHAR;
 
 #define yytext_ptr yytext
 #define YY_INTERACTIVE
 
 #include <FlexLexer.h>
+
+int yyFlexLexer::yywrap() { return 1; }
+int yyFlexLexer::yylex()
+	{
+	LexerError( "yyFlexLexer::yylex invoked but %option yyclass used" );
+	return 0;
+	}
+
+#define YY_DECL int Fermi::SyntaxAnalysis::FermiLexer::yylex()
 
 /* Done after the current pattern has been matched and before the
  * corresponding action - sets up yytext.
@@ -311,8 +321,8 @@ typedef flex_uint8_t YY_CHAR;
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 5
-#define YY_END_OF_BUFFER 6
+#define YY_NUM_RULES 6
+#define YY_END_OF_BUFFER 7
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -320,95 +330,95 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[34] =
+static const flex_int16_t yy_accept[35] =
     {   0,
-        0,    0,    6,    5,    5,    5,    1,    0,    2,    0,
-        0,    1,    0,    3,    4,    0,    0,    0,    1,    0,
-        1,    0,    2,    0,    1,    2,    0,    1,    1,    0,
-        2,    2,    0
+        0,    0,    7,    5,    6,    5,    5,    1,    0,    2,
+        0,    0,    1,    0,    3,    4,    0,    0,    0,    1,
+        0,    1,    0,    2,    0,    1,    2,    0,    1,    1,
+        0,    2,    2,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
     {   0,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    2,    2,    2,    3,    2,    2,    2,    4,    2,
-        2,    2,    5,    2,    6,    7,    2,    8,    8,    8,
-        8,    8,    8,    8,    8,    8,    8,    2,    2,    2,
-        2,    2,    2,    2,    9,    9,    9,    9,   10,    9,
-        9,    9,    9,    9,    9,    9,    9,    9,    9,    9,
-        9,    9,    9,    9,    9,    9,    9,    9,    9,    9,
-        2,    1,    2,    2,    2,    2,    9,    9,    9,    9,
+        1,    3,    3,    3,    4,    3,    3,    3,    5,    3,
+        3,    3,    6,    3,    7,    8,    3,    9,    9,    9,
+        9,    9,    9,    9,    9,    9,    9,    3,    3,    3,
+        3,    3,    3,    3,   10,   10,   10,   10,   11,   10,
+       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
+       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
+        3,    1,    3,    3,    3,    3,   10,   10,   10,   10,
 
-       10,    9,    9,    9,   11,    9,    9,    9,    9,    9,
-        9,    9,    9,    9,    9,    9,    9,    9,    9,    9,
-        9,    9,    2,    2,    2,    2,    1,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
+       11,   10,   10,   10,   12,   10,   10,   10,   10,   10,
+       10,   10,   10,   10,   10,   10,   10,   10,   10,   10,
+       10,   10,    3,    3,    3,    3,    1,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
 
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-        2,    2,    2,    2,    2
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
+        3,    3,    3,    3,    3
     } ;
 
-static const YY_CHAR yy_meta[12] =
+static const YY_CHAR yy_meta[13] =
     {   0,
-        1,    2,    2,    1,    3,    3,    4,    5,    6,    6,
-        6
+        1,    1,    2,    2,    1,    3,    3,    4,    5,    6,
+        6,    6
     } ;
 
-static const flex_int16_t yy_base[40] =
+static const flex_int16_t yy_base[41] =
     {   0,
-        0,    5,   41,   82,    0,   30,   11,   33,   15,   27,
-       25,   24,   22,   82,   82,   21,    0,   28,   25,   16,
-       28,   12,    9,   13,   35,   42,   49,   10,    0,    0,
-        0,    0,   82,   60,   65,   68,   72,   73,   75
+        0,    8,   41,   86,   86,    0,   29,   14,   32,   18,
+       28,   24,   23,   25,   86,   86,   19,    0,   31,   20,
+       12,   31,   11,   10,   11,   38,   45,   52,    8,    0,
+        0,    0,    0,   86,   64,   69,   72,   76,   77,   79
     } ;
 
-static const flex_int16_t yy_def[40] =
+static const flex_int16_t yy_def[41] =
     {   0,
-       34,   34,   33,   33,   35,   33,   33,   33,   33,   36,
-       33,    7,   33,   33,   33,   37,   38,   36,   12,   33,
-       33,   33,   21,   38,   33,   33,   25,   25,   28,   39,
-       39,   31,    0,   33,   33,   33,   33,   33,   33
+       35,   35,   34,   34,   34,   36,   34,   34,   34,   34,
+       37,   34,    8,   34,   34,   34,   38,   39,   37,   13,
+       34,   34,   34,   22,   39,   34,   34,   26,   26,   29,
+       40,   40,   32,    0,   34,   34,   34,   34,   34,   34
     } ;
 
-static const flex_int16_t yy_nxt[94] =
+static const flex_int16_t yy_nxt[99] =
     {   0,
-       33,   33,   33,    5,   33,   33,    6,    7,    5,   33,
-       32,    6,    7,   10,   33,   26,   23,   11,   12,   23,
-       13,   14,    9,   21,   16,   14,   20,   33,   23,   21,
-       25,   19,    9,   17,   17,   21,   15,    9,   14,   27,
-       33,   33,   28,   28,   28,   29,   30,   30,   33,   31,
-       31,   31,   32,   33,   33,   33,   33,   33,   33,   28,
-        4,    4,    4,    4,    4,    4,    8,    8,    8,    8,
-        8,   18,   18,   18,   22,   33,   22,   24,   24,   31,
-       31,    3,   33,   33,   33,   33,   33,   33,   33,   33,
-       33,   33,   33
+       34,    5,   34,   34,    6,   34,   34,    7,    8,    5,
+       34,   33,    6,   34,   27,    7,    8,   11,   24,   24,
+       22,   12,   13,   34,   14,   15,   10,   24,   17,   15,
+       21,   20,   10,   22,   26,   18,   16,   10,   18,   22,
+       34,   34,   15,   28,   34,   34,   29,   29,   29,   30,
+       31,   31,   34,   32,   32,   32,   33,   34,   34,   34,
+       34,   34,   34,   29,    4,    4,    4,    4,    4,    4,
+        9,    9,    9,    9,    9,   19,   19,   19,   23,   34,
+       23,   25,   25,   32,   32,    3,   34,   34,   34,   34,
+       34,   34,   34,   34,   34,   34,   34,   34
 
     } ;
 
-static const flex_int16_t yy_chk[94] =
+static const flex_int16_t yy_chk[99] =
     {   0,
-        0,    0,    0,    1,    0,    0,    1,    1,    2,    0,
-       31,    2,    2,    7,   28,   24,   23,    7,    7,   22,
-        7,    7,    9,   20,    9,    9,   13,   19,   16,   13,
-       18,   12,   11,   10,   18,   21,    8,    6,   21,   25,
-        3,    0,   25,   25,   25,   25,   26,   26,    0,   26,
-       26,   26,   26,   27,    0,    0,    0,    0,    0,   27,
-       34,   34,   34,   34,   34,   34,   35,   35,   35,   35,
-       35,   36,   36,   36,   37,    0,   37,   38,   38,   39,
-       39,   33,   33,   33,   33,   33,   33,   33,   33,   33,
-       33,   33,   33
+        0,    1,    0,    0,    1,    0,    0,    1,    1,    2,
+        0,   32,    2,   29,   25,    2,    2,    8,   24,   23,
+       21,    8,    8,   20,    8,    8,   10,   17,   10,   10,
+       14,   13,   12,   14,   19,   11,    9,    7,   19,   22,
+        3,    0,   22,   26,    0,    0,   26,   26,   26,   26,
+       27,   27,    0,   27,   27,   27,   27,   28,    0,    0,
+        0,    0,    0,   28,   35,   35,   35,   35,   35,   35,
+       36,   36,   36,   36,   36,   37,   37,   37,   38,    0,
+       38,   39,   39,   40,   40,   34,   34,   34,   34,   34,
+       34,   34,   34,   34,   34,   34,   34,   34
 
     } ;
 
@@ -424,13 +434,19 @@ static const flex_int16_t yy_chk[94] =
     #include "FermiLexer.hpp"
 
     #include <istream>
+    #include <ostream>
 
     #undef YY_DECL 
-    #define YY_DECL auto Fermi::SyntaxAnalysis::FermiLexer::nextToken() -> FermiParser::semantic_type
+    #define YY_DECL auto Fermi::SyntaxAnalysis::FermiLexer::nextToken() -> FermiParser::symbol_type
 
     using FermiParser = Fermi::SyntaxAnalysis::FermiParser;
-#line 433 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
-#line 434 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+
+    #undef YY_NULL
+    #define YY_NULL FermiParser::make_YYEOF(loc_)
+
+    #define YY_USER_ACTION loc_.columns(yyleng);
+#line 449 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+#line 450 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
 
 #define INITIAL 0
 
@@ -562,9 +578,10 @@ YY_DECL
 		}
 
 	{
-#line 25 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 34 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
 
-#line 568 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+
+#line 585 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -591,13 +608,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 34 )
+				if ( yy_current_state >= 35 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 82 );
+		while ( yy_base[yy_current_state] != 86 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -623,30 +640,35 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 26 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 36 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_INTEGER_LITERAL(loc_); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 27 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 37 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_FLOAT_LITERAL(loc_); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 28 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 38 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_COMPLEX_LITERAL(loc_); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 29 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 39 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_CHARACTER_LITERAL (loc_); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 30 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
-ECHO;
+#line 41 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+{ return FermiParser::make_YYerror(loc_);}
 	YY_BREAK
-#line 650 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+case 6:
+YY_RULE_SETUP
+#line 43 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+YY_FATAL_ERROR( "flex scanner jammed" );
+	YY_BREAK
+#line 672 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1063,7 +1085,7 @@ int yyFlexLexer::yy_get_next_buffer()
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 34 )
+			if ( yy_current_state >= 35 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1091,11 +1113,11 @@ int yyFlexLexer::yy_get_next_buffer()
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 34 )
+		if ( yy_current_state >= 35 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 33);
+	yy_is_jam = (yy_current_state == 34);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1609,7 +1631,8 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 30 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 43 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+
 
 namespace Fermi::SyntaxAnalysis 
 {
@@ -1617,5 +1640,10 @@ namespace Fermi::SyntaxAnalysis
     : yyFlexLexer{&in}
     {
 
+    }
+
+    auto operator<<(std::ostream& os, const FermiParser::symbol_type) -> std::ostream& 
+    {
+        return os;
     }
 }

@@ -37,6 +37,64 @@
             "description": "Build in debug mode",
             "configurePreset": "debug",
             "configuration": "Debug"
+        },
+        {
+            "name": "clean-debug",
+            "displayName": "Clean Debug",
+            "description": "Clean binaries from debug build",
+            "configurePreset": "debug",
+            "configuration": "Debug",
+            "targets": [
+                "clean"
+            ]
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "default",
+            "displayName": "Default",
+            "description": "Run unit tests from debug build",
+            "configurePreset": "debug",
+            "configuration": "Debug",
+            "output": {
+                "outputOnFailure": true
+            }
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "default",
+            "displayName": "Default",
+            "description": "Configure and build",
+            "steps": [
+                {
+                    "name": "debug",
+                    "type": "configure"
+                },
+                {
+                    "name": "debug",
+                    "type": "build"
+                }
+            ]
+        },
+        {
+            "name": "run-tests",
+            "displayName": "Run Tests",
+            "description": "Configure, build, and run tests",
+            "steps": [
+                {
+                    "name": "debug",
+                    "type": "configure"
+                },
+                {
+                    "name": "debug",
+                    "type": "build"
+                },
+                {
+                    "name": "default",
+                    "type": "test"
+                }
+            ]
         }
     ]
 }

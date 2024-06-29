@@ -41,6 +41,15 @@
 #include "FermiParser.hpp"
 
 
+// Unqualified %code blocks.
+#line 25 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+
+#include "FermiLexer.hpp"
+
+#undef yylex 
+#define yylex lexer.nextToken
+
+#line 53 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
 
 
 #ifndef YY_
@@ -133,16 +142,17 @@
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 namespace Fermi { namespace SyntaxAnalysis {
-#line 137 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 146 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
 
   /// Build a parser object.
-  FermiParser::FermiParser ()
+  FermiParser::FermiParser (FermiLexer& lexer_yyarg)
 #if YYDEBUG
     : yydebug_ (false),
-      yycdebug_ (&std::cerr)
+      yycdebug_ (&std::cerr),
 #else
-
+    :
 #endif
+      lexer (lexer_yyarg)
   {}
 
   FermiParser::~FermiParser ()
@@ -154,102 +164,6 @@ namespace Fermi { namespace SyntaxAnalysis {
   /*---------.
   | symbol.  |
   `---------*/
-
-  // basic_symbol.
-  template <typename Base>
-  FermiParser::basic_symbol<Base>::basic_symbol (const basic_symbol& that)
-    : Base (that)
-    , value ()
-    , location (that.location)
-  {
-    switch (this->kind ())
-    {
-      default:
-        break;
-    }
-
-  }
-
-
-
-
-  template <typename Base>
-  FermiParser::symbol_kind_type
-  FermiParser::basic_symbol<Base>::type_get () const YY_NOEXCEPT
-  {
-    return this->kind ();
-  }
-
-
-  template <typename Base>
-  bool
-  FermiParser::basic_symbol<Base>::empty () const YY_NOEXCEPT
-  {
-    return this->kind () == symbol_kind::S_YYEMPTY;
-  }
-
-  template <typename Base>
-  void
-  FermiParser::basic_symbol<Base>::move (basic_symbol& s)
-  {
-    super_type::move (s);
-    switch (this->kind ())
-    {
-      default:
-        break;
-    }
-
-    location = YY_MOVE (s.location);
-  }
-
-  // by_kind.
-  FermiParser::by_kind::by_kind () YY_NOEXCEPT
-    : kind_ (symbol_kind::S_YYEMPTY)
-  {}
-
-#if 201103L <= YY_CPLUSPLUS
-  FermiParser::by_kind::by_kind (by_kind&& that) YY_NOEXCEPT
-    : kind_ (that.kind_)
-  {
-    that.clear ();
-  }
-#endif
-
-  FermiParser::by_kind::by_kind (const by_kind& that) YY_NOEXCEPT
-    : kind_ (that.kind_)
-  {}
-
-  FermiParser::by_kind::by_kind (token_kind_type t) YY_NOEXCEPT
-    : kind_ (yytranslate_ (t))
-  {}
-
-
-
-  void
-  FermiParser::by_kind::clear () YY_NOEXCEPT
-  {
-    kind_ = symbol_kind::S_YYEMPTY;
-  }
-
-  void
-  FermiParser::by_kind::move (by_kind& that)
-  {
-    kind_ = that.kind_;
-    that.clear ();
-  }
-
-  FermiParser::symbol_kind_type
-  FermiParser::by_kind::kind () const YY_NOEXCEPT
-  {
-    return kind_;
-  }
-
-
-  FermiParser::symbol_kind_type
-  FermiParser::by_kind::type_get () const YY_NOEXCEPT
-  {
-    return this->kind ();
-  }
 
 
 
@@ -525,7 +439,8 @@ namespace Fermi { namespace SyntaxAnalysis {
         try
 #endif // YY_EXCEPTIONS
           {
-            yyla.kind_ = yytranslate_ (yylex (&yyla.value, &yyla.location));
+            symbol_type yylookahead (yylex ());
+            yyla.move (yylookahead);
           }
 #if YY_EXCEPTIONS
         catch (const syntax_error& yyexc)
@@ -619,7 +534,7 @@ namespace Fermi { namespace SyntaxAnalysis {
           switch (yyn)
             {
 
-#line 623 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 538 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
 
             default:
               break;
@@ -888,7 +803,7 @@ namespace Fermi { namespace SyntaxAnalysis {
   const signed char
   FermiParser::yyrline_[] =
   {
-       0,    21,    21
+       0,    37,    37
   };
 
   void
@@ -918,55 +833,8 @@ namespace Fermi { namespace SyntaxAnalysis {
   }
 #endif // YYDEBUG
 
-  FermiParser::symbol_kind_type
-  FermiParser::yytranslate_ (int t) YY_NOEXCEPT
-  {
-    // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to
-    // TOKEN-NUM as returned by yylex.
-    static
-    const signed char
-    translate_table[] =
-    {
-       0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6
-    };
-    // Last valid token kind.
-    const int code_max = 261;
-
-    if (t <= 0)
-      return symbol_kind::S_YYEOF;
-    else if (t <= code_max)
-      return static_cast <symbol_kind_type> (translate_table[t]);
-    else
-      return symbol_kind::S_YYUNDEF;
-  }
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 972 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 840 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
 

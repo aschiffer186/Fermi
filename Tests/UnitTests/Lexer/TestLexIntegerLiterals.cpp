@@ -12,14 +12,16 @@ auto setupTest(const std::string& literal) -> void
 {
     std::stringstream ss{literal};
 
-    // const FermiParser::symbol_type token;
-    // const auto& [begin, end] = token.location;
+    FermiLexer lexer{ss};
 
-    // EXPECT_EQ(token.kind(), FermiParser::symbol_kind::S_INTEGER_LITERAL);
-    // EXPECT_EQ(begin.line, 1);
-    // EXPECT_EQ(begin.column, 1);
-    // EXPECT_EQ(end.line, 1);
-    // EXPECT_EQ(end.column, literal.length());
+    const FermiParser::symbol_type token = lexer.nextToken();
+    const auto& [begin, end]             = token.location;
+
+    EXPECT_EQ(token.kind(), FermiParser::symbol_kind::S_INTEGER_LITERAL);
+    EXPECT_EQ(begin.line, 1);
+    EXPECT_EQ(begin.column, 1);
+    EXPECT_EQ(end.line, 1);
+    EXPECT_EQ(end.column, literal.length() + 1);
 }
 
 TEST(TestLexIntegerLiterals, TestLexSimpleLiteral)
@@ -51,4 +53,6 @@ TEST(TestLexIntegerLiterals, TestLexBasedExponent)
     SCOPED_TRACE("TestLexBasedExponent");
     setupTest(
         "36#Z#9876543210ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+    setupTest(
+        "36#Z#+9876543210ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
 }

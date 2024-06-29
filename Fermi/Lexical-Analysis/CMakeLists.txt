@@ -5,11 +5,11 @@ BISON_TARGET(FermiParser ${CMAKE_CURRENT_SOURCE_DIR}/include/FermiParser.yy ${CM
 
 ADD_FLEX_BISON_DEPENDENCY(FermiLexer FermiParser)
 
-add_library(Syntax-Analysis STATIC ${FLEX_FermiLexer_OUTPUTS})
+add_library(Syntax-Analysis STATIC ${FLEX_FermiLexer_OUTPUTS} ${BISON_FermiParser_OUTPUTS})
 target_include_directories(Syntax-Analysis PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/export)
 target_link_libraries(Syntax-Analysis PUBLIC ${FLEX_LIBRARIES} ${BISON_LIBRARIES})
 
-add_custom_command(TARGET Syntax-Analysis POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/src/location.hh ${CMAKE_CURRENT_SOURCE_DIR}/export)
+# add_custom_command(TARGET Syntax-Analysis POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/src/location.hh ${CMAKE_CURRENT_SOURCE_DIR}/export)
 
 add_custom_command(TARGET Syntax-Analysis POST_BUILD COMMAND ${CMAKE_COMMAND} -E rm -f
     ${CMAKE_CURRENT_SOURCE_DIR}/src/location.hh 

@@ -45,11 +45,16 @@
 #ifndef YY_YY_HOME_ASCHIFFE_DEV_FERMI_FERMI_LEXICAL_ANALYSIS_EXPORT_FERMIPARSER_HPP_INCLUDED
 # define YY_YY_HOME_ASCHIFFE_DEV_FERMI_FERMI_LEXICAL_ANALYSIS_EXPORT_FERMIPARSER_HPP_INCLUDED
 // "%code requires" blocks.
-#line 11 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 14 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 
     #include <cstdint>
 
-#line 53 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
+    namespace Fermi::SyntaxAnalysis
+    {
+        class FermiLexer;
+    }   
+
+#line 58 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -190,7 +195,7 @@
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 namespace Fermi { namespace SyntaxAnalysis {
-#line 194 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
+#line 199 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
 
 
 
@@ -681,7 +686,7 @@ switch (yykind)
     };
 
     /// Build a parser object.
-    FermiParser ();
+    FermiParser (FermiLexer& lexer_yyarg);
     virtual ~FermiParser ();
 
 #if 201103L <= YY_CPLUSPLUS
@@ -1144,13 +1149,168 @@ switch (yykind)
     };
 
 
+    // User arguments.
+    FermiLexer& lexer;
 
   };
+
+  inline
+  FermiParser::symbol_kind_type
+  FermiParser::yytranslate_ (int t) YY_NOEXCEPT
+  {
+    // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to
+    // TOKEN-NUM as returned by yylex.
+    static
+    const signed char
+    translate_table[] =
+    {
+       0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
+       5,     6
+    };
+    // Last valid token kind.
+    const int code_max = 261;
+
+    if (t <= 0)
+      return symbol_kind::S_YYEOF;
+    else if (t <= code_max)
+      return static_cast <symbol_kind_type> (translate_table[t]);
+    else
+      return symbol_kind::S_YYUNDEF;
+  }
+
+  // basic_symbol.
+  template <typename Base>
+  FermiParser::basic_symbol<Base>::basic_symbol (const basic_symbol& that)
+    : Base (that)
+    , value ()
+    , location (that.location)
+  {
+    switch (this->kind ())
+    {
+      default:
+        break;
+    }
+
+  }
+
+
+
+
+  template <typename Base>
+  FermiParser::symbol_kind_type
+  FermiParser::basic_symbol<Base>::type_get () const YY_NOEXCEPT
+  {
+    return this->kind ();
+  }
+
+
+  template <typename Base>
+  bool
+  FermiParser::basic_symbol<Base>::empty () const YY_NOEXCEPT
+  {
+    return this->kind () == symbol_kind::S_YYEMPTY;
+  }
+
+  template <typename Base>
+  void
+  FermiParser::basic_symbol<Base>::move (basic_symbol& s)
+  {
+    super_type::move (s);
+    switch (this->kind ())
+    {
+      default:
+        break;
+    }
+
+    location = YY_MOVE (s.location);
+  }
+
+  // by_kind.
+  inline
+  FermiParser::by_kind::by_kind () YY_NOEXCEPT
+    : kind_ (symbol_kind::S_YYEMPTY)
+  {}
+
+#if 201103L <= YY_CPLUSPLUS
+  inline
+  FermiParser::by_kind::by_kind (by_kind&& that) YY_NOEXCEPT
+    : kind_ (that.kind_)
+  {
+    that.clear ();
+  }
+#endif
+
+  inline
+  FermiParser::by_kind::by_kind (const by_kind& that) YY_NOEXCEPT
+    : kind_ (that.kind_)
+  {}
+
+  inline
+  FermiParser::by_kind::by_kind (token_kind_type t) YY_NOEXCEPT
+    : kind_ (yytranslate_ (t))
+  {}
+
+
+
+  inline
+  void
+  FermiParser::by_kind::clear () YY_NOEXCEPT
+  {
+    kind_ = symbol_kind::S_YYEMPTY;
+  }
+
+  inline
+  void
+  FermiParser::by_kind::move (by_kind& that)
+  {
+    kind_ = that.kind_;
+    that.clear ();
+  }
+
+  inline
+  FermiParser::symbol_kind_type
+  FermiParser::by_kind::kind () const YY_NOEXCEPT
+  {
+    return kind_;
+  }
+
+
+  inline
+  FermiParser::symbol_kind_type
+  FermiParser::by_kind::type_get () const YY_NOEXCEPT
+  {
+    return this->kind ();
+  }
 
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 1154 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
+#line 1314 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
 
 
 

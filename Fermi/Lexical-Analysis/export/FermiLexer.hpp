@@ -19,11 +19,14 @@ namespace Fermi::SyntaxAnalysis
 
         using FlexLexer::yylex;
 
-        auto nextToken() -> FermiParser::semantic_type;
+        auto nextToken() -> FermiParser::symbol_type;
 
       private:
         location loc_{};
     };
+
+    auto operator<<(std::ostream& os, const FermiParser::symbol_type& token)
+        -> std::ostream&;
 } // namespace Fermi::SyntaxAnalysis
 
 #endif
