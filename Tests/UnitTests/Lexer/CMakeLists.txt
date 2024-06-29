@@ -1,0 +1,4 @@
+add_executable(TestLexIntegerLiterals ${CMAKE_CURRENT_SOURCE_DIR}/TestLexIntegerLiterals.cpp)
+add_test(NAME TestLexIntegerLiterals COMMAND TestLexIntegerLiterals)
+target_link_libraries(TestLexIntegerLiterals PRIVATE GTest::gtest_main Syntax-Analysis)
+gtest_discover_tests(TestLexIntegerLiterals)

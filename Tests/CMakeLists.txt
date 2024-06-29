@@ -1,7 +1,4 @@
-enable_testing()
-
-include(CTest)
 find_package(GTest REQUIRED)
+include(CTest)
 
-add_subdirectory(Lexical-Analysis)
-add_subdirectory(Syntax-Analysis)
+add_subdirectory(UnitTests)

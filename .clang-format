@@ -1,0 +1,32 @@
+IndentWidth: 4
+
+Language: Cpp 
+AlignAfterOpenBracket: AlwaysBreak
+#AlignArrayOfStructures: Right
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: Consecutive
+AlignOperands: Align
+AllowShortBlocksOnASingleLine: true
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortCompoundRequirementOnASingleLine: true
+AllowShortLambdasOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+BreakBeforeBraces: Allman
+AlwaysBreakBeforeMultilineStrings: false
+BreakConstructorInitializers: BeforeColon
+BreakStringLiterals: true
+ColumnLimit: 80
+Cpp11BracedListStyle: true
+DerivePointerAlignment: false 
+IncludeBlocks: Preserve
+IndentRequiresClause: true
+IntegerLiteralSeparator: 
+  Decimal: 3
+PointerAlignment: Left
+NamespaceIndentation: All
+PackConstructorInitializers: CurrentLine
+ReferenceAlignment: Left
+SortIncludes: CaseSensitive
+SpaceBeforeCaseColon: false
+Standard: c++20

@@ -1,0 +1,42 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "c++20-setup",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_CXX_SCAN_FOR_MODULES": "OFF",
+                "CMAKE_CXX_STANDARD": "20",
+                "CMAKE_CXX_EXTENSIONS": "OFF",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "On"
+            }
+        },
+        {
+            "name": "common",
+            "hidden": true,
+            "binaryDir": "build/${presetName}"
+        },
+        {
+            "name": "debug",
+            "displayName": "Debug",
+            "description": "Configure debug build files",
+            "generator": "Ninja",
+            "inherits": [
+                "c++20-setup",
+                "common"
+            ],
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS_DEBUG": "-Wall -Wextra -Wpedantic -Werror -Og -g"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "displayName": "Debug",
+            "description": "Build in debug mode",
+            "configurePreset": "debug",
+            "configuration": "Debug"
+        }
+    ]
+}
