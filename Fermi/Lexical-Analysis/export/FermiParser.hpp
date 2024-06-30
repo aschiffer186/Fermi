@@ -413,7 +413,14 @@ namespace Fermi { namespace SyntaxAnalysis {
 
     /// An auxiliary type to compute the largest semantic type.
     union union_type
-    {    };
+    {
+      // FLOAT_LITERAL
+      // COMPLEX_LITERAL
+      char dummy1[sizeof (double)];
+
+      // INTEGER_LITERAL
+      char dummy2[sizeof (std::uint64_t)];
+    };
 
     /// The size of the largest semantic type.
     enum { size = sizeof (union_type) };
@@ -468,7 +475,13 @@ namespace Fermi { namespace SyntaxAnalysis {
     INTEGER_LITERAL = 258,         // INTEGER_LITERAL
     FLOAT_LITERAL = 259,           // FLOAT_LITERAL
     COMPLEX_LITERAL = 260,         // COMPLEX_LITERAL
-    CHARACTER_LITERAL = 261        // CHARACTER_LITERAL
+    CHARACTER_LITERAL = 261,       // CHARACTER_LITERAL
+    PLUS = 262,                    // "+"
+    MINUS = 263,                   // "-"
+    STAR = 264,                    // "*"
+    SLASH = 265,                   // "/"
+    PERCENT = 266,                 // "%"
+    CARET = 267                    // "^"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -485,7 +498,7 @@ namespace Fermi { namespace SyntaxAnalysis {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 7, ///< Number of tokens.
+        YYNTOKENS = 13, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -494,8 +507,16 @@ namespace Fermi { namespace SyntaxAnalysis {
         S_FLOAT_LITERAL = 4,                     // FLOAT_LITERAL
         S_COMPLEX_LITERAL = 5,                   // COMPLEX_LITERAL
         S_CHARACTER_LITERAL = 6,                 // CHARACTER_LITERAL
-        S_YYACCEPT = 7,                          // $accept
-        S_start = 8                              // start
+        S_PLUS = 7,                              // "+"
+        S_MINUS = 8,                             // "-"
+        S_STAR = 9,                              // "*"
+        S_SLASH = 10,                            // "/"
+        S_PERCENT = 11,                          // "%"
+        S_CARET = 12,                            // "^"
+        S_YYACCEPT = 13,                         // $accept
+        S_start = 14,                            // start
+        S_expressions = 15,                      // expressions
+        S_expression = 16                        // expression
       };
     };
 
@@ -532,6 +553,15 @@ namespace Fermi { namespace SyntaxAnalysis {
       {
         switch (this->kind ())
     {
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_COMPLEX_LITERAL: // COMPLEX_LITERAL
+        value.move< double > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+        value.move< std::uint64_t > (std::move (that.value));
+        break;
+
       default:
         break;
     }
@@ -551,6 +581,34 @@ namespace Fermi { namespace SyntaxAnalysis {
 #else
       basic_symbol (typename Base::kind_type t, const location_type& l)
         : Base (t)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, double&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const double& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::uint64_t&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::uint64_t& v, const location_type& l)
+        : Base (t)
+        , value (v)
         , location (l)
       {}
 #endif
@@ -579,6 +637,15 @@ namespace Fermi { namespace SyntaxAnalysis {
         // Value type destructor.
 switch (yykind)
     {
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_COMPLEX_LITERAL: // COMPLEX_LITERAL
+        value.template destroy< double > ();
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+        value.template destroy< std::uint64_t > ();
+        break;
+
       default:
         break;
     }
@@ -680,7 +747,32 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::YYEOF
-                   || (token::YYerror <= tok && tok <= token::CHARACTER_LITERAL));
+                   || (token::YYerror <= tok && tok <= token::YYUNDEF)
+                   || (token::CHARACTER_LITERAL <= tok && tok <= token::CARET));
+#endif
+      }
+#if 201103L <= YY_CPLUSPLUS
+      symbol_type (int tok, double v, location_type l)
+        : super_type (token_kind_type (tok), std::move (v), std::move (l))
+#else
+      symbol_type (int tok, const double& v, const location_type& l)
+        : super_type (token_kind_type (tok), v, l)
+#endif
+      {
+#if !defined _MSC_VER || defined __clang__
+        YY_ASSERT ((token::FLOAT_LITERAL <= tok && tok <= token::COMPLEX_LITERAL));
+#endif
+      }
+#if 201103L <= YY_CPLUSPLUS
+      symbol_type (int tok, std::uint64_t v, location_type l)
+        : super_type (token_kind_type (tok), std::move (v), std::move (l))
+#else
+      symbol_type (int tok, const std::uint64_t& v, const location_type& l)
+        : super_type (token_kind_type (tok), v, l)
+#endif
+      {
+#if !defined _MSC_VER || defined __clang__
+        YY_ASSERT (tok == token::INTEGER_LITERAL);
 #endif
       }
     };
@@ -782,46 +874,46 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_INTEGER_LITERAL (location_type l)
+      make_INTEGER_LITERAL (std::uint64_t v, location_type l)
       {
-        return symbol_type (token::INTEGER_LITERAL, std::move (l));
+        return symbol_type (token::INTEGER_LITERAL, std::move (v), std::move (l));
       }
 #else
       static
       symbol_type
-      make_INTEGER_LITERAL (const location_type& l)
+      make_INTEGER_LITERAL (const std::uint64_t& v, const location_type& l)
       {
-        return symbol_type (token::INTEGER_LITERAL, l);
+        return symbol_type (token::INTEGER_LITERAL, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_FLOAT_LITERAL (location_type l)
+      make_FLOAT_LITERAL (double v, location_type l)
       {
-        return symbol_type (token::FLOAT_LITERAL, std::move (l));
+        return symbol_type (token::FLOAT_LITERAL, std::move (v), std::move (l));
       }
 #else
       static
       symbol_type
-      make_FLOAT_LITERAL (const location_type& l)
+      make_FLOAT_LITERAL (const double& v, const location_type& l)
       {
-        return symbol_type (token::FLOAT_LITERAL, l);
+        return symbol_type (token::FLOAT_LITERAL, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_COMPLEX_LITERAL (location_type l)
+      make_COMPLEX_LITERAL (double v, location_type l)
       {
-        return symbol_type (token::COMPLEX_LITERAL, std::move (l));
+        return symbol_type (token::COMPLEX_LITERAL, std::move (v), std::move (l));
       }
 #else
       static
       symbol_type
-      make_COMPLEX_LITERAL (const location_type& l)
+      make_COMPLEX_LITERAL (const double& v, const location_type& l)
       {
-        return symbol_type (token::COMPLEX_LITERAL, l);
+        return symbol_type (token::COMPLEX_LITERAL, v, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -837,6 +929,96 @@ switch (yykind)
       make_CHARACTER_LITERAL (const location_type& l)
       {
         return symbol_type (token::CHARACTER_LITERAL, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_PLUS (location_type l)
+      {
+        return symbol_type (token::PLUS, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_PLUS (const location_type& l)
+      {
+        return symbol_type (token::PLUS, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_MINUS (location_type l)
+      {
+        return symbol_type (token::MINUS, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_MINUS (const location_type& l)
+      {
+        return symbol_type (token::MINUS, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_STAR (location_type l)
+      {
+        return symbol_type (token::STAR, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_STAR (const location_type& l)
+      {
+        return symbol_type (token::STAR, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_SLASH (location_type l)
+      {
+        return symbol_type (token::SLASH, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_SLASH (const location_type& l)
+      {
+        return symbol_type (token::SLASH, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_PERCENT (location_type l)
+      {
+        return symbol_type (token::PERCENT, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_PERCENT (const location_type& l)
+      {
+        return symbol_type (token::PERCENT, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_CARET (location_type l)
+      {
+        return symbol_type (token::CARET, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_CARET (const location_type& l)
+      {
+        return symbol_type (token::CARET, l);
       }
 #endif
 
@@ -1143,9 +1325,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 0,     ///< Last index in yytable_.
-      yynnts_ = 2,  ///< Number of nonterminal symbols.
-      yyfinal_ = 2 ///< Termination state number.
+      yylast_ = 17,     ///< Last index in yytable_.
+      yynnts_ = 4,  ///< Number of nonterminal symbols.
+      yyfinal_ = 3 ///< Termination state number.
     };
 
 
@@ -1190,10 +1372,10 @@ switch (yykind)
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6
+       5,     6,     7,     8,     9,    10,    11,    12
     };
     // Last valid token kind.
-    const int code_max = 261;
+    const int code_max = 267;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -1212,6 +1394,15 @@ switch (yykind)
   {
     switch (this->kind ())
     {
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_COMPLEX_LITERAL: // COMPLEX_LITERAL
+        value.copy< double > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+        value.copy< std::uint64_t > (YY_MOVE (that.value));
+        break;
+
       default:
         break;
     }
@@ -1243,6 +1434,15 @@ switch (yykind)
     super_type::move (s);
     switch (this->kind ())
     {
+      case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
+      case symbol_kind::S_COMPLEX_LITERAL: // COMPLEX_LITERAL
+        value.move< double > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
+        value.move< std::uint64_t > (YY_MOVE (s.value));
+        break;
+
       default:
         break;
     }
@@ -1310,7 +1510,7 @@ switch (yykind)
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 1314 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
+#line 1514 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
 
 
 

@@ -8,7 +8,7 @@
 
 using namespace Fermi::SyntaxAnalysis;
 
-auto setupTest(const std::string& literal) -> void
+auto setupTest(const std::string& literal, std::uint64_t value) -> void
 {
     std::stringstream ss{literal};
 
@@ -18,6 +18,7 @@ auto setupTest(const std::string& literal) -> void
     const auto& [begin, end]             = token.location;
 
     EXPECT_EQ(token.kind(), FermiParser::symbol_kind::S_INTEGER_LITERAL);
+    EXPECT_EQ(token.value.as<std::uint64_t>(), value);
     EXPECT_EQ(begin.line, 1);
     EXPECT_EQ(begin.column, 1);
     EXPECT_EQ(end.line, 1);
@@ -28,31 +29,29 @@ TEST(TestLexIntegerLiterals, TestLexSimpleLiteral)
 {
     SCOPED_TRACE("TestLexSimpleLiteral");
 
-    setupTest("0123456789");
+    setupTest("0123456789", 123'456'789);
 }
 
 TEST(TestLexIntegerLiterals, TestLexDecimalExponent)
 {
     SCOPED_TRACE("TestLexDecimalExponent");
 
-    setupTest("9876543210e0123456789");
-    setupTest("0123456789E987654321");
-    setupTest("0123456789e+09876543210");
+    setupTest("10e9", 10'000'000'000);
+    setupTest("10E9", 10'000'000'000);
+    setupTest("3E+11", 300'000'000'000);
 }
 
 TEST(TestLexIntegerLiterals, TestLexBasedLiteral)
 {
     SCOPED_TRACE("TestLexBasedLiteral");
 
-    setupTest(
-        "36#ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#");
+    setupTest("36#ZYO12#", 60'404'006);
+    setupTest("2#101#", 5);
 }
 
 TEST(TestLexIntegerLiterals, TestLexBasedExponent)
 {
     SCOPED_TRACE("TestLexBasedExponent");
-    setupTest(
-        "36#Z#9876543210ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
-    setupTest(
-        "36#Z#+9876543210ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+    setupTest("36#ZA#A", 12'700'000'000'000);
+    setupTest("2#101#1000", 500'000'000);
 }

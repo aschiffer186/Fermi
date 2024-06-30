@@ -22,6 +22,15 @@ namespace Fermi::SyntaxAnalysis
         auto nextToken() -> FermiParser::symbol_type;
 
       private:
+        auto
+        makeIntegerLiteral(const char* txt) const -> FermiParser::symbol_type;
+
+        auto
+        makeFloatLiteral(const char* text) const -> FermiParser::symbol_type;
+
+        auto
+        makeComplexLiteral(const char* text) const -> FermiParser::symbol_type;
+
         location loc_{};
     };
 

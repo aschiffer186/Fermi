@@ -1,6 +1,8 @@
 %{
     #include "FermiLexer.hpp"
 
+    #include <charconv>
+    #include <cmath>
     #include <istream>
     #include <ostream>
 
@@ -19,6 +21,7 @@
 %option yyclass="Fermi::SyntaxAnalysis::FermiLexer"
 %option noyywrap
 %option nodefault
+%option debug
 
 digit [0-9]
 based_digit {digit}|[a-zA-Z]
@@ -33,10 +36,16 @@ float_literal {decimal_float_literal}|{based_float_literal}
 simple_character [^[:cntrl:]\'\\]
 %%
 
-{integer_literal} { return FermiParser::make_INTEGER_LITERAL(loc_); }
-{float_literal} { return FermiParser::make_FLOAT_LITERAL(loc_); }
-({integer_literal}|{float_literal})i { return FermiParser::make_COMPLEX_LITERAL(loc_); }
+{integer_literal} { return makeIntegerLiteral(yytext); }
+{float_literal} { return makeFloatLiteral(yytext); }
+({integer_literal}|{float_literal})i { return makeComplexLiteral(yytext); }
 \'{simple_character}\' { return FermiParser::make_CHARACTER_LITERAL (loc_); }
+
+"+" { return FermiParser::make_PLUS(loc_);}
+"-" { return FermiParser::make_MINUS(loc_);}
+"*" { return FermiParser::make_STAR(loc_);}
+"/" { return FermiParser::make_SLASH(loc_);}
+"^" { return FermiParser::make_CARET(loc_);}
 
 . { return FermiParser::make_YYerror(loc_);}
 
@@ -48,6 +57,83 @@ namespace Fermi::SyntaxAnalysis
     : yyFlexLexer{&in}
     {
 
+    }
+
+    auto makeIntegerLiteralExponent(std::string_view text, location loc) -> FermiParser::symbol_type
+    {
+        double value; 
+        auto res = std::from_chars(text.cbegin(), text.cend(), value);
+        return FermiParser::make_INTEGER_LITERAL(static_cast<std::uint64_t>(value), loc);
+    }
+
+    auto FermiLexer::makeIntegerLiteral(const char* ptr) const -> FermiParser::symbol_type
+    {
+        const std::string_view text(ptr, yyleng);
+        std::uint64_t value{};
+
+        if (auto idx = text.find('e'); idx != std::string_view::npos)
+        {
+            return makeIntegerLiteralExponent(text, loc_);
+        }
+
+        if (auto idx = text.find('E'); idx != std::string_view::npos)
+        {
+            return makeIntegerLiteralExponent(text, loc_);
+        }
+
+        if (auto idx = text.find('#'); idx == std::string_view::npos)
+        {
+            auto [ptr, ec] = std::from_chars(text.cbegin(), text.cend(), value);
+            if (ec == std::errc::result_out_of_range)
+            {
+                std::string message = "integer literal: ";
+                message.append(text);
+                message.append(" cannot be represented by any fundamental integral type.");
+                throw FermiParser::syntax_error(loc_, message);
+            }
+        }
+        else 
+        {
+            int base{};
+            auto [ptr, ec] = std::from_chars(text.cbegin(), text.cend(), base);
+            auto [ptr2, ec2] = std::from_chars(ptr + 1, text.cend(), value, base);
+
+            if (ec2 == std::errc::result_out_of_range)
+            {
+                std::string message = "integer literal: ";
+                message.append(text);
+                message.append(" cannot be represented by any fundamental integral type.");
+                throw FermiParser::syntax_error(loc_, message);
+            }
+
+            if (ptr2 != text.cend())
+            {
+                std::uint64_t exp{}; 
+                auto [ptr3, ec3] = std::from_chars(ptr2 + 1, text.cend(), exp, base);
+                value = value * std::pow(10, exp);
+            }
+        }
+        return FermiParser::make_INTEGER_LITERAL(value, loc_);
+    }
+
+    auto FermiLexer::makeFloatLiteral(const char* p) const -> FermiParser::symbol_type
+    {
+        std::string_view text(p, yyleng);
+
+        double value{};
+        auto [ptr, ec] = std::from_chars(text.begin(), text.cend(), value); 
+
+        return FermiParser::make_FLOAT_LITERAL(value, loc_);
+    }
+
+    auto FermiLexer::makeComplexLiteral(const char* p) const -> FermiParser::symbol_type
+    {
+        std::string_view text(p, yyleng);
+
+        double value{};
+        auto [ptr, ec] = std::from_chars(text.begin(), text.cend(), value); 
+
+        return FermiParser::make_COMPLEX_LITERAL(value, loc_);
     }
 
     auto operator<<(std::ostream& os, const FermiParser::symbol_type) -> std::ostream& 

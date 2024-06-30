@@ -8,7 +8,8 @@
                 "CMAKE_CXX_SCAN_FOR_MODULES": "OFF",
                 "CMAKE_CXX_STANDARD": "20",
                 "CMAKE_CXX_EXTENSIONS": "OFF",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "On"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "On",
+                "CMAKE_VERBOSE_MAKEFILE": "On"
             }
         },
         {
@@ -26,7 +27,7 @@
                 "common"
             ],
             "cacheVariables": {
-                "CMAKE_CXX_FLAGS_DEBUG": "-Wall -Wextra -Wpedantic -Werror -Og -g"
+                "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic  -O0 -g"
             }
         }
     ],
