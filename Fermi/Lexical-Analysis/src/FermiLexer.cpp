@@ -394,8 +394,8 @@ int yyFlexLexer::yylex()
 /* %% [3.0] code to copy yytext_ptr to yytext[] goes here, if %array \ */\
 	(yy_c_buf_p) = yy_cp;
 /* %% [4.0] data tables for the DFA and the user's section 1 definitions go here */
-#define YY_NUM_RULES 11
-#define YY_END_OF_BUFFER 12
+#define YY_NUM_RULES 17
+#define YY_END_OF_BUFFER 18
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -403,12 +403,13 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[40] =
+static const flex_int16_t yy_accept[47] =
     {   0,
-        0,    0,   12,   10,   11,   10,    7,    5,    6,   10,
-        8,    1,    9,    0,    2,    0,    0,    1,    0,    3,
-        4,    0,    0,    0,    1,    0,    1,    0,    2,    0,
-        1,    2,    0,    1,    1,    0,    2,    2,    0
+        0,    0,   18,   16,   17,   11,   16,   14,   15,    9,
+        7,    8,   16,   10,    1,   13,    6,    5,   12,    0,
+        2,    0,    0,    1,    0,    3,    5,    4,    0,    0,
+        0,    1,    0,    1,    0,    2,    0,    1,    2,    0,
+        1,    1,    0,    2,    2,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -416,17 +417,17 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    3,    3,    3,    4,    3,    3,    3,    5,    3,
-        3,    6,    7,    3,    8,    9,   10,   11,   11,   11,
-       11,   11,   11,   11,   11,   11,   11,    3,    3,    3,
-        3,    3,    3,    3,   12,   12,   12,   12,   13,   12,
-       12,   12,   12,   12,   12,   12,   12,   12,   12,   12,
-       12,   12,   12,   12,   12,   12,   12,   12,   12,   12,
-        3,    1,    3,   14,    3,    3,   12,   12,   12,   12,
+        1,    3,    3,    3,    4,    3,    5,    3,    6,    7,
+        8,    9,   10,    3,   11,   12,   13,   14,   14,   14,
+       14,   14,   14,   14,   14,   14,   14,    3,   15,    3,
+       16,    3,    3,    3,   17,   17,   17,   17,   18,   17,
+       17,   17,   17,   17,   17,   17,   17,   17,   17,   17,
+       17,   17,   17,   17,   17,   17,   17,   17,   17,   17,
+        3,    1,    3,   19,   20,    3,   17,   17,   17,   17,
 
-       13,   12,   12,   12,   15,   12,   12,   12,   12,   12,
-       12,   12,   12,   12,   12,   12,   12,   12,   12,   12,
-       12,   12,    3,    3,    3,    3,    1,    3,    3,    3,
+       18,   17,   17,   17,   21,   17,   17,   17,   17,   17,
+       17,   17,   17,   17,   17,   17,   17,   17,   17,   17,
+       17,   17,    3,    3,    3,    3,    1,    3,    3,    3,
         3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
         3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
         3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
@@ -443,59 +444,67 @@ static const YY_CHAR yy_ec[256] =
         3,    3,    3,    3,    3
     } ;
 
-static const YY_CHAR yy_meta[16] =
+static const YY_CHAR yy_meta[22] =
     {   0,
-        1,    1,    2,    2,    1,    2,    3,    3,    4,    2,
-        5,    6,    6,    2,    6
+        1,    1,    2,    2,    2,    1,    2,    2,    2,    2,
+        2,    3,    2,    4,    2,    2,    4,    4,    2,    5,
+        4
     } ;
 
-static const flex_int16_t yy_base[45] =
+static const flex_int16_t yy_base[52] =
     {   0,
-        0,    0,   71,   72,   72,    0,   72,   72,   72,   59,
-       72,   12,   72,   64,   17,   54,   41,   37,   11,   72,
-       72,   36,    0,   15,   39,   28,   18,   27,   20,   33,
-       29,   38,   19,   13,    0,    0,    2,    0,   72,   52,
-       55,   59,   60,   62
+        0,    0,   66,   77,   77,   77,    0,   77,   77,   77,
+       77,   77,   49,   77,   18,   77,   77,    0,   77,   56,
+       10,   48,   45,   41,   13,   77,    0,   77,   15,    0,
+       29,   50,   36,   21,   34,   23,   43,   35,   47,   30,
+       36,    0,    0,   22,    0,   77,   67,   69,   72,   34,
+       30
     } ;
 
-static const flex_int16_t yy_def[45] =
+static const flex_int16_t yy_def[52] =
     {   0,
-       39,    1,   39,   39,   39,   40,   39,   39,   39,   39,
-       39,   39,   39,   39,   39,   41,   39,   12,   39,   39,
-       39,   42,   43,   41,   18,   39,   39,   39,   39,   43,
-       39,   39,   31,   31,   34,   44,   44,   37,    0,   39,
-       39,   39,   39,   39
+       46,    1,   46,   46,   46,   46,   47,   46,   46,   46,
+       46,   46,   46,   46,   46,   46,   46,   48,   46,   46,
+       46,   49,   46,   15,   46,   46,   48,   46,   46,   50,
+       49,   24,   46,   46,   46,   46,   50,   46,   46,   38,
+       38,   41,   51,   51,   44,    0,   46,   46,   46,   46,
+       46
     } ;
 
-static const flex_int16_t yy_nxt[88] =
+static const flex_int16_t yy_nxt[99] =
     {   0,
         4,    5,    4,    4,    6,    7,    8,    9,   10,   11,
-       12,    4,    4,   13,    4,   16,   38,   26,   31,   39,
-       17,   27,   18,   23,   19,   39,   20,   15,   27,   22,
-       29,   20,   20,   34,   20,   33,   32,   29,   27,   34,
-       34,   34,   39,   35,   36,   36,   29,   25,   37,   37,
-       37,   15,   38,   14,   14,   14,   14,   14,   24,   24,
-       24,   28,   23,   28,   30,   30,   37,   37,   21,   15,
-       39,    3,   39,   39,   39,   39,   39,   39,   39,   39,
-       39,   39,   39,   39,   39,   39,   39
+       12,   13,   14,   15,   16,   17,   18,   18,   19,   18,
+       18,   22,   33,   21,   35,   35,   34,   29,   36,   23,
+       26,   24,   38,   44,   34,   25,   36,   37,   26,   46,
+       30,   26,   45,   26,   40,   46,   39,   36,   41,   34,
+       41,   41,   41,   46,   32,   42,   43,   43,   21,   30,
+       44,   28,   21,   44,   44,   46,   46,   45,   20,   20,
+       20,   20,   27,   27,   31,   31,    3,   46,   46,   46,
+       46,   46,   46,   46,   46,   46,   46,   46,   46,   46,
+       46,   46,   46,   46,   46,   46,   46,   46
+
     } ;
 
-static const flex_int16_t yy_chk[88] =
+static const flex_int16_t yy_chk[99] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,   12,   37,   19,   24,   34,
-       12,   19,   12,   24,   12,   33,   12,   15,   27,   15,
-       29,   15,   27,   33,   29,   31,   30,   28,   26,   31,
-       31,   31,   25,   31,   32,   32,   22,   18,   32,   32,
-       32,   17,   32,   40,   40,   40,   40,   40,   41,   41,
-       41,   42,   16,   42,   43,   43,   44,   44,   14,   10,
-        3,   39,   39,   39,   39,   39,   39,   39,   39,   39,
-       39,   39,   39,   39,   39,   39,   39
+        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,   15,   25,   21,   29,   29,   25,   21,   29,   15,
+       21,   15,   31,   51,   34,   15,   36,   50,   15,   40,
+       31,   34,   44,   36,   38,   41,   37,   35,   38,   33,
+       40,   38,   38,   32,   24,   38,   39,   39,   23,   22,
+       39,   20,   13,   39,   39,    3,    0,   39,   47,   47,
+       47,   47,   48,   48,   49,   49,   46,   46,   46,   46,
+       46,   46,   46,   46,   46,   46,   46,   46,   46,   46,
+       46,   46,   46,   46,   46,   46,   46,   46
+
     } ;
 
-static const flex_int16_t yy_rule_linenum[11] =
+static const flex_int16_t yy_rule_linenum[17] =
     {   0,
-       39,   40,   41,   42,   44,   45,   46,   47,   48,   50
+       39,   40,   41,   42,   43,   45,   46,   47,   48,   49,
+       50,   51,   53,   54,   55,   57
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -523,8 +532,8 @@ static const flex_int16_t yy_rule_linenum[11] =
     #define YY_NULL FermiParser::make_YYEOF(loc_)
 
     #define YY_USER_ACTION loc_.columns(yyleng);
-#line 527 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
-#line 528 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+#line 536 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+#line 537 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
 
 #define INITIAL 0
 
@@ -719,7 +728,7 @@ YY_DECL
 #line 37 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
 
 
-#line 723 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+#line 732 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -748,13 +757,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 40 )
+				if ( yy_current_state >= 47 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 72 );
+		while ( yy_base[yy_current_state] != 77 );
 
 yy_find_action:
 /* %% [10.0] code to find the action number goes here */
@@ -777,12 +786,12 @@ do_action:	/* This label is used only to access EOF actions. */
 			{
 			if ( yy_act == 0 )
 				std::cerr << "--scanner backing up\n";
-			else if ( yy_act < 11 )
+			else if ( yy_act < 17 )
 				std::cerr << "--accepting rule at line " << yy_rule_linenum[yy_act] <<
 				         "(\"" << yytext << "\")\n";
-			else if ( yy_act == 11 )
+			else if ( yy_act == 17 )
 				std::cerr << "--accepting default rule (\"" << yytext << "\")\n";
-			else if ( yy_act == 12 )
+			else if ( yy_act == 18 )
 				std::cerr << "--(end of buffer or a NUL)\n";
 			else
 				std::cerr << "--EOF (start condition " << YY_START << ")\n";
@@ -820,40 +829,70 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 44 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
-{ return FermiParser::make_PLUS(loc_);}
+#line 43 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+{ return FermiParser::make_IDENTIFIER(yytext, loc_); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 45 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
-{ return FermiParser::make_MINUS(loc_);}
+{ return FermiParser::make_ASSIGN(loc_);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 46 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
-{ return FermiParser::make_STAR(loc_);}
+{ return FermiParser::make_PLUS(loc_);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 47 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
-{ return FermiParser::make_SLASH(loc_);}
+{ return FermiParser::make_MINUS(loc_);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 48 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
-{ return FermiParser::make_CARET(loc_);}
+{ return FermiParser::make_STAR(loc_);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 50 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
-{ return FermiParser::make_YYerror(loc_);}
+#line 49 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+{ return FermiParser::make_SLASH(loc_);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 52 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 50 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+{ return FermiParser::make_PERCENT(loc_);}
+	YY_BREAK
+case 12:
+YY_RULE_SETUP
+#line 51 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+{ return FermiParser::make_CARET(loc_);}
+	YY_BREAK
+case 13:
+YY_RULE_SETUP
+#line 53 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+{ return FermiParser::make_SEMICOLON(loc_); }
+	YY_BREAK
+case 14:
+YY_RULE_SETUP
+#line 54 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+{ return FermiParser::make_LPAREN(loc_); }
+	YY_BREAK
+case 15:
+YY_RULE_SETUP
+#line 55 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+{ return FermiParser::make_RPAREN(loc_); }
+	YY_BREAK
+case 16:
+YY_RULE_SETUP
+#line 57 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+{ return FermiParser::make_YYerror(loc_);}
+	YY_BREAK
+case 17:
+YY_RULE_SETUP
+#line 59 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 857 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+#line 896 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1292,7 +1331,7 @@ int yyFlexLexer::yy_get_next_buffer()
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 40 )
+			if ( yy_current_state >= 47 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1325,11 +1364,11 @@ int yyFlexLexer::yy_get_next_buffer()
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 40 )
+		if ( yy_current_state >= 47 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 39);
+	yy_is_jam = (yy_current_state == 46);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1971,7 +2010,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 52 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 59 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
 
 
 namespace Fermi::SyntaxAnalysis 
@@ -2044,7 +2083,7 @@ namespace Fermi::SyntaxAnalysis
         std::string_view text(p, yyleng);
 
         double value{};
-        auto [ptr, ec] = std::from_chars(text.begin(), text.cend(), value); 
+        [[maybe_unused]] auto res = std::from_chars(text.begin(), text.cend(), value); 
 
         return FermiParser::make_FLOAT_LITERAL(value, loc_);
     }
@@ -2054,12 +2093,12 @@ namespace Fermi::SyntaxAnalysis
         std::string_view text(p, yyleng);
 
         double value{};
-        auto [ptr, ec] = std::from_chars(text.begin(), text.cend(), value); 
+        [[maybe_unused]] auto res = std::from_chars(text.begin(), text.cend(), value); 
 
         return FermiParser::make_COMPLEX_LITERAL(value, loc_);
     }
 
-    auto operator<<(std::ostream& os, const FermiParser::symbol_type) -> std::ostream& 
+    auto operator<<(std::ostream& os, const FermiParser::symbol_type&) -> std::ostream& 
     {
         return os;
     }

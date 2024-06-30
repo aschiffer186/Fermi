@@ -17,48 +17,64 @@
     namespace Fermi::SyntaxAnalysis
     {
         class FermiLexer;
+        class FermiSourceFile;
     }   
 }
 
-%parse-param {FermiLexer& lexer}
+%parse-param {FermiSourceFile& srcFile}
 
 %code {
 #include <iostream>
 
 #include "FermiLexer.hpp"
+#include "FermiSourceFile.hpp"
 
 #undef yylex 
-#define yylex lexer.nextToken
+#define yylex srcFile.getLexer().nextToken
 }
 // --- Begin list of tokens --- 
 %token <std::uint64_t> INTEGER_LITERAL 
 %token <double> FLOAT_LITERAL
 %token <double> COMPLEX_LITERAL
 %token CHARACTER_LITERAL
+%token <std::string> IDENTIFIER 
 
 // --- Arithmetic Tokens ---
-%token PLUS "+" MINUS "-" STAR "*" SLASH "/" PERCENT "%" CARET "^"
+%token PLUS "+" MINUS "-" STAR "*" SLASH "/" PERCENT "%" CARET "^" ASSIGN "="
+
+// --- Separator Tokens ---
+%token LPAREN "(" RPAREN ")" SEMICOLON ";" 
+
+// --- Keyword Tokens ---
+%token LET "let"
 
 %left "+" "-"
 %left "*" "/" "%"
 %right "^"
 %%
-start: expressions ;
+start: statements ;
 
-expressions:
-      expressions expression 
-    | %empty 
-    ;
+statements: 
+  statements statement 
+  | %empty 
+  ;
+
+statement: 
+  expression ";" 
+  | "let" IDENTIFIER "=" expression ";"
 
 expression: 
       expression "+" expression 
     | expression "-" expression 
     | expression "*" expression 
     | expression "/" expression 
+    | expression "%" expression 
     | expression "^" expression 
+    | "(" expression ")"
     | INTEGER_LITERAL 
     | FLOAT_LITERAL 
     | COMPLEX_LITERAL
+    | IDENTIFIER 
     ;
 %%
 void Fermi::SyntaxAnalysis::FermiParser::error (const location_type& l, const std::string& m)

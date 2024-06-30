@@ -1,7 +1,9 @@
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 
-#include "FermiLexer.hpp"
+#include "FermiParser.hpp"
+#include "FermiSourceFile.hpp"
 
 int main(int argc, const char** argv)
 {
@@ -11,9 +13,16 @@ int main(int argc, const char** argv)
         return 0;
     }
 
-    std::ifstream fin{argv[1]};
+    const std::filesystem::path path{argv[1]};
 
-    Fermi::SyntaxAnalysis::FermiLexer lexer{fin};
+    Fermi::SyntaxAnalysis::FermiSourceFile srcFile{path};
 
-    while (true) { const auto token = lexer.nextToken(); }
+    using enum Fermi::SyntaxAnalysis::FermiParser::symbol_kind_type;
+
+    for (const auto& token = srcFile.getLexer().nextToken();
+         token.kind() !=
+         Fermi::SyntaxAnalysis::FermiParser::symbol_kind_type::S_YYEOF;)
+    {
+        std::cout << token << "\n";
+    }
 }

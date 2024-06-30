@@ -42,16 +42,17 @@
 
 
 // Unqualified %code blocks.
-#line 25 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 26 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 
 #include <iostream>
 
 #include "FermiLexer.hpp"
+#include "FermiSourceFile.hpp"
 
 #undef yylex 
-#define yylex lexer.nextToken
+#define yylex srcFile.getLexer().nextToken
 
-#line 55 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 56 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
 
 
 #ifndef YY_
@@ -144,17 +145,17 @@
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 namespace Fermi { namespace SyntaxAnalysis {
-#line 148 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 149 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
 
   /// Build a parser object.
-  FermiParser::FermiParser (FermiLexer& lexer_yyarg)
+  FermiParser::FermiParser (FermiSourceFile& srcFile_yyarg)
 #if YYDEBUG
     : yydebug_ (false),
       yycdebug_ (&std::cerr),
 #else
     :
 #endif
-      lexer (lexer_yyarg)
+      srcFile (srcFile_yyarg)
   {}
 
   FermiParser::~FermiParser ()
@@ -217,6 +218,10 @@ namespace Fermi { namespace SyntaxAnalysis {
         value.YY_MOVE_OR_COPY< double > (YY_MOVE (that.value));
         break;
 
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
         value.YY_MOVE_OR_COPY< std::uint64_t > (YY_MOVE (that.value));
         break;
@@ -239,6 +244,10 @@ namespace Fermi { namespace SyntaxAnalysis {
       case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
       case symbol_kind::S_COMPLEX_LITERAL: // COMPLEX_LITERAL
         value.move< double > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.move< std::string > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
@@ -265,6 +274,10 @@ namespace Fermi { namespace SyntaxAnalysis {
         value.copy< double > (that.value);
         break;
 
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.copy< std::string > (that.value);
+        break;
+
       case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
         value.copy< std::uint64_t > (that.value);
         break;
@@ -286,6 +299,10 @@ namespace Fermi { namespace SyntaxAnalysis {
       case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
       case symbol_kind::S_COMPLEX_LITERAL: // COMPLEX_LITERAL
         value.move< double > (that.value);
+        break;
+
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.move< std::string > (that.value);
         break;
 
       case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
@@ -556,6 +573,10 @@ namespace Fermi { namespace SyntaxAnalysis {
         yylhs.value.emplace< double > ();
         break;
 
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        yylhs.value.emplace< std::string > ();
+        break;
+
       case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
         yylhs.value.emplace< std::uint64_t > ();
         break;
@@ -581,7 +602,7 @@ namespace Fermi { namespace SyntaxAnalysis {
           switch (yyn)
             {
 
-#line 585 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 606 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
 
             default:
               break;
@@ -774,69 +795,83 @@ namespace Fermi { namespace SyntaxAnalysis {
 
 
 
-  const signed char FermiParser::yypact_ninf_ = -8;
+  const signed char FermiParser::yypact_ninf_ = -6;
 
   const signed char FermiParser::yytable_ninf_ = -1;
 
   const signed char
   FermiParser::yypact_[] =
   {
-      -8,     4,    12,    -8,    -8,    -8,    -8,    -7,    12,    12,
-      12,    12,    12,     2,     2,     1,     1,     1
+      -6,     3,    -3,    -6,    -6,    -6,    -6,    -6,    22,     4,
+      -6,    23,    43,    -1,    22,    22,    22,    22,    22,    22,
+      -6,    -6,    22,    -5,    -5,    -4,    -4,    -4,    -4,    33,
+      -6
   };
 
   const signed char
   FermiParser::yydefact_[] =
   {
-       4,     0,     2,     1,    10,    11,    12,     3,     0,     0,
-       0,     0,     0,     5,     6,     7,     8,     9
+       4,     0,     2,     1,    14,    15,    16,    17,     0,     0,
+       3,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       5,    13,     0,     7,     8,     9,    10,    11,    12,     0,
+       6
   };
 
   const signed char
   FermiParser::yypgoto_[] =
   {
-      -8,    -8,    -8,    -2
+      -6,    -6,    -6,    -6,     2
   };
 
   const signed char
   FermiParser::yydefgoto_[] =
   {
-       0,     1,     2,     7
+       0,     1,     2,    10,    11
   };
 
   const signed char
   FermiParser::yytable_[] =
   {
-       8,     9,    10,    11,     3,    12,    13,    14,    15,    16,
-      17,    10,    11,    12,    12,     4,     5,     6
+       4,     5,     6,     3,     7,    16,    17,    18,    19,    19,
+      12,    13,     8,    22,     0,     9,    23,    24,    25,    26,
+      27,    28,     0,     0,    29,     4,     5,     6,     0,     7,
+       0,    14,    15,    16,    17,    18,    19,     8,     0,     0,
+      20,    14,    15,    16,    17,    18,    19,     0,     0,     0,
+      30,    14,    15,    16,    17,    18,    19,     0,     0,    21
   };
 
   const signed char
   FermiParser::yycheck_[] =
   {
-       7,     8,     9,    10,     0,    12,     8,     9,    10,    11,
-      12,     9,    10,    12,    12,     3,     4,     5
+       3,     4,     5,     0,     7,    10,    11,    12,    13,    13,
+       8,     7,    15,    14,    -1,    18,    14,    15,    16,    17,
+      18,    19,    -1,    -1,    22,     3,     4,     5,    -1,     7,
+      -1,     8,     9,    10,    11,    12,    13,    15,    -1,    -1,
+      17,     8,     9,    10,    11,    12,    13,    -1,    -1,    -1,
+      17,     8,     9,    10,    11,    12,    13,    -1,    -1,    16
   };
 
   const signed char
   FermiParser::yystos_[] =
   {
-       0,    14,    15,     0,     3,     4,     5,    16,     7,     8,
-       9,    10,    12,    16,    16,    16,    16,    16
+       0,    20,    21,     0,     3,     4,     5,     7,    15,    18,
+      22,    23,    23,     7,     8,     9,    10,    11,    12,    13,
+      17,    16,    14,    23,    23,    23,    23,    23,    23,    23,
+      17
   };
 
   const signed char
   FermiParser::yyr1_[] =
   {
-       0,    13,    14,    15,    15,    16,    16,    16,    16,    16,
-      16,    16,    16
+       0,    19,    20,    21,    21,    22,    22,    23,    23,    23,
+      23,    23,    23,    23,    23,    23,    23,    23
   };
 
   const signed char
   FermiParser::yyr2_[] =
   {
-       0,     2,     1,     2,     0,     3,     3,     3,     3,     3,
-       1,     1,     1
+       0,     2,     1,     2,     0,     2,     5,     3,     3,     3,
+       3,     3,     3,     3,     1,     1,     1,     1
   };
 
 
@@ -847,9 +882,10 @@ namespace Fermi { namespace SyntaxAnalysis {
   const FermiParser::yytname_[] =
   {
   "\"end of file\"", "error", "\"invalid token\"", "INTEGER_LITERAL",
-  "FLOAT_LITERAL", "COMPLEX_LITERAL", "CHARACTER_LITERAL", "\"+\"",
-  "\"-\"", "\"*\"", "\"/\"", "\"%\"", "\"^\"", "$accept", "start",
-  "expressions", "expression", YY_NULLPTR
+  "FLOAT_LITERAL", "COMPLEX_LITERAL", "CHARACTER_LITERAL", "IDENTIFIER",
+  "\"+\"", "\"-\"", "\"*\"", "\"/\"", "\"%\"", "\"^\"", "\"=\"", "\"(\"",
+  "\")\"", "\";\"", "\"let\"", "$accept", "start", "statements",
+  "statement", "expression", YY_NULLPTR
   };
 #endif
 
@@ -858,8 +894,8 @@ namespace Fermi { namespace SyntaxAnalysis {
   const signed char
   FermiParser::yyrline_[] =
   {
-       0,    46,    46,    49,    50,    54,    55,    56,    57,    58,
-      59,    60,    61
+       0,    55,    55,    58,    59,    63,    64,    67,    68,    69,
+      70,    71,    72,    73,    74,    75,    76,    77
   };
 
   void
@@ -892,9 +928,9 @@ namespace Fermi { namespace SyntaxAnalysis {
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 896 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 932 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
 
-#line 63 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 79 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 
 void Fermi::SyntaxAnalysis::FermiParser::error (const location_type& l, const std::string& m)
 {

@@ -40,12 +40,19 @@ simple_character [^[:cntrl:]\'\\]
 {float_literal} { return makeFloatLiteral(yytext); }
 ({integer_literal}|{float_literal})i { return makeComplexLiteral(yytext); }
 \'{simple_character}\' { return FermiParser::make_CHARACTER_LITERAL (loc_); }
+[_[:alpha:]][_[:alpha:][:digit:]]* { return FermiParser::make_IDENTIFIER(yytext, loc_); }
 
+"=" { return FermiParser::make_ASSIGN(loc_);}
 "+" { return FermiParser::make_PLUS(loc_);}
 "-" { return FermiParser::make_MINUS(loc_);}
 "*" { return FermiParser::make_STAR(loc_);}
 "/" { return FermiParser::make_SLASH(loc_);}
+"%" { return FermiParser::make_PERCENT(loc_);}
 "^" { return FermiParser::make_CARET(loc_);}
+
+";" { return FermiParser::make_SEMICOLON(loc_); }
+"(" { return FermiParser::make_LPAREN(loc_); }
+")" { return FermiParser::make_RPAREN(loc_); }
 
 . { return FermiParser::make_YYerror(loc_);}
 
@@ -121,7 +128,7 @@ namespace Fermi::SyntaxAnalysis
         std::string_view text(p, yyleng);
 
         double value{};
-        auto [ptr, ec] = std::from_chars(text.begin(), text.cend(), value); 
+        [[maybe_unused]] auto res = std::from_chars(text.begin(), text.cend(), value); 
 
         return FermiParser::make_FLOAT_LITERAL(value, loc_);
     }
@@ -131,12 +138,12 @@ namespace Fermi::SyntaxAnalysis
         std::string_view text(p, yyleng);
 
         double value{};
-        auto [ptr, ec] = std::from_chars(text.begin(), text.cend(), value); 
+        [[maybe_unused]] auto res = std::from_chars(text.begin(), text.cend(), value); 
 
         return FermiParser::make_COMPLEX_LITERAL(value, loc_);
     }
 
-    auto operator<<(std::ostream& os, const FermiParser::symbol_type) -> std::ostream& 
+    auto operator<<(std::ostream& os, const FermiParser::symbol_type&) -> std::ostream& 
     {
         return os;
     }

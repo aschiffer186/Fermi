@@ -7,3 +7,8 @@ add_executable(TestLexFloatLiterals ${CMAKE_CURRENT_SOURCE_DIR}/TestLexFloatLite
 add_test(NAME TestLexFloatLiterals COMMAND TestLexFloatLiterals)
 target_link_libraries(TestLexFloatLiterals PRIVATE GTest::gtest_main Syntax-Analysis)
 gtest_discover_tests(TestLexFloatLiterals)
+
+add_executable(TestLexIdentifiers ${CMAKE_CURRENT_SOURCE_DIR}/TestLexIdentifiers.cpp)
+add_test(NAME TestLexIdentifiers COMMAND TestLexIdentifiers)
+target_link_libraries(TestLexIdentifiers PRIVATE GTest::gtest_main Syntax-Analysis)
+gtest_discover_tests(TestLexIdentifiers)

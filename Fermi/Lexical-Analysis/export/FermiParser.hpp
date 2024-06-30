@@ -52,9 +52,10 @@
     namespace Fermi::SyntaxAnalysis
     {
         class FermiLexer;
+        class FermiSourceFile;
     }   
 
-#line 58 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
+#line 59 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -195,7 +196,7 @@
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 namespace Fermi { namespace SyntaxAnalysis {
-#line 199 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
+#line 200 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
 
 
 
@@ -418,8 +419,11 @@ namespace Fermi { namespace SyntaxAnalysis {
       // COMPLEX_LITERAL
       char dummy1[sizeof (double)];
 
+      // IDENTIFIER
+      char dummy2[sizeof (std::string)];
+
       // INTEGER_LITERAL
-      char dummy2[sizeof (std::uint64_t)];
+      char dummy3[sizeof (std::uint64_t)];
     };
 
     /// The size of the largest semantic type.
@@ -476,12 +480,18 @@ namespace Fermi { namespace SyntaxAnalysis {
     FLOAT_LITERAL = 259,           // FLOAT_LITERAL
     COMPLEX_LITERAL = 260,         // COMPLEX_LITERAL
     CHARACTER_LITERAL = 261,       // CHARACTER_LITERAL
-    PLUS = 262,                    // "+"
-    MINUS = 263,                   // "-"
-    STAR = 264,                    // "*"
-    SLASH = 265,                   // "/"
-    PERCENT = 266,                 // "%"
-    CARET = 267                    // "^"
+    IDENTIFIER = 262,              // IDENTIFIER
+    PLUS = 263,                    // "+"
+    MINUS = 264,                   // "-"
+    STAR = 265,                    // "*"
+    SLASH = 266,                   // "/"
+    PERCENT = 267,                 // "%"
+    CARET = 268,                   // "^"
+    ASSIGN = 269,                  // "="
+    LPAREN = 270,                  // "("
+    RPAREN = 271,                  // ")"
+    SEMICOLON = 272,               // ";"
+    LET = 273                      // "let"
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -498,7 +508,7 @@ namespace Fermi { namespace SyntaxAnalysis {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 13, ///< Number of tokens.
+        YYNTOKENS = 19, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -507,16 +517,23 @@ namespace Fermi { namespace SyntaxAnalysis {
         S_FLOAT_LITERAL = 4,                     // FLOAT_LITERAL
         S_COMPLEX_LITERAL = 5,                   // COMPLEX_LITERAL
         S_CHARACTER_LITERAL = 6,                 // CHARACTER_LITERAL
-        S_PLUS = 7,                              // "+"
-        S_MINUS = 8,                             // "-"
-        S_STAR = 9,                              // "*"
-        S_SLASH = 10,                            // "/"
-        S_PERCENT = 11,                          // "%"
-        S_CARET = 12,                            // "^"
-        S_YYACCEPT = 13,                         // $accept
-        S_start = 14,                            // start
-        S_expressions = 15,                      // expressions
-        S_expression = 16                        // expression
+        S_IDENTIFIER = 7,                        // IDENTIFIER
+        S_PLUS = 8,                              // "+"
+        S_MINUS = 9,                             // "-"
+        S_STAR = 10,                             // "*"
+        S_SLASH = 11,                            // "/"
+        S_PERCENT = 12,                          // "%"
+        S_CARET = 13,                            // "^"
+        S_ASSIGN = 14,                           // "="
+        S_LPAREN = 15,                           // "("
+        S_RPAREN = 16,                           // ")"
+        S_SEMICOLON = 17,                        // ";"
+        S_LET = 18,                              // "let"
+        S_YYACCEPT = 19,                         // $accept
+        S_start = 20,                            // start
+        S_statements = 21,                       // statements
+        S_statement = 22,                        // statement
+        S_expression = 23                        // expression
       };
     };
 
@@ -558,6 +575,10 @@ namespace Fermi { namespace SyntaxAnalysis {
         value.move< double > (std::move (that.value));
         break;
 
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.move< std::string > (std::move (that.value));
+        break;
+
       case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
         value.move< std::uint64_t > (std::move (that.value));
         break;
@@ -593,6 +614,20 @@ namespace Fermi { namespace SyntaxAnalysis {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const double& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::string&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::string& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -640,6 +675,10 @@ switch (yykind)
       case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
       case symbol_kind::S_COMPLEX_LITERAL: // COMPLEX_LITERAL
         value.template destroy< double > ();
+        break;
+
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.template destroy< std::string > ();
         break;
 
       case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
@@ -748,7 +787,8 @@ switch (yykind)
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT (tok == token::YYEOF
                    || (token::YYerror <= tok && tok <= token::YYUNDEF)
-                   || (token::CHARACTER_LITERAL <= tok && tok <= token::CARET));
+                   || tok == token::CHARACTER_LITERAL
+                   || (token::PLUS <= tok && tok <= token::LET));
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -761,6 +801,18 @@ switch (yykind)
       {
 #if !defined _MSC_VER || defined __clang__
         YY_ASSERT ((token::FLOAT_LITERAL <= tok && tok <= token::COMPLEX_LITERAL));
+#endif
+      }
+#if 201103L <= YY_CPLUSPLUS
+      symbol_type (int tok, std::string v, location_type l)
+        : super_type (token_kind_type (tok), std::move (v), std::move (l))
+#else
+      symbol_type (int tok, const std::string& v, const location_type& l)
+        : super_type (token_kind_type (tok), v, l)
+#endif
+      {
+#if !defined _MSC_VER || defined __clang__
+        YY_ASSERT (tok == token::IDENTIFIER);
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
@@ -778,7 +830,7 @@ switch (yykind)
     };
 
     /// Build a parser object.
-    FermiParser (FermiLexer& lexer_yyarg);
+    FermiParser (FermiSourceFile& srcFile_yyarg);
     virtual ~FermiParser ();
 
 #if 201103L <= YY_CPLUSPLUS
@@ -934,6 +986,21 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_IDENTIFIER (std::string v, location_type l)
+      {
+        return symbol_type (token::IDENTIFIER, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_IDENTIFIER (const std::string& v, const location_type& l)
+      {
+        return symbol_type (token::IDENTIFIER, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_PLUS (location_type l)
       {
         return symbol_type (token::PLUS, std::move (l));
@@ -1019,6 +1086,81 @@ switch (yykind)
       make_CARET (const location_type& l)
       {
         return symbol_type (token::CARET, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_ASSIGN (location_type l)
+      {
+        return symbol_type (token::ASSIGN, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_ASSIGN (const location_type& l)
+      {
+        return symbol_type (token::ASSIGN, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_LPAREN (location_type l)
+      {
+        return symbol_type (token::LPAREN, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_LPAREN (const location_type& l)
+      {
+        return symbol_type (token::LPAREN, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_RPAREN (location_type l)
+      {
+        return symbol_type (token::RPAREN, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_RPAREN (const location_type& l)
+      {
+        return symbol_type (token::RPAREN, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_SEMICOLON (location_type l)
+      {
+        return symbol_type (token::SEMICOLON, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_SEMICOLON (const location_type& l)
+      {
+        return symbol_type (token::SEMICOLON, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_LET (location_type l)
+      {
+        return symbol_type (token::LET, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_LET (const location_type& l)
+      {
+        return symbol_type (token::LET, l);
       }
 #endif
 
@@ -1325,14 +1467,14 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 17,     ///< Last index in yytable_.
-      yynnts_ = 4,  ///< Number of nonterminal symbols.
+      yylast_ = 59,     ///< Last index in yytable_.
+      yynnts_ = 5,  ///< Number of nonterminal symbols.
       yyfinal_ = 3 ///< Termination state number.
     };
 
 
     // User arguments.
-    FermiLexer& lexer;
+    FermiSourceFile& srcFile;
 
   };
 
@@ -1372,10 +1514,11 @@ switch (yykind)
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17,    18
     };
     // Last valid token kind.
-    const int code_max = 267;
+    const int code_max = 273;
 
     if (t <= 0)
       return symbol_kind::S_YYEOF;
@@ -1397,6 +1540,10 @@ switch (yykind)
       case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
       case symbol_kind::S_COMPLEX_LITERAL: // COMPLEX_LITERAL
         value.copy< double > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.copy< std::string > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
@@ -1437,6 +1584,10 @@ switch (yykind)
       case symbol_kind::S_FLOAT_LITERAL: // FLOAT_LITERAL
       case symbol_kind::S_COMPLEX_LITERAL: // COMPLEX_LITERAL
         value.move< double > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_IDENTIFIER: // IDENTIFIER
+        value.move< std::string > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_INTEGER_LITERAL: // INTEGER_LITERAL
@@ -1510,7 +1661,7 @@ switch (yykind)
 
 #line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 1514 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
+#line 1665 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
 
 
 
