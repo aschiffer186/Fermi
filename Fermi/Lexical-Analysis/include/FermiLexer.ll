@@ -40,7 +40,6 @@ simple_character [^[:cntrl:]\'\\]
 {float_literal} { return makeFloatLiteral(yytext); }
 ({integer_literal}|{float_literal})i { return makeComplexLiteral(yytext); }
 \'{simple_character}\' { return FermiParser::make_CHARACTER_LITERAL (loc_); }
-[_[:alpha:]][_[:alpha:][:digit:]]* { return FermiParser::make_IDENTIFIER(yytext, loc_); }
 
 "=" { return FermiParser::make_ASSIGN(loc_);}
 "+" { return FermiParser::make_PLUS(loc_);}
@@ -53,6 +52,11 @@ simple_character [^[:cntrl:]\'\\]
 ";" { return FermiParser::make_SEMICOLON(loc_); }
 "(" { return FermiParser::make_LPAREN(loc_); }
 ")" { return FermiParser::make_RPAREN(loc_); }
+
+"let" { return FermiParser::make_LET(loc_); }
+
+[_[:alpha:]][_[:alpha:][:digit:]]* { return FermiParser::make_IDENTIFIER(yytext, loc_); }
+
 
 . { return FermiParser::make_YYerror(loc_);}
 

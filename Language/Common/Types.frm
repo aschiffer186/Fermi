@@ -2,6 +2,28 @@
 # The Fermi.Core module is imported implicitly
 module Fermi.Core.Types;
 
+# Fundmanetal types from other languages are just types in Fermi
+# This is a new integral type whose range is specified and size is 64.
+# These are all distinct typs and potentially incompatible with each oher
+export let define int64_t as new int[-2^63, 2^63 - 1] with typeof(int32_t).size = 64;
+
+# int32_t is just a constrained version of int64_t, allows for implicit conversion
+export let define int32_t as new int64_t[-2^31, 2^31 - 1] with typeof(int32_t).size = 32;
+export let define int16_t as new int32_t[-2^15, 2^15 - 1] with typeof(int16_t).size = 31;
+export let define int8_t as new int16_t[-2^7, 2^7 - 1] with typeof(int8_t).size = 8;
+
+# Modular types wrap around, e.g. let define hour as new mod[1, 12];
+export let define nat64_t as new mod[0, 2^64 - 1] with {size = 64}
+export let define nat32_t as new nat32_t[0, 2^32 - 1] with {size = 32}
+export let define nat16_t as new nat16_6[0, 2^16 - 1] with {size = 16}
+export let define nat8_t as new nat8_t[0, 2^8 - 1] with {size = 8}
+
+export let define float64_t as new float with {size = 64, radix = 2, mantissa = 52, exponent = 11};
+export let define float32_t as new float with {size = 32, radix = 2, mantissa = 23, exponent = 8};
+
+# Note: usually specify floating point types differently e.g. 
+export let define myFloatType as new float[-10, 10; 10] # Range from -10 to 10 with 10 digits of precision
+
 # Set of all natural types
 # A typeset defines a set of types. Using the 
 # in operator, it is possible to query if a type 
@@ -12,22 +34,14 @@ module Fermi.Core.Types;
 # This is the simplest case that just lists of a set of types. 
 # Although every typeset is a template, in this case the template 
 # parameter is ignored and can be omitted.
-export let typeset Natural = {nat8_t, nat16_t, nat32_t, nat64_t} || typeof(T).isRational(); # It's possible to define custom rational types, so this final check is required.
+export let typeset Natural = {nat8_t, nat16_t, nat32_t, nat64_t} || typeof(T).isModular(); # It's possible to define custom rational types, so this final check is required.
 # The export keyword means the symbol can be made visible to other moduels
-
-# Define the common case that a natural number is a 32-bit natural number
-# The define keyword introduces (Compeval::Eager)a type label. This is another way to refer 
-# to a type but is not a distinct type from the oritinal type (e.g. nat == nat32_t)
-export let define nat as nat32_t;
 
 # Set of all integral types
 # More complicatd type repreesnts composition of two typesets. 
 # In this case, the set is defined as the set of types where the type 
 # belongs to the Natural typeset or is one of int8_t, int16_t, int32_t, int64_t
 export let typeset Integer(T) = T in Natural || {int8_t, int16_t, int32_t, int64_t} || typeof(T).isIntegral();
-
-# Define the common case that an integer is a 32-bit integer.
-export let define int as int32_t;
 
 # Rational type. Can be explicitly created 
 # but is also created automatically when dividing 

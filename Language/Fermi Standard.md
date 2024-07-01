@@ -102,7 +102,6 @@ statement := declaration-statement | expression-statement
 declaration-statement := 
     struct-declaration | 
     variable-declaration | 
-    type-label-declaration |
     type-declaration |
     function-declaration | 
     typeset-declaration | 
@@ -118,6 +117,14 @@ member-variable-definition := IDENTIFIER "=" expression ";"
 member-function-definition := 
     IDENTIFIER "(" [function-parameter-list] ")" "=" compound-statement |
     "operator" operator "(" [function-parameter-list] ")" "=" compound-statement
+
+type-declaration := "let" IDENTIFIER "define" "as" type-definition ";"
+type-definition := integer-type-definition | float-type-definition | mod-type-definition | IDENTIFIER [type-qualifier] ";"
+integer-type-definition := "new" "int" | IDENTIFIER "[" expression "," expression "]"
+mod-type-definition := "new" "mod" | IDENTIFIER "[" expression "," expression "]" 
+float-type-definition := "new" "float" | IDENTIfIER "[" expression "," expression ";" expression "]" 
+type-qualifier := "with" "{" keyword-argument {, keyword-argument} "}"
+keyword-argument := IDENTIFIER "=" expression
 
 expression := primary-expression
 primary-expression := INTEGER_LITERAL | DECIMAL_LITERAL | IDENTIFIER | "(" expression ")"

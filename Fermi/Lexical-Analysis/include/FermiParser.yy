@@ -28,6 +28,7 @@
 
 #include "FermiLexer.hpp"
 #include "FermiSourceFile.hpp"
+#include "SyntaxNodes.hpp"
 
 #undef yylex 
 #define yylex srcFile.getLexer().nextToken
@@ -51,6 +52,7 @@
 %left "+" "-"
 %left "*" "/" "%"
 %right "^"
+
 %%
 start: statements ;
 
@@ -60,24 +62,54 @@ statements:
   ;
 
 statement: 
-  expression ";" 
-  | "let" IDENTIFIER "=" expression ";"
+  expression ";" {
+    const std::size_t idx = srcFile.syntaxTreeSize() - 1; 
+    srcFile.emplaceNode<ExpressionStatementNode>(idx);
+  }
+  | "let" IDENTIFIER "=" expression ";" { 
+      const std::size_t idx = srcFile.syntaxTreeSize() - 1;
+      srcFile.emplaceNode<DeclarationStatementNode>($2, idx); 
+    }
 
 expression: 
-      expression "+" expression 
-    | expression "-" expression 
-    | expression "*" expression 
-    | expression "/" expression 
-    | expression "%" expression 
-    | expression "^" expression 
-    | "(" expression ")"
-    | INTEGER_LITERAL 
-    | FLOAT_LITERAL 
-    | COMPLEX_LITERAL
-    | IDENTIFIER 
+      expression "+" expression { 
+        const std::size_t idx = srcFile.syntaxTreeSize() - 2;
+        const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
+        srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Addition, idx2);
+      } 
+    | expression "-" expression { 
+        const std::size_t idx = srcFile.syntaxTreeSize() - 2;
+        const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
+        srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Subtraction, idx2);
+      } 
+    | expression "*" expression { 
+        const std::size_t idx = srcFile.syntaxTreeSize() - 2;
+        const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
+        srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Multiplication, idx2);
+      } 
+    | expression "/" expression { 
+        const std::size_t idx = srcFile.syntaxTreeSize() - 2;
+        const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
+        srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Division, idx2);
+      } 
+    | expression "%" expression { 
+        const std::size_t idx = srcFile.syntaxTreeSize() - 2;
+        const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
+        srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Modulo, idx2);
+      } 
+    | expression "^" expression { 
+        const std::size_t idx = srcFile.syntaxTreeSize() - 2;
+        const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
+        srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Exponentiation, idx2);
+      } 
+    | "(" expression ")" { srcFile.emplaceNode<ParenthesizedExpressionNode>(srcFile.syntaxTreeSize()); }
+    | INTEGER_LITERAL { srcFile.emplaceNode<LiteralExpressionNode>($1, LiteralExpressionType::Integer); }
+    | FLOAT_LITERAL { srcFile.emplaceNode<LiteralExpressionNode>($1, LiteralExpressionType::Float); }
+    | COMPLEX_LITERAL { srcFile.emplaceNode<LiteralExpressionNode>($1, LiteralExpressionType::Complex); }
+    | IDENTIFIER { srcFile.emplaceNode<IdentifierExpressionNode>($1); }
     ;
 %%
 void Fermi::SyntaxAnalysis::FermiParser::error (const location_type& l, const std::string& m)
 {
-  std::cerr << l << ": " << m << '\n';
+  std::cerr << "Error at " << l << ": " << m << '\n';
 }
