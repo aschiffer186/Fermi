@@ -1,6 +1,6 @@
-#line 2 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+#line 2 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiLexer.cpp"
 
-#line 4 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+#line 4 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiLexer.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -518,8 +518,8 @@ static const flex_int16_t yy_rule_linenum[18] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
-#line 2 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 1 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
+#line 2 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
     #include "FermiLexer.hpp"
 
     #include <charconv>
@@ -536,8 +536,8 @@ static const flex_int16_t yy_rule_linenum[18] =
     #define YY_NULL FermiParser::make_YYEOF(loc_)
 
     #define YY_USER_ACTION loc_.columns(yyleng);
-#line 540 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
-#line 541 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+#line 540 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiLexer.cpp"
+#line 541 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiLexer.cpp"
 
 #define INITIAL 0
 
@@ -729,10 +729,10 @@ YY_DECL
 
 	{
 /* %% [7.0] user's declarations go here */
-#line 37 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 37 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 
 
-#line 736 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+#line 736 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiLexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -813,95 +813,95 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 39 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 39 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return makeIntegerLiteral(yytext); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 40 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 40 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return makeFloatLiteral(yytext); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 41 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 41 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return makeComplexLiteral(yytext); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 42 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 42 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_CHARACTER_LITERAL (loc_); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 44 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 44 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_ASSIGN(loc_);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 45 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 45 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_PLUS(loc_);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 46 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 46 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_MINUS(loc_);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 47 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 47 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_STAR(loc_);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 48 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 48 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_SLASH(loc_);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 49 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 49 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_PERCENT(loc_);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 50 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 50 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_CARET(loc_);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 52 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 52 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_SEMICOLON(loc_); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 53 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 53 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_LPAREN(loc_); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 54 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 54 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_RPAREN(loc_); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 56 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 56 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_LET(loc_); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 58 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 58 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_IDENTIFIER(yytext, loc_); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 61 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 61 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 { return FermiParser::make_YYerror(loc_);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 63 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 63 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 905 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiLexer.cpp"
+#line 905 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiLexer.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2019,7 +2019,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 63 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiLexer.ll"
+#line 63 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiLexer.ll"
 
 
 namespace Fermi::SyntaxAnalysis 

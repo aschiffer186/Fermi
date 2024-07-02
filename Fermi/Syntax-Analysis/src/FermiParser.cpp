@@ -42,7 +42,7 @@
 
 
 // Unqualified %code blocks.
-#line 26 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 26 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 
 #include <iostream>
 
@@ -53,7 +53,7 @@
 #undef yylex 
 #define yylex srcFile.getLexer().nextToken
 
-#line 57 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 57 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
 
 
 #ifndef YY_
@@ -144,9 +144,9 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 6 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 namespace Fermi { namespace SyntaxAnalysis {
-#line 150 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 150 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
 
   /// Build a parser object.
   FermiParser::FermiParser (FermiSourceFile& srcFile_yyarg)
@@ -603,115 +603,115 @@ namespace Fermi { namespace SyntaxAnalysis {
           switch (yyn)
             {
   case 5: // statement: expression ";"
-#line 65 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 65 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                  {
     const std::size_t idx = srcFile.syntaxTreeSize() - 1; 
     srcFile.emplaceNode<ExpressionStatementNode>(idx);
   }
-#line 612 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 612 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 6: // statement: "let" IDENTIFIER "=" expression ";"
-#line 69 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 69 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                         { 
       const std::size_t idx = srcFile.syntaxTreeSize() - 1;
       srcFile.emplaceNode<DeclarationStatementNode>(yystack_[3].value.as < std::string > (), idx); 
     }
-#line 621 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 621 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 7: // expression: expression "+" expression
-#line 75 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 75 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 { 
         const std::size_t idx = srcFile.syntaxTreeSize() - 2;
         const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
         srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Addition, idx2);
       }
-#line 631 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 631 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 8: // expression: expression "-" expression
-#line 80 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 80 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 { 
         const std::size_t idx = srcFile.syntaxTreeSize() - 2;
         const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
         srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Subtraction, idx2);
       }
-#line 641 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 641 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 9: // expression: expression "*" expression
-#line 85 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 85 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 { 
         const std::size_t idx = srcFile.syntaxTreeSize() - 2;
         const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
         srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Multiplication, idx2);
       }
-#line 651 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 651 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 10: // expression: expression "/" expression
-#line 90 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 90 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 { 
         const std::size_t idx = srcFile.syntaxTreeSize() - 2;
         const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
         srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Division, idx2);
       }
-#line 661 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 661 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 11: // expression: expression "%" expression
-#line 95 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 95 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 { 
         const std::size_t idx = srcFile.syntaxTreeSize() - 2;
         const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
         srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Modulo, idx2);
       }
-#line 671 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 671 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 12: // expression: expression "^" expression
-#line 100 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 100 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                                 { 
         const std::size_t idx = srcFile.syntaxTreeSize() - 2;
         const std::size_t idx2 = srcFile.syntaxTreeSize() - 1; 
         srcFile.emplaceNode<BinaryExpressionNode>(idx, BinaryOperation::Exponentiation, idx2);
       }
-#line 681 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 681 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 13: // expression: "(" expression ")"
-#line 105 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 105 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                          { srcFile.emplaceNode<ParenthesizedExpressionNode>(srcFile.syntaxTreeSize()); }
-#line 687 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 687 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 14: // expression: INTEGER_LITERAL
-#line 106 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 106 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                       { srcFile.emplaceNode<LiteralExpressionNode>(yystack_[0].value.as < std::uint64_t > (), LiteralExpressionType::Integer); }
-#line 693 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 693 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 15: // expression: FLOAT_LITERAL
-#line 107 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 107 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                     { srcFile.emplaceNode<LiteralExpressionNode>(yystack_[0].value.as < double > (), LiteralExpressionType::Float); }
-#line 699 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 699 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 16: // expression: COMPLEX_LITERAL
-#line 108 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 108 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                       { srcFile.emplaceNode<LiteralExpressionNode>(yystack_[0].value.as < double > (), LiteralExpressionType::Complex); }
-#line 705 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 705 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
   case 17: // expression: IDENTIFIER
-#line 109 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 109 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
                  { srcFile.emplaceNode<IdentifierExpressionNode>(yystack_[0].value.as < std::string > ()); }
-#line 711 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 711 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
     break;
 
 
-#line 715 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 715 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
 
             default:
               break;
@@ -1035,11 +1035,11 @@ namespace Fermi { namespace SyntaxAnalysis {
 #endif // YYDEBUG
 
 
-#line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 6 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 1041 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/src/FermiParser.cpp"
+#line 1041 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/src/FermiParser.cpp"
 
-#line 111 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 111 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 
 void Fermi::SyntaxAnalysis::FermiParser::error (const location_type& l, const std::string& m)
 {

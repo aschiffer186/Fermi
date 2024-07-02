@@ -32,7 +32,7 @@
 
 
 /**
- ** \file /home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp
+ ** \file /home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/export/FermiParser.hpp
  ** Define the Fermi::SyntaxAnalysis::parser class.
  */
 
@@ -42,10 +42,10 @@
 // especially those whose name start with YY_ or yy_.  They are
 // private implementation details that can be changed or removed.
 
-#ifndef YY_YY_HOME_ASCHIFFE_DEV_FERMI_FERMI_LEXICAL_ANALYSIS_EXPORT_FERMIPARSER_HPP_INCLUDED
-# define YY_YY_HOME_ASCHIFFE_DEV_FERMI_FERMI_LEXICAL_ANALYSIS_EXPORT_FERMIPARSER_HPP_INCLUDED
+#ifndef YY_YY_HOME_ASCHIFFE_DEV_FERMI_FERMI_SYNTAX_ANALYSIS_EXPORT_FERMIPARSER_HPP_INCLUDED
+# define YY_YY_HOME_ASCHIFFE_DEV_FERMI_FERMI_SYNTAX_ANALYSIS_EXPORT_FERMIPARSER_HPP_INCLUDED
 // "%code requires" blocks.
-#line 14 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 14 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 
     #include <cstdint>
 
@@ -55,7 +55,7 @@
         class FermiSourceFile;
     }   
 
-#line 59 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
+#line 59 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/export/FermiParser.hpp"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -194,9 +194,9 @@
 # define YYDEBUG 0
 #endif
 
-#line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 6 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 namespace Fermi { namespace SyntaxAnalysis {
-#line 200 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
+#line 200 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/export/FermiParser.hpp"
 
 
 
@@ -1659,11 +1659,11 @@ switch (yykind)
   }
 
 
-#line 6 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/include/FermiParser.yy"
+#line 6 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/include/FermiParser.yy"
 } } // Fermi::SyntaxAnalysis
-#line 1665 "/home/aschiffe/Dev/Fermi/Fermi/Lexical-Analysis/export/FermiParser.hpp"
+#line 1665 "/home/aschiffe/Dev/Fermi/Fermi/Syntax-Analysis/export/FermiParser.hpp"
 
 
 
 
-#endif // !YY_YY_HOME_ASCHIFFE_DEV_FERMI_FERMI_LEXICAL_ANALYSIS_EXPORT_FERMIPARSER_HPP_INCLUDED
+#endif // !YY_YY_HOME_ASCHIFFE_DEV_FERMI_FERMI_SYNTAX_ANALYSIS_EXPORT_FERMIPARSER_HPP_INCLUDED
