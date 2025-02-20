@@ -1,6 +1,6 @@
 module fermi::core::array; 
 
-export let struct array[T, Sizes : int64_t...]
+export let struct array[T, Sizes : int64_t..., Alignment = typeof(T).alignment()]
 {
     # Note, regardless of dimension, arrays are contiguous in memory (stored in row major order)
     # A 1D array: [1, 2, 3, 4] is represented as a pointer to the block {1, 2, 3, 4}
@@ -10,6 +10,13 @@ export let struct array[T, Sizes : int64_t...]
     # and a tuple of sizes (2,3)
     let _data : T mutable*;
     let _sizes : typeof(Sizes);
+
+    let compeval new(data : T mutable*, sizes : typeof(Sizes)) -> this = {
+        return array {
+            _data = memory::assume_aligned[Alignment](data);
+            _sizes = sizes;
+        };
+    }
 
     # Helper
     let compeval indices_to_linear(indices : int64_t...) -> int64_t = {
@@ -25,7 +32,7 @@ export let struct array[T, Sizes : int64_t...]
         return false;
     }
 
-    public let compeval size(th) -> int64_t = {
+    public let compeval size(this) -> int64_t = {
 
     }
 }

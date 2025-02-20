@@ -7,6 +7,7 @@
 #include "lexer.hpp"
 #include "parser.hpp"
 #include "source_file.hpp"
+#include "syntax_node_printer.hpp"
 
 int main(int argc, const char** argv) {
   const std::optional<fermi::compiler_arguments> arguments =
@@ -26,14 +27,6 @@ int main(int argc, const char** argv) {
   }
 
   fermi::source_file source_file{input_file_path};
-
-  // fermi::lexer lexer{src_code};
-
-  // if (arguments->options & fermi::compiler_options::display_tokens) {
-  //   // Display tokens
-  //   lexer.reset();
-  // }
-
   fermi::lexer lexer{source_file.view_source_code()};
 
   if (arguments->options & fermi::compiler_options::display_tokens) {
@@ -54,5 +47,17 @@ int main(int argc, const char** argv) {
   }
 
   fermi::parser parser{lexer, source_file.view_syntax_tree()};
+  parser.parse();
+
+  if (arguments->options & fermi::compiler_options::display_parse_tree) {
+    std::cout << "Display parse tree for input file: "
+              << source_file.view_filename() << '\n';
+    fermi::set_console_color(std::cout, fermi::console_color::yellow);
+    std::cout << "Warning";
+    fermi::set_console_color(std::cout, fermi::console_color::reset);
+    std::cout << ": parse tree shown below is not the final AST\n";
+    std::cout << fermi::syntax_nodes::to_string(source_file.view_syntax_tree())
+              << "\n";
+  }
   // [[maybe_unused]] auto ok = parser.parse();
 }

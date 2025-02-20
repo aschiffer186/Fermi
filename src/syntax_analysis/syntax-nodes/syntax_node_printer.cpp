@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cassert>
+#include <string>
 #include <string_view>
 #include <type_traits>
 #include <variant>
@@ -112,6 +113,25 @@ std::string to_string(const literal_expression_node& node,
   rep.append("\n");
   rep.append(corner);
   rep.append(literal_type_names[static_cast<int>(node.type)]);
+
+  return rep;
+}
+
+std::string to_string(const function_call_expression_node& node,
+                      const std::vector<syntax_node>& syntax_tree,
+                      std::string indent, bool is_last) {
+  const std::string_view token_marker = (is_last) ? corner : tee;
+  std::string rep;
+
+  rep.append(indent).append(token_marker);
+  rep.append("Function Call Expression");
+  (is_last) ? indent.append(space) : indent.append(pipe).append(space);
+  rep.append("\n");
+
+  const std::size_t function_expression = node.function_expression;
+  rep.append(
+      to_string(syntax_tree[function_expression], syntax_tree, indent, false));
+  rep.append("\n");
 
   return rep;
 }
