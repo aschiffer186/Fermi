@@ -1,0 +1,84 @@
+module-declaration
+    = "module", IDENTIFIER, { "", IDENTIFIER }, ";";
+
+import-statement
+    = "import", IDENTIFIER, { "", IDENTIFIER }, ";";
+
+declaration
+    = struct-decaration
+    | variable-declaration
+    | function-declaration
+    | typeset-declaration
+    | typelabel-declaration;
+
+struct-decaration
+    = [ "export" ], [ access-specifier ], "let", "struct", IDENTIFIER, [ template-declaration ], [ trait-declaration ], [ constraint-declaration ], struct-body;
+
+access-specifier
+    = "public"
+    | "private";
+
+struct-body
+    = "{", { declaration }, "}";
+
+template-declaration
+    = "[", template-key, [ ",", template-key ], "]";
+
+template-key
+    = IDENTIFIER, [ "..." ]
+    | ( IDENTIFIER, "":"", type )
+    | ( IDENTIFIER, "":"", type, "..." );
+
+variable-declaration
+    = [ "export" ], [ access-specifier ], "let", [type-modifier], IDENTIFIER, ["":"", type] ["=", statement];
+
+type-modifier = "compeval" | "static" ;
+
+(*List of terminals*)
+(*[a-zA-Z_][a-zA-Z_0-9]**)
+IDENTIFER = "a" ;
+
+(*[0-9]+([eE][0-9]+)?*)
+INTEGER_LITERAL = "a" ;
+
+(*[0-9]*\.[0-9]+([eE][0-9]+)?*)
+FLOAT_LITERAL = "a";
+
+(*(INTEGER_LITERAL|FLOAT_LITERAL)[iI]*)
+COMPLEX_LITERAL = "a" ;
+
+(*Keywords*)
+AS = "as";
+BOOL = "bool" ;
+COMPEVAL = "compeval" ;
+DEFINE = "define" ;
+ELSE = "else" ;
+ELSIF = "elsif" ;
+EXPORT = "export" ;
+FOR = "for" ;
+IF = "if" ;
+IMPORT = "import" ;
+IN = "in";
+INT = "int" ;
+LET = "let" ;
+MATCH = "match" ;
+MODULE = "module" ;
+MOVE = "move" ;
+MUTABLE = "mutable" ;
+NEW = "new" ;
+OPERATOR = "operator" ;
+OUT = "out" ;
+PUBLIC = "public" ;
+PURE = "pure" ;
+RANGE = "range" ;
+REQUIRES = "requires" ;
+RETURN = "return" ;
+STATIC = "static" ;
+STRUCT = "struct" ;
+THIS = "this" ;
+TYPE = "type" ;
+TYPEOF = "typeof" ;
+TYPESET = "typeset" ;
+WHERE = "where" ;
+WHILE = "while" ;
+WITH = "with" ;
